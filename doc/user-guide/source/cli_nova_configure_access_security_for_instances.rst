@@ -1,6 +1,6 @@
-===========================================
-Configure access and security for instances
-===========================================
+===============================================================
+How to configure access and security for DreamCompute instances
+===============================================================
 
 When you launch a virtual machine, you can inject a *key pair*, which
 provides SSH access to your instance. For this to work, the image must

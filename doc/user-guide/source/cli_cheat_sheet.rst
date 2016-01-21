@@ -1,6 +1,6 @@
-============================================
-OpenStack command-line interface cheat sheet
-============================================
+===============================================
+DreamCompute command-line interface cheat sheet
+===============================================
 
 Here is a list of common commands for reference.
 

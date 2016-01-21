@@ -1,8 +1,8 @@
-================
-Launch instances
-================
+==============================================
+How to launch a virtual server on DreamCompute
+==============================================
 
-Instances are virtual machines that run inside the cloud.
+Virtual machines that run inside the cloud are called instances.
 
 Before you can launch an instance, gather the following parameters:
 

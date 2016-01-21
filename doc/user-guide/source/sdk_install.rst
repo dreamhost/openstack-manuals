@@ -1,5 +1,5 @@
-Installing OpenStack SDK
--------------------------
+How to install the  OpenStack SDK
+---------------------------------
 
 Each OpenStack project has its own Python library. These libraries are
 bundled with the command-line clients. For example, the Python bindings

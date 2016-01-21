@@ -1,6 +1,6 @@
-====================================
-Access an instance through a console
-====================================
+=======================================================
+How to access a DreamCompute instance through a console
+=======================================================
 
 VNC or SPICE is used to view the console output of an instance, regardless of
 whether or not the console log has output. This allows relaying keyboard and

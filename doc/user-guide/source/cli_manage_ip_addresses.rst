@@ -1,6 +1,6 @@
-===================
-Manage IP addresses
-===================
+====================================================
+How to manage IP addresses on DreamCompute instances
+====================================================
 
 Each instance has a private, fixed IP address and can also have a
 public, or floating IP address. Private IP addresses are used for

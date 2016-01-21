@@ -1,6 +1,6 @@
-===========================================
-Configure access and security for instances
-===========================================
+======================================================================================
+How to configure access and security for DreamCompute instances with the OpenStack SDK
+======================================================================================
 
 When working with images in the SDK, you will call ``novaclient``
 methods.

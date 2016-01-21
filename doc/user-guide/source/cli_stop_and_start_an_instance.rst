@@ -1,6 +1,6 @@
-==========================
-Stop and start an instance
-==========================
+=============================================
+How to stop and start a DreamCompute instance
+=============================================
 
 Use one of the following methods to stop and start an instance.
 

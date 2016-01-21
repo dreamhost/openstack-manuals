@@ -1,6 +1,6 @@
-================================
-Launch an instance from a volume
-================================
+====================================================
+How to launch an instance from a DreamCompute volume
+====================================================
 
 You can boot instances from a volume instead of an image.
 

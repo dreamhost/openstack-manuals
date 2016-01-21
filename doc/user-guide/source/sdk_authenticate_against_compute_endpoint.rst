@@ -1,6 +1,6 @@
-=======================================
-Authenticate against a Compute endpoint
-=======================================
+===================================================
+How to authenticate against a DreamCompute endpoint
+===================================================
 
 To authenticate against a Compute endpoint, instantiate a
 `novaclient.v\_1\_1.client.Client <http://docs.openstack.org/developer/python-novaclient/api/novaclient.v1_1.client.html#novaclient.v1_1.client.Client>`__ object:

@@ -1,6 +1,6 @@
-===========================================
-Configure access and security for instances
-===========================================
+===============================================================
+How to configure access and security for DreamCompute instances
+===============================================================
 
 Before you launch an instance, you should add security group rules to
 enable users to ping and use SSH to connect to the instance. Security
@@ -16,7 +16,7 @@ have at least one key pair. For more information, see the section
 :ref:`keypair_add`.
 
 If you have generated a key pair with an external tool, you can import
-it into OpenStack. The key pair can be used for multiple instances that
+it into DreamCompute. The key pair can be used for multiple instances that
 belong to a project. For more information, see the section
 :ref:`dashboard_import_keypair`.
 
@@ -26,7 +26,7 @@ belong to a project. For more information, see the section
    To share a key pair across multiple users, each user
    needs to import that key pair.
 
-When an instance is created in OpenStack, it is automatically assigned a
+When an instance is created in DreamCompute, it is automatically assigned a
 fixed IP address in the network to which the instance is assigned. This
 IP address is permanently associated with the instance until the
 instance is terminated. However, in addition to the fixed IP address, a
@@ -170,7 +170,7 @@ The Dashboard lists the key pair on the :guilabel:`Access & Security` tab.
 Allocate a floating IP address to an instance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When an instance is created in OpenStack, it is automatically assigned a
+When an instance is created in DreamCompute, it is automatically assigned a
 fixed IP address in the network to which the instance is assigned. This
 IP address is permanently associated with the instance until the
 instance is terminated.

@@ -1,6 +1,6 @@
-=======
-Compute
-=======
+====================================================
+How to use the OpenStack compute API on DreamCompute
+====================================================
 
 To use the information in this section, you must be familiar with
 OpenStack Compute.

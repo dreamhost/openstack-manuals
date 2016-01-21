@@ -1,6 +1,6 @@
-==============================
-Change the size of your server
-==============================
+==================================================
+How to change the size of your DreamCompute server
+==================================================
 
 Change the size of a server by changing its flavor.
 

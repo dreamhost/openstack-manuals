@@ -1,6 +1,6 @@
-==================================
-Launch an instance using ISO image
-==================================
+=========================================================
+How to launch an instance on DreamCompute using ISO image
+=========================================================
 
 .. _Boot_instance_from_ISO_image:
 

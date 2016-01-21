@@ -1,6 +1,6 @@
-==============================
-Provide user data to instances
-==============================
+==================================================
+How to provide user data to DreamCompute instances
+==================================================
 
 A user data file is a special key in the metadata service that holds a
 file that cloud-aware applications in the guest instance can access. For

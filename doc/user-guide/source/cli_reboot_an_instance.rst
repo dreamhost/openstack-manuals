@@ -1,6 +1,6 @@
-==================
-Reboot an instance
-==================
+=====================================
+How to reboot a DreamCompute instance
+=====================================
 
 You can soft or hard reboot a running instance. A soft reboot attempts a
 graceful shut down and restart of the instance. A hard reboot power

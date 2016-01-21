@@ -1,6 +1,6 @@
-=========================
-Create and manage volumes
-=========================
+================================================================
+How to create and manage volumes with the DreamCompute dashboard
+================================================================
 
 Volumes are block storage devices that you attach to instances to enable
 persistent storage. You can attach a volume to a running instance or

@@ -1,6 +1,6 @@
-========================
-Upload and manage images
-========================
+===============================================================
+How to upload and manage images with the DreamCompute dashboard
+===============================================================
 
 A virtual machine image, referred to in this document simply
 as an image, is a single file that contains a virtual disk that

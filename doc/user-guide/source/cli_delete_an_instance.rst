@@ -1,6 +1,6 @@
-==================
-Delete an instance
-==================
+=====================================
+How to delete a DreamCompute instance
+=====================================
 
 When you no longer need an instance, you can delete it.
 

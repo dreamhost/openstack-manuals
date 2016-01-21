@@ -1,9 +1,9 @@
-==================================
-Use snapshots to migrate instances
-==================================
+==============================================================================================
+How to use snapshots to migrate instances between DreamCompute zones or other OpenStack clouds
+==============================================================================================
 
-To use snapshots to migrate instances from OpenStack projects to clouds,
-complete these steps.
+To use snapshots to migrate instances between DreamCompute regions or from
+other OpenStack providers to DreamCompute, complete these steps.
 
 In the source project:
 

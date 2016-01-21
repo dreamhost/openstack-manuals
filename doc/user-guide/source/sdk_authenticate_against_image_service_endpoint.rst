@@ -1,6 +1,6 @@
-==============================================
-Authenticate against an Image service endpoint
-==============================================
+=====================================================
+How to authenticate against an Image service endpoint
+=====================================================
 
 To authenticate against an Image service endpoint, instantiate a
 `glanceclient.v2.client.Client <http://docs.openstack.org/developer/python-glanceclient/api/glanceclient.v2.client.html#glanceclient.v2.client.Client>`__ object:

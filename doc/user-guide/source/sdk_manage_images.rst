@@ -1,6 +1,6 @@
-=============
-Manage images
-=============
+==============================================
+How to manage DreamCompute images with the SDK
+==============================================
 
 When working with images in the SDK, you will call both ``glance`` and
 ``nova`` methods.

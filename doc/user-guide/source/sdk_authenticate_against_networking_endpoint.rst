@@ -1,6 +1,6 @@
-==========================================
-Authenticate against a Networking endpoint
-==========================================
+=================================================
+How to authenticate against a Networking endpoint
+=================================================
 
 To authenticate against a Networking endpoint, instantiate a
 ``neutronclient.v_2_0.client.Client`` object:
