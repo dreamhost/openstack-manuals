@@ -1,14 +1,12 @@
-publish-docs/user-guide/:
-  section_id: 203141767
-  articles:
+203141767:
+  publish-docs/user-guide/:
     - configure_access_and_security_for_instances.html
     - dashboard_launch_instances.html
     - dashboard_manage_images.html
     - dashboard_manage_volumes.html
 
-publish-docs/user-guide/:
-  section_id: 203167038
-  articles:
+203167038:
+  publish-docs/user-guide/:
     - cli_access_instance_through_a_console.html
     - cli_change_the_size_of_your_server.html
     - cli_cheat_sheet.html
@@ -25,9 +23,8 @@ publish-docs/user-guide/:
     - cli_config_drive.html
     - cli_use_snapshots_to_migrate_instances.html
 
-publish-docs/user-guide/:
-  section_id: 203141757
-  articles:
+203141757:
+  publish-docs/user-guide/:
     - sdk_authenticate_against_compute_endpoint.html
     - sdk_authenticate_against_identity_endpoint.html
     - sdk_authenticate_against_image_service_endpoint.html
