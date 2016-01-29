@@ -1,6 +1,6 @@
-==========================================
-Install the OpenStack command-line clients
-==========================================
+=================================================
+How to Install the OpenStack command-line clients
+=================================================
 
 Install the prerequisite software and the Python package for each
 OpenStack client.
@@ -300,5 +300,4 @@ What's next
 ~~~~~~~~~~~
 
 Before you can run client commands, you must create and source the
-``PROJECT-openrc.sh`` file to set environment variables. See
-:doc:`../common/cli_set_environment_variables_using_openstack_rc`.
+``PROJECT-openrc.sh`` file to set environment variables.

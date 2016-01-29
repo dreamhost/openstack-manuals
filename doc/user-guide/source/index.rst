@@ -27,6 +27,10 @@ Contents
    sdk.rst
    hot.rst
    cli_cheat_sheet.rst
+   sdk_authenticate_against_compute_endpoint.rst
+   sdk_authenticate_against_identity_endpoint.rst
+   sdk_authenticate_against_image_service_endpoint.rst
+   sdk_authenticate_against_networking_endpoint.rst
 
    common/app_support.rst
 

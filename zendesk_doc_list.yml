@@ -31,5 +31,7 @@
     - sdk_authenticate.html
     - sdk_compute_apis.html
     - sdk_configure_access_security_instances.html
-    - sdk_install.html
     - sdk_manage_images.html
+
+  publish-docs/user-guide/common/:
+    - cli_install_openstack_command_line_clients.html
