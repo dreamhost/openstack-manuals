@@ -46,31 +46,6 @@ Update image
 
    $ glance image-update IMAGE
 
-Upload kernel image
-
-.. code-block:: console
-
-   $ glance image-create --name "cirros-threepart-kernel" \
-     --disk-format aki --container-format aki --is-public False \
-     --file ~/images/cirros-0.3.1~pre4-x86_64-vmlinuz
-
-Upload RAM image
-
-.. code-block:: console
-
-   $ glance image-create --name "cirros-threepart-ramdisk" \
-     --disk-format ari --container-format ari --is-public False \
-     --file ~/images/cirros-0.3.1~pre4-x86_64-initrd
-
-Upload three-part image
-
-.. code-block:: console
-
-   $ glance image-create --name "cirros-threepart" --disk-format ami \
-     --container-format ami --is-public False \
-     --property kernel_id=$KID-property ramdisk_id=$RID \
-     --file ~/images/cirros-0.3.1~pre4-x86_64-blank.img
-
 Register raw image
 
 .. code-block:: console

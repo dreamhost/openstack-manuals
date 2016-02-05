@@ -59,8 +59,8 @@ Follow this procedure to upload an image to a project:
    |                               | file on your file  system and   |
    |                               | add it.                         |
    +-------------------------------+---------------------------------+
-   | :guilabel:`Format`            | Select the image format (for    |
-   |                               | example, QCOW2) for the image.  |
+   | :guilabel:`Format`            | DreamCompute only supports raw  |
+   |                               | and iso images at this time.    |
    +-------------------------------+---------------------------------+
    | :guilabel:`Architecture`      | Specify the architecture. For   |
    |                               | example, ``i386`` for a 32-bit  |
