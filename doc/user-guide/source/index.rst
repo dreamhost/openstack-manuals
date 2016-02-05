@@ -31,6 +31,8 @@ Contents
    sdk_authenticate_against_identity_endpoint.rst
    sdk_authenticate_against_image_service_endpoint.rst
    sdk_authenticate_against_networking_endpoint.rst
+   cli_nova_launch_instance_from_volume.rst
+   cli_nova_launch_instance_using_ISO_image.rst
 
    common/app_support.rst
 

@@ -52,17 +52,6 @@ running on an instance. You specify the following parameters for rules:
 
 Rules are automatically enforced as soon as you create or modify them.
 
-.. note::
-
-  Instances that use the default security group cannot, by default, be
-  accessed from any IP address outside of the cloud. If you want those
-  IP addresses to access the instances, you must modify the rules for
-  the default security group.
-
-  You can also assign a floating IP address to a running instance to
-  make it accessible from outside the cloud. See
-  :doc:`cli_manage_ip_addresses`.
-
 Add a key pair
 ~~~~~~~~~~~~~~
 
@@ -139,8 +128,7 @@ Create and manage security group rules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Modify security group rules with the :command:`nova secgroup-*-rule`
-commands. Before you begin, source the OpenStack RC file. For details,
-see :doc:`../common/cli_set_environment_variables_using_openstack_rc`.
+commands. Before you begin, source the OpenStack RC file.
 
 #. To list the rules for a security group, run the following command:
 

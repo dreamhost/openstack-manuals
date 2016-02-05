@@ -348,22 +348,3 @@ Unmount the volume
 .. code-block:: console
 
    # umount /myspace
-
-Object Storage (swift)
-~~~~~~~~~~~~~~~~~~~~~~
-
-Display information for the account, container, or object
-
-.. code-block:: console
-
-   $ swift stat
-   $ swift stat ACCOUNT
-   $ swift stat CONTAINER
-   $ swift stat OBJECT
-
-List containers
-
-.. code-block:: console
-
-   $ swift list
-
