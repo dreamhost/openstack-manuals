@@ -148,7 +148,7 @@ Create an instance snapshot
    $ nova image-create volumeTwoImage snapshotOfVolumeImage
    $ nova image-show snapshotOfVolumeImage
 
-Pause, suspend, stop, rescue, resize, rebuild, reboot an instance
+Pause, suspend, stop, resize, rebuild, reboot an instance
 -----------------------------------------------------------------
 
 Pause
@@ -187,13 +187,6 @@ Start
 .. code-block:: console
 
    $ nova start NAME
-
-Rescue
-
-.. code-block:: console
-
-   $ nova rescue NAME
-   $ nova rescue NAME --rescue_image_ref RESCUE_IMAGE
 
 Resize
 
