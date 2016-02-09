@@ -20,7 +20,6 @@
     - cli_reboot_an_instance.html
     - cli_search_instance_with_ip_address.html
     - cli_stop_and_start_an_instance.html
-    - cli_config_drive.html
 
 203141757:
   publish-docs/user-guide/:
