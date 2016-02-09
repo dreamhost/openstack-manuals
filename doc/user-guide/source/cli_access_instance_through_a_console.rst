@@ -6,19 +6,11 @@ VNC or SPICE is used to view the console output of an instance, regardless of
 whether or not the console log has output. This allows relaying keyboard and
 mouse activity to and from an instance.
 
-There are three remote console access methods commonly used with
-OpenStack:
+DreamCompute supports novnc for remote access of an instance through a console:
 
 novnc
   An in-browser VNC client implemented using HTML5 Canvas and
   WebSockets
-
-spice
-  A complete in-browser client solution for interaction with
-  virtualized instances
-
-xvpvnc
-  A Java client offering console access to an instance
 
 Example:
 
@@ -27,7 +19,7 @@ command:
 
 .. code-block:: console
 
-   $ nova get-vnc-console INSTANCE_NAME VNC_TYPE
+   $ nova get-vnc-console INSTANCE_NAME novnc
 
 The command returns a URL from which you can access your instance:
 
@@ -36,17 +28,5 @@ The command returns a URL from which you can access your instance:
    +--------+------------------------------------------------------------------------------+
    | Type   | Url                                                                          |
    +--------+------------------------------------------------------------------------------+
-   | xvpvnc | http://192.168.5.96:6081/console?token=c83ae3a3-15c4-4890-8d45-aefb494a8d6c  |
+   | novnc  | http://192.168.5.96:6081/console?token=c83ae3a3-15c4-4890-8d45-aefb494a8d6c  |
    +--------+------------------------------------------------------------------------------+
-
-VNC\_TYPE can be replaced by any of the above values as connection
-types.
-
-When using SPICE to view the console of an instance, a browser plugin
-can be used directly on the instance page, or the :command:`get-vnc-console`
-command can be used with it, as well, by returning a token-authenticated
-address, as in the example above.
-
-For further information and comparisons (including security
-considerations), see the `Security
-Guide <http://docs.openstack.org/security-guide/compute.html>`__.
