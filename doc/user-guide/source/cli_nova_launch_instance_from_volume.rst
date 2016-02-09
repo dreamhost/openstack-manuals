@@ -18,9 +18,6 @@ command:
        volume.
      - ``--block-device``
      -  :ref:`Boot_instance_from_image_and_attach_non-bootable_volume`
-   * - Attach a swap disk to an instance.
-     - ``--swap``
-     - :ref:`Attach_swap_or_ephemeral_disk_to_an_instance`
    * - Create a volume from an image and boot an instance from that
        volume.
      - ``--block-device``
@@ -28,12 +25,6 @@ command:
    * - Boot from an existing source image, volume, or snapshot.
      - ``--block-device``
      - :ref:`Create_volume_from_image_and_boot_instance`
-   * - Attach a swap disk to an instance.
-     - ``--swap``
-     - :ref:`Attach_swap_or_ephemeral_disk_to_an_instance`
-   * - Attach an ephemeral disk to an instance.
-     - ``--ephemeral``
-     - :ref:`Attach_swap_or_ephemeral_disk_to_an_instance`
 
 .. _Boot_instance_from_image_and_attach_non-bootable_volume:
 
@@ -267,23 +258,3 @@ the volume to boot an instance.
       +-------------+--------+--------------+------+-------------+----------+-------------+
       | 2fff50ab... | in-use |              |  10  |     None    |   true   | 2e65c854... |
       +-------------+--------+--------------+------+-------------+----------+-------------+
-
-.. _Attach_swap_or_ephemeral_disk_to_an_instance:
-
-Attach swap or ephemeral disk to an instance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Use the nova ``boot`` ``--swap`` parameter to attach a swap disk on boot
-or the nova ``boot`` ``--ephemeral`` parameter to attach an ephemeral
-disk on boot. When you terminate the instance, both disks are deleted.
-
-Boot an instance with a 512 MB swap disk and 2 GB ephemeral disk.
-
-.. code-block:: console
-
-   $ nova boot --flavor FLAVOR --image IMAGE_ID --swap 512 --ephemeral size=2 NAME
-
-.. note::
-
-   The flavor defines the maximum swap and ephemeral disk size. You
-   cannot exceed these maximum values.
