@@ -35,11 +35,6 @@ command:
      - ``--ephemeral``
      - :ref:`Attach_swap_or_ephemeral_disk_to_an_instance`
 
-.. note::
-
-   To attach a volume to a running instance, see
-   :ref:`Attach_a_volume_to_an_instance`.
-
 .. _Boot_instance_from_image_and_attach_non-bootable_volume:
 
 Boot instance from image and attach non-bootable volume
