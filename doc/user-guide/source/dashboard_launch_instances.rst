@@ -11,8 +11,6 @@ You can launch an instance from the following sources:
   launches from the volume, which is provided by the ``cinder-volume``
   API through iSCSI.
 
-* Instance snapshot that you took.
-
 Launch an instance
 ~~~~~~~~~~~~~~~~~~
 
@@ -33,9 +31,7 @@ Launch an instance
    :guilabel:`Details` tab
 
    Availability Zone
-      By default, this value is set to the availability zone given by the
-      cloud provider (for example, ``us-west`` or ``apac-south``). For some
-      cases, it could be ``nova``.
+      The zone in which the virtual machine is launched.
 
    Instance Name
       Assign a name to the virtual machine.
@@ -58,10 +54,7 @@ Launch an instance
       .. note::
 
          The flavor is selected based on the size of the image selected
-         for launching an instance. For example, while creating an image, if
-         you have entered the value in the :guilabel:`Minimum RAM (MB)` field
-         as 2048, then on selecting the image, the default flavor is
-         ``m1.small``.
+         for launching an instance.
 
    Instance Count
       To launch multiple instances, enter a value greater than ``1``. The
@@ -73,10 +66,6 @@ Launch an instance
       Boot from image
           If you choose this option, a new field for :guilabel:`Image Name`
           displays. You can select the image from the list.
-
-      Boot from snapshot
-          If you choose this option, a new field for :guilabel:`Instance
-          Snapshot` displays. You can select the snapshot from the list.
 
       Boot from volume
           If you choose this option, a new field for :guilabel:`Volume`
@@ -99,12 +88,6 @@ Launch an instance
       This field changes based on your previous selection. If you have
       chosen to launch an instance using an image, the :guilabel:`Image Name`
       field displays. Select the image name from the dropdown list.
-
-   Instance Snapshot
-      This field changes based on your previous selection. If you have
-      chosen to launch an instance using a snapshot, the
-      :guilabel:`Instance Snapshot` field displays.
-      Select the snapshot name from the dropdown list.
 
    Volume
       This field changes based on your previous selection. If you have
@@ -145,15 +128,6 @@ Launch an instance
 
    :guilabel:`Advanced Options` tab
 
-   Disk Partition
-      Select the type of disk partition from the dropdown list:
-
-      Automatic
-          Entire disk is single partition and automatically resizes.
-
-      Manual
-          Faster build times but requires manual partitioning.
-
 #. Click :guilabel:`Launch`.
 
    The instance starts on a compute node in the cloud.
@@ -182,13 +156,6 @@ When you launch an instance from a volume, note the following steps:
   does not boot. Instead, it is replaced by the image on the volume that
   you choose in the next steps.
 
-  To boot a Xen image from a volume, the image you launch in must be
-  the same type, fully virtualized or paravirtualized, as the one on
-  the volume.
-
-* Select the volume or volume snapshot from which to boot. Enter a
-  device name. Enter ``vda`` for KVM images or ``xvda`` for Xen images.
-
 Connect to your instance by using SSH
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -197,7 +164,7 @@ file.
 
 .. note::
 
-   The user name is ``ubuntu`` for the Ubuntu cloud images on TryStack.
+   The user name is ``dhc-user`` for the images on DreamCompute
 
 #. Copy the IP address for your instance.
 
@@ -206,7 +173,7 @@ file.
 
    .. code-block:: console
 
-      $ ssh -i MyKey.pem ubuntu@10.0.0.2
+      $ ssh -i MyKey.pem dhc-user@10.0.0.2
 
 #. At the prompt, type ``yes``.
 
@@ -228,28 +195,6 @@ uptime for all your instances.
    :guilabel:`Submit`.
 
 #. To download a summary, click :guilabel:`Download CSV Summary`.
-
-Create an instance snapshot
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#. Log in to the dashboard.
-
-#. Select the appropriate project from the drop down menu at the top left.
-
-#. On the :guilabel:`Project` tab, open the :guilabel:`Compute` tab and
-   click the :guilabel:`Instances` category.
-
-#. Select the instance from which to create a snapshot.
-
-#. In the :guilabel:`Actions` column, click :guilabel:`Create Snapshot`.
-
-#. In the :guilabel:`Create Snapshot` dialog box, enter a name for the
-   snapshot, and click :guilabel:`Create Snapshot`.
-
-   The Images category shows the instance snapshot.
-
-To launch an instance from the snapshot, select the snapshot and click
-:guilabel:`Launch`. Proceed with launching an instance.
 
 Manage an instance
 ~~~~~~~~~~~~~~~~~~
