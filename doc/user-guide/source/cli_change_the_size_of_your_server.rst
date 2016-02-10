@@ -10,53 +10,56 @@ Change the size of a server by changing its flavor.
    .. code-block:: console
 
       $ nova show myCirrosServer
-      +-------------------------------------+-------------------------------------+
-      | Property                            | Value                               |
-      +-------------------------------------+-------------------------------------+
-      | status                              | ACTIVE                              |
-      | updated                             | 2013-07-18T15:08:20Z                |
-      | OS-EXT-STS:task_state               | None                                |
-      | OS-EXT-SRV-ATTR:host                | devstack                            |
-      | key_name                            | None                                |
-      | image                               | cirros-0.3.2-x86_64-uec (397e71...  |
-      | private network                     | 10.0.0.3                            |
-      | hostId                              | 6e1e69b71ac9b1e6871f91e2dfc9a9b9... |
-      | OS-EXT-STS:vm_state                 | active                              |
-      | OS-EXT-SRV-ATTR:instance_name       | instance-00000005                   |
-      | OS-EXT-SRV-ATTR:hypervisor_hostname | devstack                            |
-      | flavor                              | m1.small (2)                        |
-      | id                                  | 84c6e57d-a6b1-44b6-81eb-fcb36afd31b5|
-      | security_groups                     | [{u'name': u'default'}]             |
-      | user_id                             | 376744b5910b4b4da7d8e6cb483b06a8    |
-      | name                                | myCirrosServer                      |
-      | created                             | 2013-07-18T15:07:59Z                |
-      | tenant_id                           | 66265572db174a7aa66eba661f58eb9e    |
-      | OS-DCF:diskConfig                   | MANUAL                              |
-      | metadata                            | {u'description': u'Small test ima...|
-      | accessIPv4                          |                                     |
-      | accessIPv6                          |                                     |
-      | progress                            | 0                                   |
-      | OS-EXT-STS:power_state              | 1                                   |
-      | OS-EXT-AZ:availability_zone         | nova                                |
-      | config_drive                        |                                     |
-      +-------------------------------------+-------------------------------------+
+      +--------------------------------------+----------------------------------------------------------+
+      | Property                             | Value                                                    |
+      +--------------------------------------+----------------------------------------------------------+
+      | OS-DCF:diskConfig                    | MANUAL                                                   |
+      | OS-EXT-AZ:availability_zone          | iad-2                                                    |
+      | OS-EXT-STS:power_state               | 1                                                        |
+      | OS-EXT-STS:task_state                | -                                                        |
+      | OS-EXT-STS:vm_state                  | active                                                   |
+      | OS-SRV-USG:launched_at               | 2016-02-09T23:25:12.000000                               |
+      | OS-SRV-USG:terminated_at             | -                                                        |
+      | accessIPv4                           |                                                          |
+      | accessIPv6                           |                                                          |
+      | config_drive                         | True                                                     |
+      | created                              | 2016-02-09T23:25:05Z                                     |
+      | flavor                               | gp1.subsonic (100)                                       |
+      | hostId                               | c4606a0b4db316c7827f2d5925d6056936d4f27ac40f5ffff0d8cf73 |
+      | id                                   | 84c6e57d-a6b1-44b6-81eb-fcb36afd31b5                     |
+      | image                                | Ubuntu-14.04 (03f89ff2-d66e-49f5-ae61-656a006bbbe9)      |
+      | key_name                             | -                                                        |
+      | metadata                             | {}                                                       |
+      | name                                 | myCirrosServer                                           |
+      | os-extended-volumes:volumes_attached | []                                                       |
+      | private-network network              | 10.10.10.3                                               |
+      | progress                             | 0                                                        |
+      | security_groups                      | default                                                  |
+      | status                               | ACTIVE                                                   |
+      | tenant_id                            | d659dfde1cff47fb99b20395ae04dde1                         |
+      | updated                              | 2016-02-09T23:25:12Z                                     |
+      | user_id                              | a02e9c8e3d514f658cc67046465c66c2                         |
+      +--------------------------------------+----------------------------------------------------------+
 
-   The size (flavor) of the server is ``m1.small (2)``.
+
+   The size (flavor) of the server is ``gp1.subsonic (100)``.
 
 #. List the available flavors with the following command:
 
    .. code-block:: console
 
       $ nova flavor-list
-      +-----+-----------+-----------+------+-----------+------+-------+-------------+----------+
-      | ID  | Name      | Memory_MB | Disk | Ephemeral | Swap | VCPUs | RXTX_Factor | Is_Public|
-      +-----+-----------+-----------+------+-----------+------+-------+-------------+----------+
-      | 1   | m1.tiny   | 512       | 1    | 0         |      | 1     | 1.0         | True     |
-      | 2   | m1.small  | 2048      | 20   | 0         |      | 1     | 1.0         | True     |
-      | 3   | m1.medium | 4096      | 40   | 0         |      | 2     | 1.0         | True     |
-      | 4   | m1.large  | 8192      | 80   | 0         |      | 4     | 1.0         | True     |
-      | 5   | m1.xlarge | 16384     | 160  | 0         |      | 8     | 1.0         | True     |
-      +-----+-----------+-----------+------+-----------+------+-------+-------------+----------+
+      +-----+----------------+-----------+------+-----------+------+-------+-------------+-----------+
+      | ID  | Name           | Memory_MB | Disk | Ephemeral | Swap | VCPUs | RXTX_Factor | Is_Public |
+      +-----+----------------+-----------+------+-----------+------+-------+-------------+-----------+
+      | 100 | gp1.subsonic   | 1024      | 80   | 0         |      | 1     | 1.0         | True      |
+      | 200 | gp1.supersonic | 2048      | 80   | 0         |      | 1     | 1.0         | True      |
+      | 300 | gp1.lightspeed | 4096      | 80   | 0         |      | 2     | 1.0         | True      |
+      | 400 | gp1.warpspeed  | 8192      | 80   | 0         |      | 4     | 1.0         | True      |
+      | 50  | gp1.semisonic  | 512       | 80   | 0         |      | 1     | 1.0         | True      |
+      | 500 | gp1.hyperspeed | 16384     | 80   | 0         |      | 8     | 1.0         | True      |
+      +-----+----------------+-----------+------+-----------+------+-------+-------------+-----------+
+
 
 #. To resize the server, use the :command:`nova resize` command and add
    the server ID or name and the new flavor. Include the `--poll`
@@ -64,7 +67,7 @@ Change the size of a server by changing its flavor.
 
    .. code-block:: console
 
-      $ nova resize myCirrosServer 4 --poll
+      $ nova resize myCirrosServer 200 --poll
 
     Instance resizing... 100% complete
     Finished

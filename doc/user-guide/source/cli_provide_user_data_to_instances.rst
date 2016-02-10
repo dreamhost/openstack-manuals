@@ -15,4 +15,4 @@ You can place user data in a local file and pass it through the
 
 .. code-block:: console
 
-   $ nova boot --image ubuntu-cloudimage --flavor 1 --user-data mydata.file
+   $ nova boot --image Ubuntu-14.04 --flavor 100 --user-data mydata.file

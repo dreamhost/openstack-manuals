@@ -66,15 +66,17 @@ Before you begin, source the OpenStack RC file.
 
    Note the ID of the flavor that you want to use for your instance::
 
-    +-----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
-    | ID  | Name      | Memory_MB | Disk | Ephemeral | Swap | VCPUs | RXTX_Factor | Is_Public |
-    +-----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
-    | 1   | m1.tiny   | 512       | 1    | 0         |      | 1     | 1.0         | True      |
-    | 2   | m1.small  | 2048      | 20   | 0         |      | 1     | 1.0         | True      |
-    | 3   | m1.medium | 4096      | 40   | 0         |      | 2     | 1.0         | True      |
-    | 4   | m1.large  | 8192      | 80   | 0         |      | 4     | 1.0         | True      |
-    | 5   | m1.xlarge | 16384     | 160  | 0         |      | 8     | 1.0         | True      |
-    +-----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
+    +-----+----------------+-----------+------+-----------+------+-------+-------------+-----------+
+    | ID  | Name           | Memory_MB | Disk | Ephemeral | Swap | VCPUs | RXTX_Factor | Is_Public |
+    +-----+----------------+-----------+------+-----------+------+-------+-------------+-----------+
+    | 100 | gp1.subsonic   | 1024      | 80   | 0         |      | 1     | 1.0         | True      |
+    | 200 | gp1.supersonic | 2048      | 80   | 0         |      | 1     | 1.0         | True      |
+    | 300 | gp1.lightspeed | 4096      | 80   | 0         |      | 2     | 1.0         | True      |
+    | 400 | gp1.warpspeed  | 8192      | 80   | 0         |      | 4     | 1.0         | True      |
+    | 50  | gp1.semisonic  | 512       | 80   | 0         |      | 1     | 1.0         | True      |
+    | 500 | gp1.hyperspeed | 16384     | 80   | 0         |      | 8     | 1.0         | True      |
+    +-----+----------------+-----------+------+-----------+------+-------+-------------+-----------+
+
 
 #. List the available images.
 
@@ -84,22 +86,26 @@ Before you begin, source the OpenStack RC file.
 
    Note the ID of the image from which you want to boot your instance::
 
-    +--------------------------------------+---------------------------------+--------+--------+
-    | ID                                   | Name                            | Status | Server |
-    +--------------------------------------+---------------------------------+--------+--------+
-    | 397e713c-b95b-4186-ad46-6126863ea0a9 | cirros-0.3.2-x86_64-uec         | ACTIVE |        |
-    | df430cc2-3406-4061-b635-a51c16e488ac | cirros-0.3.2-x86_64-uec-kernel  | ACTIVE |        |
-    | 3cf852bd-2332-48f4-9ae4-7d926d50945e | cirros-0.3.2-x86_64-uec-ramdisk | ACTIVE |        |
-    +--------------------------------------+---------------------------------+--------+--------+
+    +--------------------------------------+--------------+--------+--------------------------------------+
+    | ID                                   | Name         | Status | Server                               |
+    +--------------------------------------+--------------+--------+--------------------------------------+
+    | 10ff94ea-18dc-4790-8ac8-84e6ac9f3132 | CentOS-6     | ACTIVE |                                      |
+    | c1e8c5b5-bea6-45e9-8202-b8e769b661a4 | CentOS-7     | ACTIVE |                                      |
+    | dd759c80-74c8-4598-8d9b-3dac32a386f2 | Debian-7.0   | ACTIVE |                                      |
+    | 00a5fa60-6fdb-4d30-ad88-64fbc32be85a | Debian-7.9   | ACTIVE |                                      |
+    | dfc066b8-4f5a-4ea5-84be-35924594bc43 | Ubuntu-12.04 | ACTIVE |                                      |
+    | 03f89ff2-d66e-49f5-ae61-656a006bbbe9 | Ubuntu-14.04 | ACTIVE |                                      |
+    | 873e4bab-ed23-4096-83fb-ee8b0dd2f5a3 | Ubuntu-15.10 | ACTIVE |                                      |
+    +--------------------------------------+--------------+--------+--------------------------------------+
 
    You can also filter the image list by using :command:`grep` to find a specific
    image, as follows:
 
    .. code-block:: console
 
-      $ nova image-list | grep 'kernel'
+      $ nova image-list | grep 'Ubuntu-14.04'
 
-      | df430cc2-3406-4061-b635-a51c16e488ac | cirros-0.3.2-x86_64-uec-kernel  | ACTIVE |        |
+         | 03f89ff2-d66e-49f5-ae61-656a006bbbe9 | Ubuntu-14.04 | ACTIVE |                                      |
 
 #. List the available security groups.
 
@@ -117,12 +123,11 @@ Before you begin, source the OpenStack RC file.
    Note the ID of the security group that you want to use for your
    instance::
 
-    +----+---------+-------------+----------------------------------+
-    | Id | Name    | Description | Tenant_ID                        |
-    +----+---------+-------------+----------------------------------+
-    | 2  | default | default     | 66265572db174a7aa66eba661f58eb9e |
-    | 1  | default | default     | b70d90d65e464582b6b2161cf3603ced |
-    +----+---------+-------------+----------------------------------+
+    +--------------------------------------+---------+------------------------+
+    | Id                                   | Name    | Description            |
+    +--------------------------------------+---------+------------------------+
+    | a79caa69-e011-498b-9149-ee6f130b1977 | default | Default security group |
+    +--------------------------------------+---------+------------------------+
 
    If you have not created any security groups, you can assign the instance
    to only the default security group.
@@ -169,9 +174,9 @@ Launch an instance from an image
       ensure the correct work of dnsmasq. The corresponding warning is written
       into the ``nova-network.log`` file.
 
-   The following command launches the ``MyCirrosServer`` instance with the
-   ``m1.small`` flavor (ID of ``1``), ``cirros-0.3.2-x86_64-uec`` image (ID
-   of ``397e713c-b95b-4186-ad46-6126863ea0a9``), ``default`` security
+   The following command launches the ``MyUbuntuServer`` instance with the
+   ``gp1.subsonic`` flavor (ID of ``100``), ``Ubuntu-14.04`` image (ID
+   of ``03f89ff2-d66e-49f5-ae61-656a006bbbe9``), ``default`` security
    group, ``KeyPair01`` key, and a user data file called
    ``cloudinit.file``:
 
@@ -179,7 +184,7 @@ Launch an instance from an image
 
       $ nova boot --flavor 1 --image 397e713c-b95b-4186-ad46-6126863ea0a9 \
         --security-groups default --key-name KeyPair01 --user-data cloudinit.file \
-        myCirrosServer
+        MyUbuntuServer
 
    Depending on the parameters that you provide, the command returns a list
    of server properties.
@@ -190,10 +195,10 @@ Launch an instance from an image
       | Property                            | Value                               |
       +-------------------------------------+-------------------------------------+
       | OS-EXT-STS:task_state               | scheduling                          |
-      | image                               | cirros-0.3.2-x86_64-uec             |
+      | image                               | Ubuntu-14.04                        |
       | OS-EXT-STS:vm_state                 | building                            |
       | OS-EXT-SRV-ATTR:instance_name       | instance-00000002                   |
-      | flavor                              | m1.small                            |
+      | flavor                              | gp1.subsonic                        |
       | id                                  | b3cdc6c0-85a7-4904-ae85-71918f734048|
       | security_groups                     | [{u'name': u'default'}]             |
       | user_id                             | 376744b5910b4b4da7d8e6cb483b06a8    |
@@ -210,7 +215,7 @@ Launch an instance from an image
       | OS-EXT-SRV-ATTR:host                | None                                |
       | key_name                            | KeyPair01                           |
       | OS-EXT-SRV-ATTR:hypervisor_hostname | None                                |
-      | name                                | myCirrosServer                      |
+      | name                                | MyUbuntuServer                      |
       | adminPass                           | tVs5pL8HcPGw                        |
       | tenant_id                           | 66265572db174a7aa66eba661f58eb9e    |
       | created                             | 2013-07-16T16:25:34Z                |
@@ -240,7 +245,7 @@ Launch an instance from an image
 
    .. code-block:: console
 
-      $ nova boot --image ubuntu-cloudimage --flavor 1 vm-name \
+      $ nova boot --image Ubuntu-14.04 --flavor 100 vm-name \
         --file /root/.ssh/authorized_keys=special_authorized_keysfile
 
 4. Check if the instance is online.
@@ -258,7 +263,7 @@ Launch an instance from an image
       +-------------+----------------------+--------+------------+-------------+------------------+
       | ID          | Name                 | Status | Task State | Power State | Networks         |
       +-------------+----------------------+--------+------------+-------------+------------------+
-      | 84c6e57d... | myCirrosServer       | ACTIVE | None       | Running     | private=10.0.0.3 |
+      | 84c6e57d... | MyUbuntuServer       | ACTIVE | None       | Running     | private=10.0.0.3 |
       | 8a99547e... | myInstanceFromVolume | ACTIVE | None       | Running     | private=10.0.0.4 |
       +-------------+----------------------+--------+------------+-------------+------------------+
 

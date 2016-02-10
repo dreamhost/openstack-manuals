@@ -17,7 +17,7 @@ with the following parameters to boot an instance.
         --image ubuntu-14.04.2-server-amd64.iso \
         --block-device source=blank,dest=volume,size=10,shutdown=preserve \
         --nic net-id = NETWORK_UUID \
-        --flavor 2 INSTANCE_NAME
+        --flavor 100 INSTANCE_NAME
     +--------------------------------------+--------------------------------------------+
     | Property                             | Value                                      |
     +--------------------------------------+--------------------------------------------+
@@ -36,7 +36,7 @@ with the following parameters to boot an instance.
     | adminPass                            | ZaiYeC8iucgU                               |
     | config_drive                         |                                            |
     | created                              | 2015-06-01T16:34:50Z                       |
-    | flavor                               | m1.small (2)                               |
+    | flavor                               | gp1.subsonic (100)                         |
     | hostId                               |                                            |
     | id                                   | 1e1797f3-1662-49ff-ae8c-a77e82ee1571       |
     | image                                | ubuntu-14.04.2-server-amd64.iso            |

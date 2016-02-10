@@ -83,7 +83,7 @@ system.
 
    .. code-block:: console
 
-      $ nova boot --flavor 2 --image 98901246-af91-43d8-b5e6-a4506aa8f369 \
+      $ nova boot --flavor 100 --image 98901246-af91-43d8-b5e6-a4506aa8f369 \
         --block-device source=volume,id=d620d971-b160-4c4e-8652-2513d74e2080,dest=volume,shutdown=preserve \
         myInstanceWithVolume
       +--------------------------------------+--------------------------------------------+
@@ -104,7 +104,7 @@ system.
       | adminPass                            | ZaiYeC8iucgU                               |
       | config_drive                         |                                            |
       | created                              | 2014-05-09T16:34:50Z                       |
-      | flavor                               | m1.small (2)                               |
+      | flavor                               | gp1.subsonic (100)                         |
       | hostId                               |                                            |
       | id                                   | 1e1797f3-1662-49ff-ae8c-a77e82ee1571       |
       | image                                | cirros-0.3.1-x86_64-uec (98901246-af91-... |
@@ -150,15 +150,16 @@ the volume to boot an instance.
    .. code-block:: console
 
       $ nova flavor-list
-      +-----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
-      | ID  | Name      | Memory_MB | Disk | Ephemeral | Swap | VCPUs | RXTX_Factor | Is_Public |
-      +-----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
-      | 1   | m1.tiny   | 512       | 1    | 0         |      | 1     | 1.0         | True      |
-      | 2   | m1.small  | 2048      | 20   | 0         |      | 1     | 1.0         | True      |
-      | 3   | m1.medium | 4096      | 40   | 0         |      | 2     | 1.0         | True      |
-      | 4   | m1.large  | 8192      | 80   | 0         |      | 4     | 1.0         | True      |
-      | 5   | m1.xlarge | 16384     | 160  | 0         |      | 8     | 1.0         | True      |
-      +-----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
+      +-----+----------------+-----------+------+-----------+------+-------+-------------+-----------+
+      | ID  | Name           | Memory_MB | Disk | Ephemeral | Swap | VCPUs | RXTX_Factor | Is_Public |
+      +-----+----------------+-----------+------+-----------+------+-------+-------------+-----------+
+      | 100 | gp1.subsonic   | 1024      | 80   | 0         |      | 1     | 1.0         | True      |
+      | 200 | gp1.supersonic | 2048      | 80   | 0         |      | 1     | 1.0         | True      |
+      | 300 | gp1.lightspeed | 4096      | 80   | 0         |      | 2     | 1.0         | True      |
+      | 400 | gp1.warpspeed  | 8192      | 80   | 0         |      | 4     | 1.0         | True      |
+      | 50  | gp1.semisonic  | 512       | 80   | 0         |      | 1     | 1.0         | True      |
+      | 500 | gp1.hyperspeed | 16384     | 80   | 0         |      | 8     | 1.0         | True      |
+      +-----+----------------+-----------+------+-----------+------+-------+-------------+-----------+
 
    Note the ID of the flavor that you want to use to create a volume.
 

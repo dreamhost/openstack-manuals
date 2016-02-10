@@ -80,7 +80,7 @@ Boot an instance using flavor and image names (if names are unique)
 .. code-block:: console
 
    $ nova boot --image IMAGE --flavor FLAVOR INSTANCE_NAME
-   $ nova boot --image cirros-0.3.1-x86_64-uec --flavor m1.tiny \
+   $ nova boot --image Ubuntu-14.04 --flavor gp1.subsonic \
      MyFirstInstance
 
 Login to instance
@@ -176,7 +176,7 @@ Rebuild
 .. code-block:: console
 
    $ nova rebuild NAME IMAGE
-   $ nova rebuild newtinny cirros-qcow2
+   $ nova rebuild newtinny Ubuntu-14.04
 
 Reboot
 
@@ -190,8 +190,8 @@ Inject user data and files into an instance
 .. code-block:: console
 
    $ nova boot --user-data FILE INSTANCE
-   $ nova boot --user-data userdata.txt --image cirros-qcow2 \
-     --flavor m1.tiny MyUserdataInstance2
+   $ nova boot --user-data userdata.txt --image Ubuntu-14.04 \
+     --flavor gp1.subsonic MyUserdataInstance2
 
 To validate that the file was injected, use ssh to connect to the instance,
 and look in ``/var/lib/cloud`` for the file.
@@ -210,7 +210,7 @@ Start an instance (boot)
 
 .. code-block:: console
 
-   $ nova boot --image cirros-0.3.0-x86_64 --flavor m1.small \
+   $ nova boot --image Ubuntu-14.04 --flavor gp1.subsonic \
      --key_name test MyFirstServer
 
 Use ssh to connect to the instance
@@ -262,7 +262,7 @@ Boot an instance and attach to volume
 
 .. code-block:: console
 
-   $ nova boot --image cirros-qcow2 --flavor m1.tiny MyVolumeInstance
+   $ nova boot --image Ubuntu-14.04 --flavor gp1.subsonic MyVolumeInstance
 
 List volumes, notice status of volume
 
