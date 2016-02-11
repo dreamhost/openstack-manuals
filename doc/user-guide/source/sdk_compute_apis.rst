@@ -9,7 +9,7 @@ Set environment variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To set up environmental variables and authenticate against Compute API
-endpoints, see :ref:`sdk_authenticate`.
+endpoints, see `Overview of authentication in DreamCompute`_.
 
 .. _get-openstack-credentials:
 
@@ -530,3 +530,5 @@ List hosts code listing example
     host_list = nova_client.hosts.list()
 
     print_hosts(host_list)
+
+.. _Overview of authentication in DreamCompute: 216511257-Overview-of-authentication-in-DreamCompute
