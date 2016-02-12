@@ -4,6 +4,7 @@
     - dashboard_launch_instances.html
     - dashboard_manage_images.html
     - dashboard_manage_volumes.html
+    - dashboard_create_networks.html
 
 203167038:
   publish-docs/user-guide/:
