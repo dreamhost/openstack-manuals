@@ -1,6 +1,6 @@
-===============================================================
-How launch and manage instances with the DreamCompute dashboard
-===============================================================
+==================================================================
+How to launch and manage instances with the DreamCompute dashboard
+==================================================================
 
 Instances are virtual machines that run inside the cloud.
 You can launch an instance from the following sources:
