@@ -1,6 +1,12 @@
-====================================================
-How to manage IP addresses on DreamCompute instances
-====================================================
+=============================================================
+How to manage floating IP addresses on DreamCompute instances
+=============================================================
+
+.. note::
+
+    This is only relevant if you have private networking enabled, if you are
+    using public networking you will not have private IPs and floating IPs,
+    just public IPs.
 
 Each instance has a private, fixed IP address and can also have a
 public, or floating IP address. Private IP addresses are used for

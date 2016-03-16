@@ -21,8 +21,8 @@ Launch an instance
 #. On the :guilabel:`Project` tab, open the :guilabel:`Compute` tab and
    click :guilabel:`Instances` category.
 
-   The dashboard shows the instances with its name, its private and
-   floating IP addresses, size, status, task, power state, and so on.
+   The dashboard shows the instances with its name, its IP addresses, size,
+   status, task, power state, and so on.
 
 #. Click :guilabel:`Launch Instance`.
 
