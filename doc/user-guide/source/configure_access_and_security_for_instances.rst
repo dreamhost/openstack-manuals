@@ -29,10 +29,11 @@ belong to a project. For more information, see the section
 When an instance is created in DreamCompute, it is automatically assigned a
 fixed IP address in the network to which the instance is assigned. This
 IP address is permanently associated with the instance until the
-instance is terminated. However, in addition to the fixed IP address, a
-floating IP address can also be attached to an instance. Unlike fixed IP
-addresses, floating IP addresses are able to have their associations
-modified at any time, regardless of the state of the instances involved.
+instance is terminated. However, if you have private networking enabled,
+in addition to the fixed IP address, a floating IP address can also be
+attached to an instance. Unlike fixed IP addresses, floating IP addresses are
+able to have their associations modified at any time, regardless of the state
+of the instances involved.
 
 .. _security_groups_add_rule:
 
@@ -169,6 +170,11 @@ The Dashboard lists the key pair on the :guilabel:`Access & Security` tab.
 
 Allocate a floating IP address to an instance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+    This is only relevant if you have private networking enabled, if you do
+    not, your instance launches with a public IP address.
 
 When an instance is created in DreamCompute, it is automatically assigned a
 fixed IP address in the network to which the instance is assigned. This
