@@ -66,3 +66,6 @@ for file in $files ; do
         fi
     fi
 done
+
+git clone https://github.com/squidboylan/zendesk-metadata
+python zendesk-metadata/get_metadata.py
