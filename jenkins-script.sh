@@ -67,5 +67,5 @@ for file in $files ; do
     fi
 done
 
-git clone https://github.com/squidboylan/zendesk-metadata
+git clone https://github.com/dreamhost/zendesk-pull-article-id
 python zendesk-metadata/get_metadata.py
