@@ -68,4 +68,4 @@ for file in $files ; do
 done
 
 git clone https://github.com/dreamhost/zendesk-pull-article-id
-python zendesk-metadata/get_metadata.py
+python zendesk-pull-article-id/get_metadata.py
