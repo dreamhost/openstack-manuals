@@ -1,6 +1,6 @@
-===============================================================
-How to configure access and security for DreamCompute instances
-===============================================================
+==================================================================================================
+How to configure access and security for DreamCompute instances using the Nova command line client
+==================================================================================================
 
 When you launch a virtual machine, you can inject a *key pair*, which
 provides SSH access to your instance. For this to work, the image must
