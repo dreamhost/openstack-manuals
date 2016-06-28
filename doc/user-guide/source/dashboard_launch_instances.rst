@@ -1,216 +1,96 @@
 ==================================================================
-How to launch and manage instances with the DreamCompute dashboard
+How to launch and manage servers with the DreamCompute dashboard
 ==================================================================
 
-Instances are virtual machines that run inside the cloud.
-You can launch an instance from the following sources:
+Quick Launch
+~~~~~~~~~~~~
 
-* Images uploaded to the Image service.
+The `Quick Launch`_ is a way to easily create a new gp1.semisonic
+(1 vCPU / 512MB) server with an 80GB ephemeral boot drive.
 
-* Image that you have copied to a persistent volume. The instance
-  launches from the volume, which is provided by the ``cinder-volume``
-  API through iSCSI.
+#. Log in to the `dashboard`_.
 
-Launch an instance
-~~~~~~~~~~~~~~~~~~
+   We have auto-generated a username to be used with DreamCompute. You can
+   view your username and reset your password in the `DreamHost Panel`_.
 
-#. Log in to the dashboard.
+#. Navigate to the Quick Launch section.
 
-#. Select the appropriate project from the drop down menu at the top left.
+#. Give your server a name. This will also be the host name of your server.
 
-#. On the :guilabel:`Project` tab, open the :guilabel:`Compute` tab and
-   click :guilabel:`Instances` category.
+#. Choose your preferred operating system.
 
-   The dashboard shows the instances with its name, its IP addresses, size,
-   status, task, power state, and so on.
+#. Add your public SSH key (you only have to do this once).
 
-#. Click :guilabel:`Launch Instance`.
+   Each server you launch is accessible by SSH via key-based authentication.
+   Once you upload your public key, you'll have the convenience of
+   password-less logins with the username *dhc-user*
 
-#. In the :guilabel:`Launch Instance` dialog box, specify the following values:
+.. note:: If you don't already have an SSH key, you can find
+          out `how to create one`_.
 
-   :guilabel:`Details` tab
+#. Click the *Launch Image* button.
 
-   Availability Zone
-      The zone in which the virtual machine is launched.
 
-   Instance Name
-      Assign a name to the virtual machine.
+Connect To Your Server
+~~~~~~~~~~~~~~~~~~~~~~
 
-      .. note::
-
-         The name you assign here becomes the initial host name
-         of the server.
-
-         After the server is built, if you change the server name in the API
-         or change the host name directly, the names are not updated in the
-         dashboard.
-
-         Server names are not guaranteed to be unique when created so you
-         could have two instances with the same host name.
-
-   Flavor
-      Specify the size of the instance to launch.
-
-      .. note::
-
-         The flavor is selected based on the size of the image selected
-         for launching an instance.
-
-   Instance Count
-      To launch multiple instances, enter a value greater than ``1``. The
-      default is ``1``.
-
-   Instance Boot Source
-      Your options are:
-
-      Boot from image
-          If you choose this option, a new field for :guilabel:`Image Name`
-          displays. You can select the image from the list.
-
-      Boot from volume
-          If you choose this option, a new field for :guilabel:`Volume`
-          displays. You can select the volume from the list.
-
-      Boot from image (creates a new volume)
-          With this option, you can boot from an image and create a volume
-          by entering the :guilabel:`Device Size` and :guilabel:`Device
-          Name` for your volume. Click the :guilabel:`Delete on Terminate`
-          option to delete the volume on terminating the instance.
-
-      Boot from volume snapshot (creates a new volume)
-          Using this option, you can boot from a volume snapshot and create
-          a new volume by choosing :guilabel:`Volume Snapshot` from a list
-          and adding a :guilabel:`Device Name` for your volume. Click the
-          :guilabel:`Delete on Terminate` option to delete the volume on
-          terminating the instance.
-
-   Image Name
-      This field changes based on your previous selection. If you have
-      chosen to launch an instance using an image, the :guilabel:`Image Name`
-      field displays. Select the image name from the dropdown list.
-
-   Volume
-      This field changes based on your previous selection. If you have
-      chosen to launch an instance using a volume, the :guilabel:`Volume`
-      field displays. Select the volume name from the dropdown list.
-      If you want to delete the volume on instance terminate,
-      check the :guilabel:`Delete on Terminate` option.
-
-   :guilabel:`Access & Security` tab
-
-   Key Pair
-      Specify a key pair.
-
-      If the image uses a static root password or a static key set
-      (neither is recommended), you do not need to provide a key pair
-      to launch the instance.
-
-   Security Groups
-      Activate the security groups that you want to assign to the instance.
-
-      Security groups are a kind of cloud firewall that define which
-      incoming network traffic is forwarded to instances.
-
-      If you have not created any security groups, you can assign
-      only the default security group to the instance.
-
-   :guilabel:`Networking` tab
-
-   Selected Networks
-      To add a network to the instance, click the :guilabel:`+` in the
-      :guilabel:`Available Networks` field.
-
-   :guilabel:`Post-Creation` tab
-
-   Customization Script Source
-      Specify a customization script that runs after your instance
-      launches.
-
-   :guilabel:`Advanced Options` tab
-
-#. Click :guilabel:`Launch`.
-
-   The instance starts on a compute node in the cloud.
-
-.. note::
-
-   If you did not provide a key pair, security groups, or rules, users
-   can access the instance only from inside the cloud through VNC. Even
-   pinging the instance is not possible without an ICMP rule configured.
-
-You can also launch an instance from the :guilabel:`Images` or
-:guilabel:`Volumes` category when you launch an instance from
-an image or a volume respectively.
-
-When you launch an instance from an image, OpenStack creates a local
-copy of the image on the compute node where the instance starts.
-
-For details on creating images, see `Creating images
-manually <http://docs.openstack.org/image-guide/create-images-manually.html>`_
-in the *OpenStack Virtual Machine Image Guide*.
-
-When you launch an instance from a volume, note the following steps:
-
-* To select the volume from which to launch, launch an instance from
-  an arbitrary image on the volume. The arbitrary image that you select
-  does not boot. Instead, it is replaced by the image on the volume that
-  you choose in the next steps.
-
-Connect to your instance by using SSH
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To use SSH to connect to your instance, you use the downloaded keypair
-file.
+Once your new server is created, you can use SSH to log in to it.
 
 .. note::
 
    The user name is ``dhc-user`` for the images on DreamCompute
-
-#. Copy the IP address for your instance.
 
 #. Use the :command:`ssh` command to make a secure connection to the instance.
    For example:
 
    .. code-block:: console
 
-      $ ssh -i MyKey.pem dhc-user@10.0.0.2
+      $ ssh -i /path/to/key dhc-user@123.123.123.123
 
-#. At the prompt, type ``yes``.
+#. You'll see a response similar to this:
 
-Track usage for instances
-~~~~~~~~~~~~~~~~~~~~~~~~~
+  .. code-block:: console
 
-You can track usage for instances for each project. You can track costs
-per month by showing meters like number of vCPUs, disks, RAM, and
-uptime for all your instances.
+  The authenticity of host '123.123.123.123 (123.123.123.123)' can't be established.
+  ECDSA key fingerprint is SHA256:B55lL/sLEfJc09dEVFbQhDXkCqQ4taUoBZgzteirnmA.
+  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMp8+8id6TRCgznUBMUjwbCUWNz834Cgi5xb1d5xIi
+  Are you sure you want to continue connecting (yes/no)?
 
-#. Log in to the dashboard.
+#. Type ``yes`` and you'll see a response like this:
 
-#. Select the appropriate project from the drop down menu at the top left.
+  .. code-block:: console
 
-#. On the :guilabel:`Project` tab, open the :guilabel:`Compute` tab and
-   click :guilabel:`Overview` category.
+  Warning: Permanently added '123.123.123.123' (ECDSA) to the list of known hosts.
 
-#. To query the instance usage for a month, select a month and click
-   :guilabel:`Submit`.
 
-#. To download a summary, click :guilabel:`Download CSV Summary`.
+Additional Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Manage an instance
+By default, your server is open to all traffic from your other DreamCompute
+servers and limted traffic from the public network to these ports:
+
+- SSH
+- HTTP
+- HTTPS
+- ICMP (ping)
+
+Additional ports can be configured from the `Security Groups`_ section
+of the dashboard.
+
+
+Manage Your Server
 ~~~~~~~~~~~~~~~~~~
 
-#. Log in to the dashboard.
+The dashboard contains several commands in the `Actions` menu to manage
+your server. It's important to note that only terminating a server will
+stop usage charges from accruing on a server.
 
-#. Select the appropriate project from the drop down menu at the top left.
 
-#. On the :guilabel:`Project` tab, open the :guilabel:`Compute` tab and
-   click :guilabel:`Instances` category.
+.. _Quick Launch: https://iad2.dreamcompute.com/project/quicklaunch/
+.. _dashboard: https://iad2.dreamcompute.com/
+.. _DreamHost Panel: http://panel.dreamhost.com/index.cgi?tree=cloud.compute
+.. _how to create one: /articles/214843617
+.. _Security Groups: https://iad2.dreamcompute.com/project/access_and_security/?tab=access_security_tabs__security_groups_tab
 
-#. Select an instance.
-
-#. In the menu list in the :guilabel:`Actions` column, select the state.
-
-   You can resize or rebuild an instance. You can also choose to view
-   the instance console log, edit instance or the security groups.
-   Depending on the current state of the instance, you can pause,
-   resume, suspend, soft or hard reboot, or terminate it.
+.. meta::
+   :labels: dreamcompute launch server ssh boot
