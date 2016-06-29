@@ -130,3 +130,9 @@ Installing
 ==========
 Refer to http://docs.openstack.org to see where these documents are published
 and to learn more about the OpenStack project.
+
+Other Notes
+===========
+
+Check https://github.com/dreamhost/dreamcloud-docs/blob/master/README.md for
+more information on contributing.
