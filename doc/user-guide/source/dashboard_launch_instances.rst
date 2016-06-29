@@ -51,16 +51,16 @@ Once your new server is created, you can use SSH to log in to it.
 
   .. code-block:: console
 
-  The authenticity of host '123.123.123.123 (123.123.123.123)' can't be established.
-  ECDSA key fingerprint is SHA256:B55lL/sLEfJc09dEVFbQhDXkCqQ4taUoBZgzteirnmA.
-  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMp8+8id6TRCgznUBMUjwbCUWNz834Cgi5xb1d5xIi
-  Are you sure you want to continue connecting (yes/no)?
+      The authenticity of host '123.123.123.123 (123.123.123.123)' can't be established.
+      ECDSA key fingerprint is SHA256:B55lL/sLEfJc09dEVFbQhDXkCqQ4taUoBZgzteirnmA.
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMp8+8id6TRCgznUBMUjwbCUWNz834Cgi5xb1d5xIi
+      Are you sure you want to continue connecting (yes/no)?
 
 #. Type ``yes`` and you'll see a response like this:
 
   .. code-block:: console
 
-  Warning: Permanently added '123.123.123.123' (ECDSA) to the list of known hosts.
+      Warning: Permanently added '123.123.123.123' (ECDSA) to the list of known hosts.
 
 
 Additional Configuration
