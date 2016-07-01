@@ -23,7 +23,8 @@ The `Quick Launch`_ is a way to easily create a new gp1.semisonic
 
    Each server you launch is accessible by SSH via key-based authentication.
    Once you upload your public key, you'll have the convenience of
-   password-less logins with the username *dhc-user*
+   password-less logins with the username *dhc-user* or *core* for CoreOS
+   instances.
 
 .. note:: If you don't already have an SSH key, you can find
           out `how to create one`_.
@@ -38,7 +39,8 @@ Once your new server is created, you can use SSH to log in to it.
 
 .. note::
 
-   The user name is ``dhc-user`` for the images on DreamCompute
+   The user name is ``dhc-user`` for most images except CoreOS which uses
+   ``core`` as it's user name on DreamCompute
 
 #. Use the :command:`ssh` command to make a secure connection to the instance.
    For example:
