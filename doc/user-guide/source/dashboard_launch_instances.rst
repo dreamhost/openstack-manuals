@@ -26,8 +26,8 @@ The `Quick Launch`_ is a way to easily create a new gp1.semisonic
    password-less logins with the username *dhc-user* or *core* for CoreOS
    instances.
 
-.. note:: If you don't already have an SSH key, you can find
-          out `how to create one`_.
+    .. note:: If you don't already have an SSH key, you can find
+              out `how to create one`_.
 
 #. Click the *Launch Image* button.
 
@@ -91,7 +91,7 @@ stop usage charges from accruing on a server.
 .. _Quick Launch: https://iad2.dreamcompute.com/project/quicklaunch/
 .. _dashboard: https://iad2.dreamcompute.com/
 .. _DreamHost Panel: http://panel.dreamhost.com/index.cgi?tree=cloud.compute
-.. _how to create one: /articles/214843617
+.. _how to create one: 214843617
 .. _Security Groups: https://iad2.dreamcompute.com/project/access_and_security/?tab=access_security_tabs__security_groups_tab
 
 .. meta::
