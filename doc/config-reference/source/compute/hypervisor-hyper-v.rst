@@ -13,10 +13,6 @@ The use of the Windows Server 2012 platform is recommend for the best
 experience and is the platform for active development.
 The following Windows platforms have been tested as compute nodes:
 
-Windows Server 2008 R2
-  Both Server and Server Core with the Hyper-V role enabled
-  (Shared Nothing Live migration is not supported using 2008 R2)
-
 Windows Server 2012 and Windows Server 2012 R2
   Server and Core (with the Hyper-V role enabled), and Hyper-V Server
 
@@ -31,8 +27,8 @@ one connected to the management network and one to the guest data network.
 
 The following sections discuss how to prepare the Windows Hyper-V
 node for operation as an OpenStack compute node. Unless stated otherwise,
-any configuration information should work for the Windows 2008 R2,
-2012 and 2012 R2 platforms.
+any configuration information should work for the Windows 2012 and
+2012 R2 platforms.
 
 Local storage considerations
 ----------------------------
@@ -341,7 +337,6 @@ OpenStack on Hyper-V. Below is a sample ``nova.conf`` for Windows:
    injected_network_template = C:\Program Files (x86)\OpenStack\Nova\etc\interfaces.template
    policy_file = C:\Program Files (x86)\OpenStack\Nova\etc\policy.json
    mkisofs_cmd = C:\Program Files (x86)\OpenStack\Nova\bin\mkisofs.exe
-   verbose = false
    allow_resize_to_same_host = true
    running_deleted_instance_action = reap
    running_deleted_instance_poll_interval = 120
@@ -358,7 +353,7 @@ OpenStack on Hyper-V. Below is a sample ``nova.conf`` for Windows:
    logfile = nova-compute.log
    instance_usage_audit = true
    instance_usage_audit_period = hour
-   network_api_class = nova.network.neutronv2.api.API
+   use_neutron = True
    [neutron]
    url = http://IP_ADDRESS:9696
    auth_strategy = keystone
@@ -407,6 +402,20 @@ the image to glance using the native glance-client:
    .. code-block:: powershell
 
       PS C:\> New-VHD DISK_NAME.vhd -SizeBytes VHD_SIZE
+
+Inject interfaces and routes
+----------------------------
+
+The ``interfaces.template`` file describes the network interfaces and routes
+available on your system and how to activate them. You can specify the
+location of the file with the ``injected_network_template`` configuration
+option in ``/etc/nova/nova.conf``.
+
+.. code-block:: ini
+
+   injected_network_template = PATH_TO_FILE
+
+A default template exists in ``nova/virt/interfaces.template``.
 
 Run Compute with Hyper-V
 ------------------------

@@ -9,29 +9,29 @@ For more information about how to download and build images, see
 `OpenStack Virtual Machine Image Guide
 <http://docs.openstack.org/image-guide/>`__.
 For information about how to manage images, see the
-`OpenStack User Guide
-<http://docs.openstack.org/user-guide/common/cli_manage_images.html>`__.
+`OpenStack End User Guide
+<http://docs.openstack.org/user-guide/common/cli-manage-images.html>`__.
 
-#. In each client environment script, configure the Image service
-   client to use API version 2.0:
+.. note::
 
-   .. code-block:: console
-
-      $ echo "export OS_IMAGE_API_VERSION=2" \
-        | tee -a admin-openrc.sh demo-openrc.sh
+   Perform these commands on the controller node.
 
 #. Source the ``admin`` credentials to gain access to
    admin-only CLI commands:
 
    .. code-block:: console
 
-      $ source admin-openrc.sh
+      $ . admin-openrc
 
 #. Download the source image:
 
    .. code-block:: console
 
       $ wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
+
+   .. note::
+
+      Install ``wget`` if your distribution does not include it.
 
 #. Upload the image to the Image service using the
    :term:`QCOW2 <QEMU Copy On Write 2 (QCOW2)>` disk format, :term:`bare`
@@ -86,8 +86,8 @@ For information about how to manage images, see the
    .. code-block:: console
 
       $ openstack image list
-      +--------------------------------------+--------+
-      | ID                                   | Name   |
-      +--------------------------------------+--------+
-      | 38047887-61a7-41ea-9b49-27987d5e8bb9 | cirros |
-      +--------------------------------------+--------+
+      +--------------------------------------+--------+--------+
+      | ID                                   | Name   | Status |
+      +--------------------------------------+--------+--------+
+      | 38047887-61a7-41ea-9b49-27987d5e8bb9 | cirros | active |
+      +--------------------------------------+--------+--------+

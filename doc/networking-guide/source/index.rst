@@ -13,11 +13,7 @@ Abstract
 This guide targets OpenStack administrators seeking to deploy and
 manage OpenStack Networking (neutron).
 
-This guide documents the OpenStack Mitaka release.
-
-.. warning:: This guide is a work-in-progress and changing rapidly
-   while we continue to test and enhance the guidance. Please note
-   where there are open "to do" items and help where you are able.
+This guide documents the OpenStack Newton release.
 
 Contents
 ~~~~~~~~
@@ -25,21 +21,31 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   common/conventions.rst
-   intro-networking.rst
-   intro-os-networking.rst
-   config.rst
-   deploy.rst
-   migration.rst
-   miscellaneous.rst
-   adv-config.rst
+   common/conventions
+   intro
+   config
+   deploy
+   ops
+   migration
+   misc
 
-   common/app_support.rst
+Appendix
+~~~~~~~~
 
-   common/glossary.rst
+.. toctree::
+   :maxdepth: 1
+
+   common/app-support
+
+Glossary
+~~~~~~~~
+
+.. toctree::
+   :maxdepth: 1
+
+   common/glossary
 
 Search in this guide
 ~~~~~~~~~~~~~~~~~~~~
 
 * :ref:`search`
-

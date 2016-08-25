@@ -28,7 +28,7 @@ the HPE 3PAR storage system:
 
     * HPE 3PAR Operating System software version 3.2.1 MU2 or higher.
 
-    * python-3parclient version 4.0.0 or newer.
+    * python-3parclient version 4.2.0 or newer.
 
     * Array must have the Adaptive Flash Cache license installed.
 
@@ -54,7 +54,7 @@ the HPE 3PAR storage system:
 
 * One Common Provisioning Group (CPG).
 
-* Additionally, you must install the ``python-3parclient`` version 4.0.0 or
+* Additionally, you must install the ``python-3parclient`` version 4.2.0 or
   newer from the Python standard library on the system with the enabled Block
   Storage service volume drivers.
 
@@ -83,9 +83,18 @@ Supported operations
 
 * Manage and unmanage a snapshot.
 
-* Replicate volumes to managed and unmanaged targets.
+* Replicate host volumes.
 
-* Fail-over volumes to managed and unmanaged targets.
+* Fail-over host volumes.
+
+* Fail-back host volumes.
+
+* Create, delete, update, snapshot, and clone consistency groups.
+
+* Create and delete consistency group snapshots.
+
+* Create a consistency group from a consistency group snapshot or another
+  group.
 
 Volume type support for both HPE 3PAR drivers includes the ability to set the
 following capabilities in the OpenStack Block Storage API
@@ -182,7 +191,7 @@ Priority Optimization license installed.
 
 ``hpe3par:vvs``
  The virtual volume set name that has been predefined by the Administrator
- with Quality of Service (QoS) rules associated to it. If you specify
+ with :term:`quality of service (QoS)` rules associated to it. If you specify
  extra_specs ``hpe3par:vvs``, the qos_specs ``minIOPS``, ``maxIOPS``,
  ``minBWS``, and ``maxBWS`` settings are ignored.
 
@@ -220,6 +229,8 @@ Adaptive Flash Cache license installed.
 
 * ``hpe3par:flash_cache`` - The flash-cache policy, which can be turned on and
   off by setting the value to ``true`` or ``false``.
+
+LDAP authentication is supported if the 3PAR is configured to do so.
 
 Enable the HPE 3PAR Fibre Channel and iSCSI drivers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -352,13 +363,11 @@ OpenStack software.
    .. note::
 
       You can configure one or more iSCSI addresses by using the
-      ``hpe3par_iscsi_ips`` option. When you configure multiple addresses, the
-      driver selects the iSCSI port with the fewest active volumes at attach
-      time. The IP address might include an IP port by using a colon (``:``)
-      to separate the address from port. If you do not define an IP port, the
-      default port 3260 is used. Separate IP addresses with a comma (``,``).
-      The ``iscsi_ip_address``/``iscsi_port`` options might be used as an
-      alternative to ``hpe3par_iscsi_ips`` for single port iSCSI configuration.
+      ``hpe3par_iscsi_ips`` option. Separate multiple IP addresses with a
+      comma (``,``). When you configure multiple addresses, the driver selects
+      the iSCSI port with the fewest active volumes at attach time. The 3PAR
+      array does not allow the default port 3260 to be changed, so IP ports
+      need not be specified.
 
 #. Save the changes to the ``cinder.conf`` file and restart the cinder-volume
    service.

@@ -19,46 +19,32 @@
    * - **[DEFAULT]**
      -
    * - ``neutron_default_tenant_id`` = ``default``
-     - (StrOpt) Default tenant id when creating neutron networks
+     - (String) Default tenant id when creating neutron networks
    * - **[neutron]**
      -
-   * - ``admin_auth_url`` = ``http://localhost:5000/v2.0``
-     - (StrOpt) Authorization URL for connecting to neutron in admin context. DEPRECATED: specify an auth_plugin and appropriate credentials instead.
-   * - ``admin_password`` = ``None``
-     - (StrOpt) Password for connecting to neutron in admin context DEPRECATED: specify an auth_plugin and appropriate credentials instead.
-   * - ``admin_tenant_id`` = ``None``
-     - (StrOpt) Tenant id for connecting to neutron in admin context DEPRECATED: specify an auth_plugin and appropriate credentials instead.
-   * - ``admin_tenant_name`` = ``None``
-     - (StrOpt) Tenant name for connecting to neutron in admin context. This option will be ignored if neutron_admin_tenant_id is set. Note that with Keystone V3 tenant names are only unique within a domain. DEPRECATED: specify an auth_plugin and appropriate credentials instead.
-   * - ``admin_user_id`` = ``None``
-     - (StrOpt) User id for connecting to neutron in admin context. DEPRECATED: specify an auth_plugin and appropriate credentials instead.
-   * - ``admin_username`` = ``None``
-     - (StrOpt) Username for connecting to neutron in admin context DEPRECATED: specify an auth_plugin and appropriate credentials instead.
-   * - ``auth_plugin`` = ``None``
-     - (StrOpt) Name of the plugin to load
    * - ``auth_section`` = ``None``
-     - (StrOpt) Config Section from which to load plugin specific options
-   * - ``auth_strategy`` = ``keystone``
-     - (StrOpt) Authorization strategy for connecting to neutron in admin context. DEPRECATED: specify an auth_plugin and appropriate credentials instead. If an auth_plugin is specified strategy will be ignored.
+     - (Unknown) Config Section from which to load plugin specific options
+   * - ``auth_type`` = ``None``
+     - (Unknown) Authentication type to load
    * - ``cafile`` = ``None``
-     - (StrOpt) PEM encoded Certificate Authority to use when verifying HTTPs connections.
+     - (String) PEM encoded Certificate Authority to use when verifying HTTPs connections.
    * - ``certfile`` = ``None``
-     - (StrOpt) PEM encoded client certificate cert file
+     - (String) PEM encoded client certificate cert file
    * - ``extension_sync_interval`` = ``600``
-     - (IntOpt) Number of seconds before querying neutron for extensions
+     - (Integer) Number of seconds before querying neutron for extensions
    * - ``insecure`` = ``False``
-     - (BoolOpt) Verify HTTPS connections.
+     - (Boolean) Verify HTTPS connections.
    * - ``keyfile`` = ``None``
-     - (StrOpt) PEM encoded client certificate key file
+     - (String) PEM encoded client certificate key file
    * - ``metadata_proxy_shared_secret`` =
-     - (StrOpt) Shared secret to validate proxies Neutron metadata requests
+     - (String) Shared secret to validate proxies Neutron metadata requests
    * - ``ovs_bridge`` = ``br-int``
-     - (StrOpt) Name of Integration Bridge used by Open vSwitch
+     - (String) Default OVS bridge name to use if not specified by Neutron
    * - ``region_name`` = ``None``
-     - (StrOpt) Region name for connecting to neutron in admin context
+     - (String) Region name for connecting to neutron in admin context
    * - ``service_metadata_proxy`` = ``False``
-     - (BoolOpt) Set flag to indicate Neutron will proxy metadata requests and resolve instance ids.
+     - (Boolean) Set flag to indicate Neutron will proxy metadata requests and resolve instance ids.
    * - ``timeout`` = ``None``
-     - (IntOpt) Timeout value for http requests
+     - (Integer) Timeout value for http requests
    * - ``url`` = ``http://127.0.0.1:9696``
-     - (StrOpt) URL for connecting to neutron
+     - (String) URL for connecting to neutron

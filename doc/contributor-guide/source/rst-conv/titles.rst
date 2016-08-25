@@ -47,6 +47,9 @@ levels within one file using the following non-alphanumeric characters:
    Under- and overlines should be of the same length
    as that of the heading text.
 
-   Avoid using lower heading levels by information
-   rewriting and reorganizing.
+   Avoid using lower heading levels by rewriting and reorganizing the
+   information.
 
+.. seealso::
+
+   General :ref:`guidelines for headings and titles <headings>`

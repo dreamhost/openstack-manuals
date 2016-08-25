@@ -23,28 +23,38 @@ Contents
    ironic
    cinder
    senlin
-   nova
+   compute
    magnum
-   trove
-   trove-misc
    sahara
-   tuskar
+   database
    designate
-   keystone
-   glance
+   image
+   watcher
    barbican
    monasca
-   neutron
-   neutron-misc
+   networking
    swift
    heat
    cloudkitty
    manila
+   solum
    ceilometer
    gnocchi
    mistral
 
-   common/app_support
+Appendix
+~~~~~~~~
+
+.. toctree::
+   :maxdepth: 1
+
+   common/app-support
+
+Glossary
+~~~~~~~~
+
+.. toctree::
+   :maxdepth: 1
 
    common/glossary
 

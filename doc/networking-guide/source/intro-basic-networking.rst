@@ -1,3 +1,5 @@
+.. _intro-basic-networking:
+
 ================
 Basic networking
 ================
@@ -8,10 +10,10 @@ Ethernet
 Ethernet is a networking protocol, specified by the IEEE 802.3 standard. Most
 wired network interface cards (NICs) communicate using Ethernet.
 
-In the `OSI model`_ of networking protocols, Ethernet occupies the
-second layer, which is known as the data link layer. When discussing
-Ethernet, you will often hear terms such as *local network*, *layer
-2*, *L2*, *link layer* and *data link layer*.
+In the `OSI model <https://en.wikipedia.org/wiki/OSI_model>`_ of networking
+protocols, Ethernet occupies the second layer, which is known as the data
+link layer. When discussing Ethernet, you will often hear terms such as
+*local network*, *layer 2*, *L2*, *link layer* and *data link layer*.
 
 In an Ethernet network, the hosts connected to the network communicate
 by exchanging *frames*. Every host on an Ethernet network is uniquely
@@ -65,7 +67,7 @@ hardware with a large number of ports, that forwards Ethernet frames
 from one connected host to another. When hosts first send frames over
 the switch, the switch doesn’t know which MAC address is associated
 with which port. If an Ethernet frame is destined for an unknown MAC
-address, the switch broadcasts the frame to all ports. The port learns
+address, the switch broadcasts the frame to all ports. The switch learns
 which MAC addresses are at which ports by observing the traffic. Once
 it knows which MAC address is associated with a port, it can send
 Ethernet frames to the correct port instead of broadcasting. The
@@ -73,8 +75,6 @@ switch maintains the mappings of MAC addresses to switch ports in a
 table called a *forwarding table* or *forwarding information base*
 (FIB). Switches can be daisy-chained together, and the resulting
 connection of switches and hosts behaves like a single network.
-
-.. _OSI model: https://en.wikipedia.org/wiki/OSI_model
 
 VLANs
 ~~~~~
@@ -209,7 +209,7 @@ For example, to send an ARP request to IP address ``10.30.0.132``:
 
 .. code-block:: console
 
-   $ arping 10.30.0.132
+   $ arping -I eth0 10.30.0.132
    ARPING 10.30.0.132 from 10.30.0.131 eth0
    Unicast reply from 10.30.0.132 [54:78:1A:86:1C:0B]  0.670ms
    Unicast reply from 10.30.0.132 [54:78:1A:86:1C:0B]  0.722ms
@@ -234,8 +234,8 @@ command:
 DHCP
 ~~~~
 
-Hosts connected to a network use the Dynamic Host Configuration
-Protocol (:term:`DHCP`) to dynamically obtain IP addresses. A DHCP
+Hosts connected to a network use the :term:`Dynamic Host Configuration
+Protocol (DHCP)` to dynamically obtain IP addresses. A DHCP
 server hands out the IP addresses to network hosts, which are the DHCP
 clients.
 
@@ -259,8 +259,9 @@ client. The exchange looks like this:
    ``10.10.0.112`` is yours")
 
 
-OpenStack uses a third-party program called dnsmasq_ to implement the
-DHCP server.
+OpenStack uses a third-party program called
+`dnsmasq <http://www.thekelleys.org.uk/dnsmasq/doc.html>`_
+to implement the DHCP server.
 Dnsmasq writes to the syslog, where you can observe the DHCP request
 and replies::
 
@@ -272,9 +273,6 @@ and replies::
 When troubleshooting an instance that is not reachable over the network, it can
 be helpful to examine this log to verify that all four steps of the DHCP
 protocol were carried out for the instance in question.
-
-
-.. _dnsmasq: http://www.thekelleys.org.uk/dnsmasq/doc.html
 
 
 IP
@@ -328,8 +326,8 @@ local network associated with the network interface eth0.
 Line 3 of the output specifies that IPs in the 192.168.27.0/24 subnet
 are on the local network associated with the network interface eth1.
 
-Line 4 of the output specifies that IPs in the 192.168.122/24 subnet are on the
-local network associated with the network interface virbr0.
+Line 4 of the output specifies that IPs in the 192.168.122.0/24 subnet are
+on the local network associated with the network interface virbr0.
 
 The output of the :command:`route -n` and :command:`netstat -rn` commands are
 formatted in a slightly different way. This example shows how the same
@@ -374,12 +372,11 @@ TCP/UDP/ICMP
 
 For networked software applications to communicate over an IP network, they
 must use a protocol layered atop IP. These protocols occupy the fourth
-layer of the OSI model known as the *transport layer* or *layer 4*. See
-the `Protocol Numbers`_ web page maintained by the Internet Assigned Numbers
+layer of the OSI model known as the *transport layer* or *layer 4*. See the
+`Protocol Numbers <http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml>`_
+web page maintained by the Internet Assigned Numbers
 Authority (IANA) for a list of protocols that layer atop IP and their
 associated numbers.
-
-.. _Protocol Numbers: http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 
 The *Transmission Control Protocol* (TCP) is the most
 commonly used layer 4 protocol in networked applications. TCP is a
@@ -410,17 +407,16 @@ until the TCP connection is terminated, after which time the operating
 system reclaims the port number. These types of ports are referred to
 as *ephemeral ports*.
 
-IANA maintains a `registry of port numbers`_ for many TCP-based
-services, as well as services that use other layer 4 protocols that
-employ ports. Registering a TCP port number is not required, but
+IANA maintains a `registry of port numbers
+<http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml>`_
+for many TCP-based services, as well as services that use other layer 4
+protocols that employ ports. Registering a TCP port number is not required, but
 registering a port number is helpful to avoid collisions with other
-services. See `Appendix B. Firewalls and default ports`_ of the
-`OpenStack Configuration Reference`_ for the default TCP ports used by
-various services involved in an OpenStack deployment.
-
-.. _registry of port numbers: http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
-.. _Appendix B. Firewalls and default ports: http://docs.openstack.org/liberty/config-reference/content/firewalls-default-ports.html
-.. _OpenStack Configuration Reference: http://docs.openstack.org/liberty/config-reference/content/index.html
+services. See `Appendix B. Firewalls and default ports
+<http://docs.openstack.org/mitaka/config-reference/firewalls-default-ports.html>`_
+of the `OpenStack Configuration Reference <http://docs.openstack.org/mitaka/config-reference/>`_
+for the default TCP ports used by various services involved in an OpenStack
+deployment.
 
 
 The most common application programming interface (API) for writing TCP-based

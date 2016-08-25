@@ -38,10 +38,10 @@ equation of:
 
 * 1600 = (16 × (number of physical cores)) / 2
 
-* Storage required = 50 GB × 1600
+* Storage required = 50 GB × 1600
 
 On the surface, the equations reveal the need for 200 physical cores and
-80 TB of storage for ``/var/lib/nova/instances/``. However, it is also
+80 TB of storage for ``/var/lib/nova/instances/``. However, it is also
 important to look at patterns of usage to estimate the load that the API
 services, database servers, and queue servers are likely to encounter.
 
@@ -167,7 +167,7 @@ configuration, particularly where they present different ratios of CPU
 versus RAM versus HDD requirements.
 
 For more information on Flavors see `OpenStack Operations Guide:
-Flavors <http://docs.openstack.org/openstack-ops/content/flavors.html>`_.
+Flavors <http://docs.openstack.org/ops-guide/ops-user-facing-operations.html#flavors>`_.
 
 OpenStack components
 ~~~~~~~~~~~~~~~~~~~~
@@ -176,29 +176,29 @@ Due to the nature of the workloads in this scenario, a number of
 components are highly beneficial for a Compute-focused cloud. This
 includes the typical OpenStack components:
 
-* OpenStack Compute (nova)
+* :term:`Compute service` (nova)
 
-* OpenStack Image service (glance)
+* :term:`Image service` (glance)
 
-* OpenStack Identity (keystone)
+* :term:`Identity service` (keystone)
 
 Also consider several specialized components:
 
-* :term:`Orchestration` (heat)
+* :term:`Orchestration service` (heat)
    Given the nature of the applications involved in this scenario, these
    are heavily automated deployments. Making use of Orchestration is
    highly beneficial in this case. You can script the deployment of a
    batch of instances and the running of tests, but it makes sense to
    use the Orchestration service to handle all these actions.
 
-* Telemetry (ceilometer)
+* :term:`Telemetry service` (ceilometer)
    Telemetry and the alarms it generates support autoscaling of
    instances using Orchestration. Users that are not using the
    Orchestration service do not need to deploy the Telemetry service and
    may choose to use external solutions to fulfill their metering and
    monitoring requirements.
 
-* OpenStack Block Storage (cinder)
+* :term:`Block Storage service` (cinder)
    Due to the burst-able nature of the workloads and the applications
    and instances that perform batch processing, this cloud mainly uses
    memory or CPU, so the need for add-on storage to each instance is not
@@ -206,7 +206,7 @@ Also consider several specialized components:
    OpenStack Block Storage (cinder) in the infrastructure, but typically
    it is not a central component.
 
-* Networking
+* :term:`Networking service` (neutron)
    When choosing a networking platform, ensure that it either works with
    all desired hypervisor and container technologies and their OpenStack
    drivers, or that it includes an implementation of an ML2 mechanism

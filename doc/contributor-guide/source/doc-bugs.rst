@@ -1,9 +1,8 @@
-
 .. _doc_bugs:
 
-==================
-Documentation bugs
-==================
+============================
+Reporting documentation bugs
+============================
 
 The Documentation team tracks all its work through bugs. This section includes
 the detailed overview of documentation bugs specifics.
@@ -22,8 +21,9 @@ Bugs differ depending on:
   * Add new content
 
 .. note::
+
    To work on documentation bugs, join the openstack-doc-bugs team on
-   Launchpad. For more information, see :ref:`first_timers_quickstart`.
+   Launchpad. For more information, see :ref:`first_timers`.
 
 Go through the triaging process and look for possible duplicate bugs
 before working on a bug. Do not work on a documentation bug until it is set to
@@ -32,15 +32,16 @@ changes are made in a patch, they are reviewed and approved, just like other
 OpenStack code.
 
 To pick up a documentation bug or mark a bug as related to the documentation,
-go to: `the aggregated list of documentation bugs from all OpenStack
-projects`_.
+go to `the aggregated list of documentation bugs from all OpenStack projects
+<https://bugs.launchpad.net/openstack/+bugs?field.tag=documentation>`_.
 
 **DocImpact**
 
 When adding code that affects documentation (for example, to add a new
 parameter), the developer adds a DocImpact flag. This flag automatically
 files a bug in the system explaining what needs to be done. For more
-information, see: `Documentation/DocImpact`_.
+information, see `Documentation/DocImpact
+<https://wiki.openstack.org/wiki/Documentation/DocImpact>`_.
 
 Launchpad projects and repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,19 +49,18 @@ Launchpad projects and repositories
 The Documentation team uses two projects for tracking documentation bugs
 across OpenStack:
 
-* Launchpad bug area `openstack-manuals`_ is the default one for doc bugs and
-  should be used for docs sourced from these repositories:
+* Launchpad bug area `openstack-manuals
+  <https://bugs.launchpad.net/openstack-manuals>`_ is the default one for
+  doc bugs and should be used for docs sourced from these repositories:
 
-  * clouddocs-maven-plugin
-  * ha-guide
   * openstackdocstheme
   * openstack-doc-tools
   * openstack-manuals
-  * operations-guide
   * security-doc
 
-* Launchpad bug area `openstack-api-site`_ is used for the api-site API
-  repository.
+* Launchpad bug area `openstack-api-site
+  <https://bugs.launchpad.net/openstack-api-site>`_ is used for
+  the api-site API repository.
 
 .. _doc_bugs_triaging:
 
@@ -87,7 +87,7 @@ definitions for available options for Status and Importance columns of any bug.
   automatically. Do not set this manually.
 * **Fix Released** - A fix is published to the site.
 
-.. Note::
+.. note::
 
    Since all documentation is released directly on docs.openstack.org, the
    "Fix Committed" status is deprecated. If a patch contains the line
@@ -116,7 +116,7 @@ Tags for doc bugs
 
 Depending on the area a bug affects, it has one or more tags. For example:
 
-* **low-hanging-fruit** for documentaion bugs that are straightforward to fix.
+* **low-hanging-fruit** for documentation bugs that are straightforward to fix.
   If you are a newcomer, this is a way to start.
 
 * **sec guide**, **install guide**, **ops-guide**, and other for specific
@@ -143,42 +143,15 @@ committer of the change that triggered the bug report, mark it as
 specification and handle it since the documentation team will not
 document third-party drivers.
 
-
 Doc bug categories
 ------------------
 
 To help with bug fixing, use these quick links to pick a certain subset of
 bugs:
 
-* `list of all documentation bugs`_
-* `list of all API site bugs`_
-* `low hanging fruit documentation bugs`_
-* `nova-related documentation bugs`_
-* `keystone-related documentation bugs`_
-* `neutron-related documentation bugs`_
-* `swift-related documentation bugs`_
-* `glance-related documentation bugs`_
-* `cinder-related documentation bugs`_
-* `xen-related documentation bugs`_
-
-
-.. Links
-
-.. _`the aggregated list of documentation bugs from all OpenStack projects`: https://bugs.launchpad.net/openstack/+bugs?field.tag=documentation
-
-.. _`Documentation/DocImpact`: https://wiki.openstack.org/wiki/Documentation/DocImpact
-
-.. _`list of all documentation bugs`: https://bugs.launchpad.net/openstack-manuals
-.. _`list of all API site bugs`: https://bugs.launchpad.net/openstack-api-site
-
-.. _`openstack-manuals`: https://bugs.launchpad.net/openstack-manuals
-.. _`openstack-api-site`: https://bugs.launchpad.net/openstack-api-site
-
-.. _`low hanging fruit documentation bugs`: https://bugs.launchpad.net/openstack-manuals/+bugs?field.tag=low-hanging-fruit
-.. _`nova-related documentation bugs`: https://bugs.launchpad.net/openstack-manuals/+bugs/?field.tag=nova
-.. _`keystone-related documentation bugs`: https://bugs.launchpad.net/openstack-manuals/+bugs/?field.tag=keystone
-.. _`neutron-related documentation bugs`: https://bugs.launchpad.net/openstack-manuals/+bugs/?field.tag=neutron
-.. _`swift-related documentation bugs`: https://bugs.launchpad.net/openstack-manuals/+bugs/?field.tag=swift
-.. _`glance-related documentation bugs`: https://bugs.launchpad.net/openstack-manuals/+bugs/?field.tag=glance
-.. _`cinder-related documentation bugs`: https://bugs.launchpad.net/openstack-manuals/+bugs/?field.tag=cinder
-.. _`xen-related documentation bugs`: https://bugs.launchpad.net/openstack-manuals/+bugs/?field.tag=xen
+* `list of all documentation bugs
+  <https://bugs.launchpad.net/openstack-manuals>`_
+* `list of all API site bugs
+  <https://bugs.launchpad.net/openstack-api-site>`_
+* `low hanging fruit documentation bugs
+  <https://bugs.launchpad.net/openstack-manuals/+bugs?field.tag=low-hanging-fruit>`_

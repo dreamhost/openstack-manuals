@@ -8,7 +8,7 @@ implementation, massive scalability, and a rich set of features. Cloud
 computing experts from around the world contribute to the project.
 
 OpenStack provides an :term:`Infrastructure-as-a-Service (IaaS)<IaaS>` solution
-through a variety of complemental services. Each service offers an
+through a variety of complementary services. Each service offers an
 :term:`Application Programming Interface (API)` that facilitates this
 integration.
 
@@ -43,9 +43,9 @@ OpenStack with sufficient Linux experience:
        attachments into them. Has a pluggable architecture
        that supports many popular networking vendors and
        technologies.
-   * -
+   * - **Storage**
      -
-     - **Storage**
+     -
    * - `Object Storage <http://www.openstack.org/software/releases/liberty/components/swift>`_
      - `Swift <http://docs.openstack.org/developer/swift/>`_
      - Stores and retrieves arbitrary unstructured
@@ -60,9 +60,9 @@ OpenStack with sufficient Linux experience:
      - Provides persistent block storage to running instances. Its pluggable
        driver architecture facilitates the creation and management of
        block storage devices.
-   * -
+   * - **Shared services**
      -
-     - **Shared services**
+     -
    * - `Identity service <http://www.openstack.org/software/releases/liberty/components/keystone>`_
      - `Keystone <http://docs.openstack.org/developer/keystone/>`_
      - Provides an authentication and authorization service
@@ -77,9 +77,9 @@ OpenStack with sufficient Linux experience:
      - `Ceilometer <http://docs.openstack.org/developer/ceilometer/>`_
      - Monitors and meters the OpenStack cloud for billing, benchmarking,
        scalability, and statistical purposes.
-   * -
+   * - **Higher-level services**
      -
-     - **Higher-level services**
+     -
    * - `Orchestration <http://www.openstack.org/software/releases/liberty/components/heat>`_
      - `Heat <http://docs.openstack.org/developer/heat/>`_
      - Orchestrates multiple composite cloud applications by using
@@ -118,13 +118,13 @@ follows:
 * Networking agents reside on the controller node instead of one or more
   dedicated network nodes.
 
-* Overlay (tunnel) traffic for private networks traverses the management
+* Overlay (tunnel) traffic for self-service networks traverses the management
   network instead of a dedicated network.
 
 For more information on production architectures, see the
 `Architecture Design Guide <http://docs.openstack.org/arch-design/>`__,
-`Operations Guide <http://docs.openstack.org/ops/>`__, and
-`Networking Guide <http://docs.openstack.org/liberty/networking-guide/>`__.
+`OpenStack Operations Guide <http://docs.openstack.org/ops/>`__, and
+`OpenStack Networking Guide <http://docs.openstack.org/mitaka/networking-guide/>`__.
 
 .. _figure-hwreqs:
 
@@ -163,7 +163,7 @@ Block Storage
 -------------
 
 The optional Block Storage node contains the disks that the Block
-Storage service provisions for instances.
+Storage and Shared File System services provision for instances.
 
 For simplicity, service traffic between compute nodes and this node
 uses the management network. Production environments should implement
@@ -200,12 +200,13 @@ The provider networks option deploys the OpenStack Networking service
 in the simplest way possible with primarily layer-2 (bridging/switching)
 services and VLAN segmentation of networks. Essentially, it bridges virtual
 networks to physical networks and relies on physical network infrastructure
-for layer-3 (routing) services. Additionally, a :term:`DHCP` service provides
-IP address information to instances.
+for layer-3 (routing) services. Additionally, a :term:`DHCP<Dynamic Host
+Configuration Protocol (DHCP)>` service provides IP address information to
+instances.
 
 .. note::
 
-   This option lacks support for self-service private networks, layer-3
+   This option lacks support for self-service (private) networks, layer-3
    (routing) services, and advanced services such as :term:`LBaaS` and
    :term:`FWaaS`. Consider the self-service networks option if you
    desire these features.

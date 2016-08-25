@@ -1,4 +1,5 @@
-bagpipe   BaGpipe BGP
+bagpipe BaGpipe BGP
+bgp BGP
 bigswitch BigSwitch
 brocade Brocade
 brocade_vyatta_l3 Brocade Vyatta L3 plug-in
@@ -24,8 +25,7 @@ l3_brocade_mlx Brocade MLX L3 plug-in
 l3_brocade_mlx_switch Brocade MLX L3 switch
 lbaas Load-Balancer-as-a-Service
 lbaas_agent LBaaS agent
-lbaas_services LBaaS Embrane, Radware, NetScaler, HAproxy, Octavia plugin
-octavia Octavia
+lbaas_services LBaaS Embrane, Radware, NetScaler, HAproxy, octavia plug-in
 linuxbridge_agent Linux Bridge agent
 metering_agent metering agent
 midonet Midonet
@@ -43,6 +43,7 @@ ml2_fslsdn ML2 Freescale SDN mechanism driver
 ml2_geneve ML2 Geneve type driver
 ml2_gre ML2 GRE
 ml2_l2pop ML2 L2 population
+ml2_macvtap ML2 MacVTap mechanism driver
 ml2_mlnx Mellanox ML2 mechanism driver
 ml2_ncs ML2 NCS mechanism driver
 ml2_odl ML2 OpenDaylight mechanism driver
@@ -56,18 +57,20 @@ nova nova
 nsx VMware NSX
 nuage Nuage
 nvsd NVSD driver
-onos         Open Networking Operating System (ONOS)
+octavia octavia
+onos Open Networking Operating System (ONOS)
 opencontrail OpenContrail
 openvswitch_agent Open vSwitch agent
-ovn          Virtual Network for Open vSwitch
+ovn Virtual Network for Open vSwitch
 pd_linux_agent IPv6 Prefix Delegation driver
 plumgrid PLUMgrid
+qos QoS
 quotas quotas
 ryu RYU
 sdnve SDN-VE
 securitygroups security groups
 service_auth LBaaS service authentication
-sriov SR-IOV
+sriov SR-IOV agent
 vpnaas VPN-as-a-Service
 vpnaas_ipsec VPNaaS IPsec plug-in
 vpnaas_libreswan VPNaaS libreSwan plug-in

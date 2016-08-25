@@ -9,48 +9,27 @@ group>` for instances.
 Install the components
 ----------------------
 
-.. only:: ubuntu
+.. only:: ubuntu or debian
 
    .. code-block:: console
 
-      # apt-get install neutron-plugin-linuxbridge-agent conntrack
+      # apt-get install neutron-linuxbridge-agent
 
 .. only:: rdo
 
+   .. todo:
+
+      https://bugzilla.redhat.com/show_bug.cgi?id=1334626
+
    .. code-block:: console
 
-      # yum install openstack-neutron openstack-neutron-linuxbridge ebtables ipset
+      # yum install openstack-neutron-linuxbridge ebtables ipset
 
 .. only:: obs
 
    .. code-block:: console
 
-      # zypper install --no-recommends openstack-neutron-linuxbridge-agent ipset
-
-.. only:: debian
-
-   Install and configure the Networking components
-   -----------------------------------------------
-
-   #. .. code-block:: console
-
-         # apt-get install neutron-plugin-linuxbridge-agent
-
-   #. Respond to prompts for ``database management``, ``Identity service
-      credentials``, ``service endpoint``, and ``message queue credentials``.
-
-   #. Select the ML2 plug-in:
-
-      .. image:: figures/debconf-screenshots/neutron_1_plugin_selection.png
-         :alt: Neutron plug-in selection dialog
-
-      .. note::
-
-         Selecting the ML2 plug-in also populates the ``service_plugins`` and
-         ``allow_overlapping_ips`` options in the
-         ``/etc/neutron/neutron.conf`` file with the appropriate values.
-
-.. only:: ubuntu or rdo or obs
+      # zypper install --no-recommends openstack-neutron-linuxbridge-agent
 
 Configure the common component
 ------------------------------
@@ -97,9 +76,10 @@ authentication mechanism, message queue, and plug-in.
        ...
        auth_uri = http://controller:5000
        auth_url = http://controller:35357
-       auth_plugin = password
-       project_domain_id = default
-       user_domain_id = default
+       memcached_servers = controller:11211
+       auth_type = password
+       project_domain_name = default
+       user_domain_name = default
        project_name = service
        username = neutron
        password = NEUTRON_PASS
@@ -122,26 +102,12 @@ authentication mechanism, message queue, and plug-in.
           ...
           lock_path = /var/lib/neutron/tmp
 
-  * (Optional) To assist with troubleshooting, enable verbose logging in the
-    ``[DEFAULT]`` section:
-
-    .. code-block:: ini
-
-       [DEFAULT]
-       ...
-       verbose = True
-
 Configure networking options
 ----------------------------
 
 Choose the same networking option that you chose for the controller node to
-configure services specific to it.
-
-.. note::
-
-   Option 2 augments option 1 with the layer-3 (routing) service and
-   enables self-service (private) networks. If you want to use public
-   (provider) and private (self-service) networks, choose option 2.
+configure services specific to it. Afterwards, return here and proceed to
+:ref:`neutron-compute-compute`.
 
 .. toctree::
    :maxdepth: 1
@@ -164,9 +130,9 @@ Configure Compute to use Networking
        ...
        url = http://controller:9696
        auth_url = http://controller:35357
-       auth_plugin = password
-       project_domain_id = default
-       user_domain_id = default
+       auth_type = password
+       project_domain_name = default
+       user_domain_name = default
        region_name = RegionOne
        project_name = service
        username = neutron
@@ -198,8 +164,8 @@ Finalize installation
 
    #. The Networking service initialization scripts expect the variable
       ``NEUTRON_PLUGIN_CONF`` in the ``/etc/sysconfig/neutron`` file to
-      reference the ML2 plug-in configuration file. Edit the
-      ``/etc/sysconfig/neutron`` file and add the following:
+      reference the ML2 plug-in configuration file. Ensure that the
+      ``/etc/sysconfig/neutron`` file contains the following:
 
       .. code-block:: ini
 
@@ -231,4 +197,4 @@ Finalize installation
 
       .. code-block:: console
 
-         # service neutron-plugin-linuxbridge-agent restart
+         # service neutron-linuxbridge-agent restart

@@ -15,9 +15,6 @@ For example:
    # Print debugging output (set logging level to DEBUG instead
    # of default WARNING level). (boolean value)
    debug = true
-   # Print more verbose output (set logging level to INFO instead
-   # of default WARNING level). (boolean value)
-   verbose = true
 
    [database]
    # The SQLAlchemy connection string used to connect to the
@@ -67,7 +64,7 @@ IP address (``IPOpt``)
     bind_host = 0.0.0.0
 
 key-value pairs (``DictOpt``)
- A key-value pairs, also known as a dictonary. The key value pairs are
+ A key-value pairs, also known as a dictionary. The key value pairs are
  separated by commas and a colon is used to separate key and value.
  Example: ``key1:value1,key2:value2``.
 
@@ -182,7 +179,7 @@ For example:
 
 .. code-block:: ini
 
-   ldap_dns_passsword='a password with spaces'
+   ldap_dns_password='a password with spaces'
 
 Define an alternate location for a config file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

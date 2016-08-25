@@ -40,7 +40,7 @@ Install and configure components
 
       .. code-block:: console
 
-         # yum install openstack-nova-compute sysfsutils
+         # yum install openstack-nova-compute
 
 .. only:: ubuntu or debian
 
@@ -48,67 +48,76 @@ Install and configure components
 
       .. code-block:: console
 
-         # apt-get install nova-compute sysfsutils
+         # apt-get install nova-compute
 
       .. only:: debian
 
-         Respond to prompts for
-         :doc:`database management <debconf/debconf-dbconfig-common>`,
-         :doc:`Identity service credentials <debconf/debconf-keystone-authtoken>`,
-         and :doc:`message broker credentials <debconf/debconf-rabbitmq>`. Make
-         sure that you do not activate database management handling by debconf,
-         as a compute node should not access the central database.
+         Respond to prompts for debconf.
+
+         .. :doc:`database management <debconf/debconf-dbconfig-common>`,
+            :doc:`Identity service credentials <debconf/debconf-keystone-authtoken>`,
+            and :doc:`message broker credentials <debconf/debconf-rabbitmq>`. Make
+            sure that you do not activate database management handling by debconf,
+            as a compute node should not access the central database.
 
 2. Edit the ``/etc/nova/nova.conf`` file and
    complete the following actions:
 
-   .. only:: obs or rdo or ubuntu
+   * In the ``[DEFAULT]`` section, enable only the compute and
+     metadata APIs:
 
-      * In the ``[DEFAULT]`` and [oslo_messaging_rabbit]
-        sections, configure ``RabbitMQ`` message queue access:
+     .. code-block:: ini
 
-        .. code-block:: ini
+        [DEFAULT]
+        ...
+        enabled_apis = osapi_compute,metadata
 
-           [DEFAULT]
-           ...
-           rpc_backend = rabbit
+   * In the ``[DEFAULT]`` and [oslo_messaging_rabbit]
+     sections, configure ``RabbitMQ`` message queue access:
 
-           [oslo_messaging_rabbit]
-           ...
-           rabbit_host = controller
-           rabbit_userid = openstack
-           rabbit_password = RABBIT_PASS
+     .. code-block:: ini
 
-        Replace ``RABBIT_PASS`` with the password you chose for
-        the ``openstack`` account in ``RabbitMQ``.
+        [DEFAULT]
+        ...
+        rpc_backend = rabbit
 
-      * In the ``[DEFAULT]`` and ``[keystone_authtoken]`` sections,
-        configure Identity service access:
+        [oslo_messaging_rabbit]
+        ...
+        rabbit_host = controller
+        rabbit_userid = openstack
+        rabbit_password = RABBIT_PASS
 
-        .. code-block:: ini
+     Replace ``RABBIT_PASS`` with the password you chose for
+     the ``openstack`` account in ``RabbitMQ``.
 
-           [DEFAULT]
-           ...
-           auth_strategy = keystone
+   * In the ``[DEFAULT]`` and ``[keystone_authtoken]`` sections,
+     configure Identity service access:
 
-           [keystone_authtoken]
-           ...
-           auth_uri = http://controller:5000
-           auth_url = http://controller:35357
-           auth_plugin = password
-           project_domain_id = default
-           user_domain_id = default
-           project_name = service
-           username = nova
-           password = NOVA_PASS
+     .. code-block:: ini
 
-        Replace ``NOVA_PASS`` with the password you chose for the
-        ``nova`` user in the Identity service.
+        [DEFAULT]
+        ...
+        auth_strategy = keystone
 
-        .. note::
+        [keystone_authtoken]
+        ...
+        auth_uri = http://controller:5000
+        auth_url = http://controller:35357
+        memcached_servers = controller:11211
+        auth_type = password
+        project_domain_name = default
+        user_domain_name = default
+        project_name = service
+        username = nova
+        password = NOVA_PASS
 
-           Comment out or remove any other options in the
-           ``[keystone_authtoken]`` section.
+     Replace ``NOVA_PASS`` with the password you chose for the
+     ``nova`` user in the Identity service.
+
+     .. note::
+
+        Comment out or remove any other options in the
+        ``[keystone_authtoken]`` section.
 
    .. only:: debian
 
@@ -142,23 +151,21 @@ Install and configure components
         typically 10.0.0.31 for the first node in the
         :ref:`example architecture <overview-example-architectures>`.
 
-   * In the ``[DEFAULT]`` section, enable support for the Networking service:
+      * In the ``[DEFAULT]`` section, enable support for the Networking service:
 
-     .. code-block:: ini
+        .. code-block:: ini
 
-        [DEFAULT]
-        ...
-        network_api_class = nova.network.neutronv2.api.API
-        security_group_api = neutron
-        linuxnet_interface_driver = nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
-        firewall_driver = nova.virt.firewall.NoopFirewallDriver
+           [DEFAULT]
+           ...
+           use_neutron = True
+           firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
-     .. note::
+        .. note::
 
-        By default, Compute uses an internal firewall service. Since
-        Networking includes a firewall service, you must disable the Compute
-        firewall service by using the
-        ``nova.virt.firewall.NoopFirewallDriver`` firewall driver.
+           By default, Compute uses an internal firewall service. Since
+           Networking includes a firewall service, you must disable the Compute
+           firewall service by using the
+           ``nova.virt.firewall.NoopFirewallDriver`` firewall driver.
 
    * In the ``[vnc]`` section, enable and configure remote console access:
 
@@ -185,13 +192,13 @@ Install and configure components
         interface IP address of the controller node.
 
    * In the ``[glance]`` section, configure the location of the
-     Image service:
+     Image service API:
 
      .. code-block:: ini
 
         [glance]
         ...
-        host = controller
+        api_servers = http://controller:9292
 
    .. only:: obs
 
@@ -213,14 +220,14 @@ Install and configure components
            ...
            lock_path = /var/lib/nova/tmp
 
-   * (Optional) To assist with troubleshooting,
-     enable verbose logging in the ``[DEFAULT]`` section:
+   .. only:: ubuntu
 
-     .. code-block:: ini
+      .. todo:
 
-        [DEFAULT]
-        ...
-        verbose = True
+         https://bugs.launchpad.net/ubuntu/+source/nova/+bug/1506667
+
+      * Due to a packaging bug, remove the ``logdir`` option from the
+        ``[DEFAULT]`` section.
 
 .. only:: obs or debian
 
@@ -300,14 +307,3 @@ Finalize installation
       .. code-block:: console
 
          # service nova-compute restart
-
-.. only:: ubuntu
-
-   3. By default, the Ubuntu packages create an SQLite database.
-
-      Because this configuration uses an SQL database server, you can
-      remove the SQLite database file:
-
-      .. code-block:: console
-
-         # rm -f /var/lib/nova/nova.sqlite

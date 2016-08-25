@@ -12,7 +12,6 @@
     - cli_change_the_size_of_your_server.html
     - cli_cheat_sheet.html
     - cli_delete_an_instance.html
-    - cli_launch_instances.html
     - cli_manage_ip_addresses.html
     - cli_nova_configure_access_security_for_instances.html
     - cli_nova_launch_instance_from_volume.html

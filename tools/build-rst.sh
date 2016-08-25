@@ -17,7 +17,6 @@ DIRECTORY=$1
 if [ -z "$DIRECTORY" ] ; then
     echo "usage $0 DIRECTORY options"
     echo "Options are:"
-    echo "--glossary: Build glossary"
     echo "--tag TAG: Use given tag for building"
     echo "--target TARGET: Copy files to publish-docs/$TARGET"
     echo "--build BUILD: Name of build directory"
@@ -25,18 +24,11 @@ if [ -z "$DIRECTORY" ] ; then
     exit 1
 fi
 
-GLOSSARY=0
 TARGET=""
 TAG=""
 TAG_OPT=""
 BUILD=""
 LINKCHECK=""
-
-if [ -x "$(command -v getconf)" ]; then
-    NUMBER_OF_CORES=$(getconf _NPROCESSORS_ONLN)
-else
-    NUMBER_OF_CORES=2
-fi
 
 while [[ $# > 0 ]] ; do
     option="$1"
@@ -47,9 +39,6 @@ while [[ $# > 0 ]] ; do
             ;;
         --linkcheck)
             LINKCHECK=1
-            ;;
-        --glossary)
-            GLOSSARY=1
             ;;
         --tag)
             TAG="$2"
@@ -64,11 +53,6 @@ while [[ $# > 0 ]] ; do
     shift
 done
 
-
-if [ "$GLOSSARY" -eq "1" ] ; then
-    echo "Generating Glossary"
-    tools/glossary2rst.py doc/common-rst/glossary.rst
-fi
 
 if [ -z "$BUILD" ] ; then
     if [ -z "$TAG" ] ; then
@@ -91,13 +75,13 @@ fi
 if [ "$LINKCHECK" = "1" ] ; then
     # Show sphinx-build invocation for easy reproduction
     set -x
-    sphinx-build -j $NUMBER_OF_CORES -E -W -d $DOCTREES -b linkcheck \
+    sphinx-build -E -W -d $DOCTREES -b linkcheck \
         $TAG_OPT $DIRECTORY/source $BUILD_DIR
     set +x
 else
     # Show sphinx-build invocation for easy reproduction
     set -x
-    sphinx-build -j $NUMBER_OF_CORES -E -W -d $DOCTREES -b html \
+    sphinx-build -E -W -d $DOCTREES -b html \
         $TAG_OPT $DIRECTORY/source $BUILD_DIR
     set +x
 

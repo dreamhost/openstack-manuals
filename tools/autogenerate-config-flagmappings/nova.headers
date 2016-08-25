@@ -23,6 +23,6 @@ trustedcomputing trusted computing
 upgrade_levels upgrade levels
 vnc VNC
 volumes volumes
+wsgi WSGI
 xen Xen
 xvpvncproxy XCP VNC proxy
-zookeeper Zookeeper

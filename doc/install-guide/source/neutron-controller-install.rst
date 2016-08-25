@@ -1,161 +1,177 @@
 Install and configure controller node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. only:: obs or rdo or ubuntu
+Prerequisites
+-------------
 
-   Prerequisites
-   -------------
+Before you configure the OpenStack Networking (neutron) service, you
+must create a database, service credentials, and API endpoints.
 
-   Before you configure the OpenStack Networking (neutron) service, you
-   must create a database, service credentials, and API endpoints.
+#. To create the database, complete these steps:
 
-   #. To create the database, complete these steps:
+   * Use the database access client to connect to the database server as the
+     ``root`` user:
 
-      * Use the database access client to connect to the database server as the
-        ``root`` user:
+     .. code-block:: console
 
-        .. code-block:: console
+        $ mysql -u root -p
 
-           $ mysql -u root -p
+   * Create the ``neutron`` database:
 
-      * Create the ``neutron`` database:
+     .. code-block:: console
 
-        .. code-block:: console
+        CREATE DATABASE neutron;
 
-           CREATE DATABASE neutron;
+   * Grant proper access to the ``neutron`` database, replacing
+     ``NEUTRON_DBPASS`` with a suitable password:
 
-      * Grant proper access to the ``neutron`` database, replacing
-        ``NEUTRON_DBPASS`` with a suitable password:
+     .. code-block:: console
 
-        .. code-block:: console
+        GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
+          IDENTIFIED BY 'NEUTRON_DBPASS';
+        GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
+          IDENTIFIED BY 'NEUTRON_DBPASS';
 
-           GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
-             IDENTIFIED BY 'NEUTRON_DBPASS';
-           GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
-             IDENTIFIED BY 'NEUTRON_DBPASS';
+   * Exit the database access client.
 
-      * Exit the database access client.
+#. Source the ``admin`` credentials to gain access to admin-only CLI
+   commands:
 
-   #. Source the ``admin`` credentials to gain access to admin-only CLI
-      commands:
+   .. code-block:: console
 
-      .. code-block:: console
+      $ . admin-openrc
 
-         $ source admin-openrc.sh
+#. To create the service credentials, complete these steps:
 
-   #. To create the service credentials, complete these steps:
+   * Create the ``neutron`` user:
 
-      * Create the ``neutron`` user:
+     .. code-block:: console
 
-        .. code-block:: console
-
-           $ openstack user create --domain default --password-prompt neutron
-           User Password:
-           Repeat User Password:
-           +-----------+----------------------------------+
-           | Field     | Value                            |
-           +-----------+----------------------------------+
-           | domain_id | default                          |
-           | enabled   | True                             |
-           | id        | b20a6692f77b4258926881bf831eb683 |
-           | name      | neutron                          |
-           +-----------+----------------------------------+
+        $ openstack user create --domain default --password-prompt neutron
+        User Password:
+        Repeat User Password:
+        +-----------+----------------------------------+
+        | Field     | Value                            |
+        +-----------+----------------------------------+
+        | domain_id | e0353a670a9e496da891347c589539e9 |
+        | enabled   | True                             |
+        | id        | b20a6692f77b4258926881bf831eb683 |
+        | name      | neutron                          |
+        +-----------+----------------------------------+
 
 
-      * Add the ``admin`` role to the ``neutron`` user:
+   * Add the ``admin`` role to the ``neutron`` user:
 
-        .. code-block:: console
+     .. code-block:: console
 
-           $ openstack role add --project service --user neutron admin
+        $ openstack role add --project service --user neutron admin
 
-        .. note::
+     .. note::
 
-           This command provides no output.
+        This command provides no output.
 
-      * Create the ``neutron`` service entity:
+   * Create the ``neutron`` service entity:
 
-        .. code-block:: console
+     .. code-block:: console
 
-           $ openstack service create --name neutron \
-             --description "OpenStack Networking" network
-           +-------------+----------------------------------+
-           | Field       | Value                            |
-           +-------------+----------------------------------+
-           | description | OpenStack Networking             |
-           | enabled     | True                             |
-           | id          | f71529314dab4a4d8eca427e701d209e |
-           | name        | neutron                          |
-           | type        | network                          |
-           +-------------+----------------------------------+
+        $ openstack service create --name neutron \
+          --description "OpenStack Networking" network
+        +-------------+----------------------------------+
+        | Field       | Value                            |
+        +-------------+----------------------------------+
+        | description | OpenStack Networking             |
+        | enabled     | True                             |
+        | id          | f71529314dab4a4d8eca427e701d209e |
+        | name        | neutron                          |
+        | type        | network                          |
+        +-------------+----------------------------------+
 
-   #. Create the Networking service API endpoints:
+#. Create the Networking service API endpoints:
 
-      .. code-block:: console
+   .. code-block:: console
 
-         $ openstack endpoint create --region RegionOne \
-           network public http://controller:9696
-         +--------------+----------------------------------+
-         | Field        | Value                            |
-         +--------------+----------------------------------+
-         | enabled      | True                             |
-         | id           | 85d80a6d02fc4b7683f611d7fc1493a3 |
-         | interface    | public                           |
-         | region       | RegionOne                        |
-         | region_id    | RegionOne                        |
-         | service_id   | f71529314dab4a4d8eca427e701d209e |
-         | service_name | neutron                          |
-         | service_type | network                          |
-         | url          | http://controller:9696           |
-         +--------------+----------------------------------+
+      $ openstack endpoint create --region RegionOne \
+        network public http://controller:9696
+      +--------------+----------------------------------+
+      | Field        | Value                            |
+      +--------------+----------------------------------+
+      | enabled      | True                             |
+      | id           | 85d80a6d02fc4b7683f611d7fc1493a3 |
+      | interface    | public                           |
+      | region       | RegionOne                        |
+      | region_id    | RegionOne                        |
+      | service_id   | f71529314dab4a4d8eca427e701d209e |
+      | service_name | neutron                          |
+      | service_type | network                          |
+      | url          | http://controller:9696           |
+      +--------------+----------------------------------+
 
-         $ openstack endpoint create --region RegionOne \
-           network internal http://controller:9696
-         +--------------+----------------------------------+
-         | Field        | Value                            |
-         +--------------+----------------------------------+
-         | enabled      | True                             |
-         | id           | 09753b537ac74422a68d2d791cf3714f |
-         | interface    | internal                         |
-         | region       | RegionOne                        |
-         | region_id    | RegionOne                        |
-         | service_id   | f71529314dab4a4d8eca427e701d209e |
-         | service_name | neutron                          |
-         | service_type | network                          |
-         | url          | http://controller:9696           |
-         +--------------+----------------------------------+
+      $ openstack endpoint create --region RegionOne \
+        network internal http://controller:9696
+      +--------------+----------------------------------+
+      | Field        | Value                            |
+      +--------------+----------------------------------+
+      | enabled      | True                             |
+      | id           | 09753b537ac74422a68d2d791cf3714f |
+      | interface    | internal                         |
+      | region       | RegionOne                        |
+      | region_id    | RegionOne                        |
+      | service_id   | f71529314dab4a4d8eca427e701d209e |
+      | service_name | neutron                          |
+      | service_type | network                          |
+      | url          | http://controller:9696           |
+      +--------------+----------------------------------+
 
-         $ openstack endpoint create --region RegionOne \
-           network admin http://controller:9696
-         +--------------+----------------------------------+
-         | Field        | Value                            |
-         +--------------+----------------------------------+
-         | enabled      | True                             |
-         | id           | 1ee14289c9374dffb5db92a5c112fc4e |
-         | interface    | admin                            |
-         | region       | RegionOne                        |
-         | region_id    | RegionOne                        |
-         | service_id   | f71529314dab4a4d8eca427e701d209e |
-         | service_name | neutron                          |
-         | service_type | network                          |
-         | url          | http://controller:9696           |
-         +--------------+----------------------------------+
+      $ openstack endpoint create --region RegionOne \
+        network admin http://controller:9696
+      +--------------+----------------------------------+
+      | Field        | Value                            |
+      +--------------+----------------------------------+
+      | enabled      | True                             |
+      | id           | 1ee14289c9374dffb5db92a5c112fc4e |
+      | interface    | admin                            |
+      | region       | RegionOne                        |
+      | region_id    | RegionOne                        |
+      | service_id   | f71529314dab4a4d8eca427e701d209e |
+      | service_name | neutron                          |
+      | service_type | network                          |
+      | url          | http://controller:9696           |
+      +--------------+----------------------------------+
 
 Configure networking options
 ----------------------------
 
-Choose one of the following networking options to configure services
-specific to it.
+You can deploy the Networking service using one of two architectures
+represented by options 1 and 2.
+
+Option 1 deploys the simplest possible architecture that only supports
+attaching instances to provider (external) networks. No self-service (private)
+networks, routers, or floating IP addresses. Only the ``admin`` or other
+privileged user can manage provider networks.
+
+Option 2 augments option 1 with layer-3 services that support attaching
+instances to self-service networks. The ``demo`` or other unprivileged
+user can manage self-service networks including routers that provide
+connectivity between self-service and provider networks. Additionally,
+floating IP addresses provide connectivity to instances using self-service
+networks from external networks such as the Internet.
+
+Self-service networks typically use overlay networks. Overlay network
+protocols such as VXLAN include additional headers that increase overhead
+and decrease space available for the payload or user data. Without knowledge
+of the virtual network infrastructure, instances attempt to send packets
+using the default Ethernet :term:`maximum transmission unit (MTU)` of 1500
+bytes. The Networking service automatically provides the correct MTU value
+to instances via DHCP. However, some cloud images do not use DHCP or ignore
+the DHCP MTU option and require configuration using metadata or a script.
 
 .. note::
 
-   Option 2 augments option 1 with the layer-3 (routing) service and
-   enables self-service (private) networks. If you want to use public
-   (provider) and private (self-service) networks, choose option 2.
+   Option 2 also supports attaching instances to provider networks.
 
-Complete the procedure for your selected networking option by clicking
-one of the following links. After finishing that procedure, you will
-be directed back to this page to proceed with configuring the metadata
-agent.
+Choose one of the following networking options to configure services
+specific to it. Afterwards, return here and proceed to
+:ref:`neutron-controller-metadata-agent`.
 
 .. toctree::
    :maxdepth: 1
@@ -174,52 +190,17 @@ such as credentials to instances.
 * Edit the ``/etc/neutron/metadata_agent.ini`` file and complete the following
   actions:
 
-  * In the ``[DEFAULT]`` section, configure access parameters:
-
-    .. code-block:: ini
-
-       [DEFAULT]
-       ...
-       auth_uri = http://controller:5000
-       auth_url = http://controller:35357
-       auth_region = RegionOne
-       auth_plugin = password
-       project_domain_id = default
-       user_domain_id = default
-       project_name = service
-       username = neutron
-       password = NEUTRON_PASS
-
-    Replace ``NEUTRON_PASS`` with the password you chose for the ``neutron``
-    user in the Identity service.
-
-  * In the ``[DEFAULT]`` section, configure the metadata host:
-
-    .. code-block:: ini
-
-       [DEFAULT]
-       ...
-       nova_metadata_ip = controller
-
-  * In the ``[DEFAULT]`` section, configure the metadata proxy shared
+  * In the ``[DEFAULT]`` section, configure the metadata host and shared
     secret:
 
     .. code-block:: ini
 
        [DEFAULT]
        ...
+       nova_metadata_ip = controller
        metadata_proxy_shared_secret = METADATA_SECRET
 
     Replace ``METADATA_SECRET`` with a suitable secret for the metadata proxy.
-
-  * (Optional) To assist with troubleshooting, enable verbose logging in the
-    ``[DEFAULT]`` section:
-
-    .. code-block:: ini
-
-       [DEFAULT]
-       ...
-       verbose = True
 
 Configure Compute to use Networking
 -----------------------------------
@@ -235,9 +216,9 @@ Configure Compute to use Networking
        ...
        url = http://controller:9696
        auth_url = http://controller:35357
-       auth_plugin = password
-       project_domain_id = default
-       user_domain_id = default
+       auth_type = password
+       project_domain_name = default
+       user_domain_name = default
        region_name = RegionOne
        project_name = service
        username = neutron
@@ -307,15 +288,6 @@ Finalize installation
 
 .. only:: obs
 
-   #. The Networking service initialization scripts expect the variable
-      ``NEUTRON_PLUGIN_CONF`` in the ``/etc/sysconfig/neutron`` file to
-      reference the ML2 plug-in configuration file. Edit the
-      ``/etc/sysconfig/neutron`` file and add the following:
-
-      .. code-block:: console
-
-         NEUTRON_PLUGIN_CONF="/etc/neutron/plugins/ml2/ml2_conf.ini"
-
    #. Restart the Compute API service:
 
       .. code-block:: console
@@ -345,7 +317,7 @@ Finalize installation
          # systemctl enable openstack-neutron-l3-agent.service
          # systemctl start openstack-neutron-l3-agent.service
 
-.. only:: ubuntu
+.. only:: ubuntu or debian
 
    #. Populate the database:
 
@@ -372,7 +344,7 @@ Finalize installation
       .. code-block:: console
 
          # service neutron-server restart
-         # service neutron-plugin-linuxbridge-agent restart
+         # service neutron-linuxbridge-agent restart
          # service neutron-dhcp-agent restart
          # service neutron-metadata-agent restart
 
@@ -381,14 +353,3 @@ Finalize installation
       .. code-block:: console
 
          # service neutron-l3-agent restart
-
-.. only:: ubuntu
-
-   4. By default, the Ubuntu packages create an SQLite database.
-
-      Because this configuration uses an SQL database server,
-      you can remove the SQLite database file:
-
-      .. code-block:: console
-
-         # rm -f /var/lib/neutron/neutron.sqlite

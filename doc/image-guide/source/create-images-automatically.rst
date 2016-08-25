@@ -141,20 +141,6 @@ For example:
 Oz will invoke libvirt to boot the image inside of KVM,
 then Oz will ssh into the instance and perform the customizations.
 
-VMBuilder
-~~~~~~~~~
-
-`VMBuilder <https://launchpad.net/vmbuilder>`_ (Virtual Machine Builder)
-is a command-line tool that creates virtual machine images for
-different hypervisors. The version of VMBuilder that ships
-with Ubuntu can only create Ubuntu virtual machine guests.
-The version of VMBuilder that ships with Debian can create
-Ubuntu and Debian virtual machine guests.
-
-The `Ubuntu Server Guide
-<https://help.ubuntu.com/12.04/serverguide/jeos-and-vmbuilder.html>`_
-has documentation on how to use VMBuilder to create an Ubuntu image.
-
 VeeWee
 ~~~~~~
 
@@ -167,6 +153,14 @@ Packer
 
 `Packer <https://packer.io>`_ is a tool for creating machine
 images for multiple platforms from a single source configuration.
+
+image-bootstrap
+~~~~~~~~~~~~~~~
+
+`image-bootstrap <https://github.com/hartwork/image-bootstrap>`_
+is a command line tool that generates bootable virtual machine images
+with support of Arch, Debian, Gentoo, Ubuntu, and is prepared for use
+with OpenStack.
 
 imagefactory
 ~~~~~~~~~~~~

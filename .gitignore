@@ -10,10 +10,10 @@ target/
 /doc/install-guide/build-obs/
 /doc/install-guide/build-ubuntu/
 /doc/install-guide/build-debian/
+/doc/install-guide-debconf/build-debian/
 .doctrees
 build/
 /build-*.log.gz
-glossary.rst
 *.mo
 
 # Python compiled files
@@ -30,5 +30,6 @@ boxes/*
 # Editors
 *~
 .*.swp
+.*.swo
 .bak
 /.project

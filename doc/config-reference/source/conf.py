@@ -27,6 +27,10 @@ sys.path.append(os.path.dirname(__file__))
 
 import openstackdocstheme
 
+# Avoid unactionable warnings
+import requestsexceptions
+requestsexceptions.squelch_warnings(requestsexceptions.InsecureRequestWarning)
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -91,10 +95,8 @@ html_context = {"gitsha": gitsha, "bug_tag": bug_tag,
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['common/cli*', 'common/nova*', 'common/get_started_*',
-                    'common/log_in_dashboard.rst',
-                    'tables/*.rst', 'tables/manual/*.rst',
-                    'tables/conf-changes/ironic.rst']
+exclude_patterns = ['common/cli*', 'common/nova*', 'common/get-started-*',
+                    'tables/*.rst', 'tables/manual/*.rst']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.

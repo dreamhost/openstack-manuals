@@ -19,10 +19,9 @@ To insert a semantic markup into your document, use the syntax below.
 
 **Syntax**
 
-::
+.. code-block:: ini
 
   :markup:`inline text`
-
 
 Application
 ~~~~~~~~~~~
@@ -93,7 +92,7 @@ A term that appears in the glossary.
 |                        | or ``:term:`services <service>```                 |
 +------------------------+---------------------------------------------------+
 | **Example of output**  | OpenStack provides an :term:`IaaS` solution       |
-|                        | through a variety of complemental                 |
+|                        | through a variety of complementary                |
 |                        | :term:`services <service>`.                       |
 +------------------------+---------------------------------------------------+
 
@@ -185,7 +184,7 @@ option.
 
    **Correct usage**
 
-   ::
+   .. code-block:: ini
 
      force_dhcp_release = True
      use_ipv6 = False
@@ -205,5 +204,3 @@ A literal text with a *variable* part in it wrapped in curly braces.
 | **Example of output**  | Use the :samp:`--flavor {FLAVOR}` parameter to    |
 |                        | specify the ID or name of the flavor.             |
 +------------------------+---------------------------------------------------+
-
-

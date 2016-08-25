@@ -1,6 +1,9 @@
-==================================
-OpenStack Linux image requirements
-==================================
+==================
+Image requirements
+==================
+
+Linux
+~~~~~
 
 For a Linux-based image to have full functionality in an
 OpenStack Compute cloud, there are a few requirements.
@@ -270,7 +273,7 @@ Process user data and other metadata (cloud-init)
 In addition to the ssh public key, an image might need
 additional information from OpenStack, such as
 `Provide user data to instances <http://docs.openstack.org/
-user-guide/cli_provide_user_data_to_instances.html>`_,
+user-guide/cli-provide-user-data-to-instances.html>`_,
 that the user submitted when requesting the image.
 For example, you might want to set the host name of the instance
 when it is booted. Or, you might wish to configure your image
@@ -278,7 +281,7 @@ so that it executes user data content as a script on boot.
 
 You can access this information through the metadata
 service or referring to `Store metadata on the configuration drive
-<http://docs.openstack.org/user-guide/cli_config_drive.html>`_.
+<http://docs.openstack.org/user-guide/cli-config-drive.html>`_.
 As the OpenStack metadata service is compatible with version
 2009-04-04 of the Amazon EC2 metadata service, consult the
 Amazon EC2 documentation on
@@ -304,7 +307,7 @@ If your image uses ``grub2`` as the boot loader,
 there should be a line in the grub configuration file.
 For example, ``/boot/grub/grub.cfg``, which looks something like this:
 
-::
+.. code-block:: console
 
    linux /boot/vmlinuz-3.2.0-49-virtual root=UUID=6d2231e4-0975-4f35-a94f-56738c1a8150 ro console=ttyS0
 

@@ -22,7 +22,7 @@ HPE LeftHand/StoreVirtual REST driver
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This section describes how to configure the HPE LeftHand/StoreVirtual Block
-Storage driver in standard mode.
+Storage driver.
 
 System requirements
 -------------------
@@ -34,7 +34,7 @@ To use the HPE LeftHand/StoreVirtual driver, do the following:
 
 * Create a cluster group.
 
-* Install the ``python-lefthandclient`` version 2.0.0 from the Python Package
+* Install the ``python-lefthandclient`` version 2.1.0 from the Python Package
   Index on the system with the enabled Block Storage service
   volume drivers.
 
@@ -62,6 +62,16 @@ Supported operations
 * Retype a volume.
 
 * Manage and unmanage a volume.
+
+* Manage and unmanage a snapshot.
+
+* Replicate host volumes.
+
+* Fail-over host volumes.
+
+* Fail-back host volumes.
+
+* Create, delete, update, and snapshot consistency groups.
 
 When you use back end assisted volume migration, both source and destination
 clusters must be in the same HPE LeftHand/StoreVirtual management group.
@@ -134,7 +144,7 @@ The ``HPELeftHandISCSIDriver`` is installed with the OpenStack software.
 
    .. code-block:: console
 
-      $ pip install 'python-lefthandclient>=2.0'
+      $ pip install 'python-lefthandclient>=2.1,<3.0'
 
 #. If you are not using an existing cluster, create a cluster on the HPE
    LeftHand storage system to be used as the cluster for creating volumes.

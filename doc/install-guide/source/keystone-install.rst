@@ -5,198 +5,73 @@ Install and configure
 
 This section describes how to install and configure the OpenStack
 Identity service, code-named keystone, on the controller node. For
-performance, this configuration deploys the Apache HTTP server to handle
-requests and Memcached to store tokens instead of an SQL database.
+performance, this configuration deploys Fernet tokens and the Apache
+HTTP server to handle requests.
 
-.. only:: obs or rdo or ubuntu
+Prerequisites
+-------------
 
-   Prerequisites
-   -------------
+Before you configure the OpenStack Identity service, you must create a
+database and an administration token.
 
-   Before you configure the OpenStack Identity service, you must create a
-   database and an administration token.
+#. To create the database, complete the following actions:
 
-   #. To create the database, complete the following actions:
+   * Use the database access client to connect to the database server as the
+     ``root`` user:
 
-      * Use the database access client to connect to the database server as the
-        ``root`` user:
+     .. code-block:: console
 
-        .. code-block:: console
+        $ mysql -u root -p
 
-           $ mysql -u root -p
+   * Create the ``keystone`` database:
 
-      * Create the ``keystone`` database:
+     .. code-block:: console
 
-        .. code-block:: console
+        CREATE DATABASE keystone;
 
-           CREATE DATABASE keystone;
+   * Grant proper access to the ``keystone`` database:
 
-      * Grant proper access to the ``keystone`` database:
+     .. code-block:: console
 
-        .. code-block:: console
+        GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
+          IDENTIFIED BY 'KEYSTONE_DBPASS';
+        GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' \
+          IDENTIFIED BY 'KEYSTONE_DBPASS';
 
-           GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
-             IDENTIFIED BY 'KEYSTONE_DBPASS';
-           GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' \
-             IDENTIFIED BY 'KEYSTONE_DBPASS';
+     Replace ``KEYSTONE_DBPASS`` with a suitable password.
 
-        Replace ``KEYSTONE_DBPASS`` with a suitable password.
+   * Exit the database access client.
 
-      * Exit the database access client.
+#. Generate a random value to use as the administration token during
+   initial configuration:
 
-   #. Generate a random value to use as the administration token during
-      initial configuration:
+   .. code-block:: console
 
-      .. code-block:: console
+      $ openssl rand -hex 10
 
-         $ openssl rand -hex 10
+Install and configure components
+--------------------------------
 
-.. only:: obs or rdo or ubuntu
+.. include:: shared/note_configuration_vary_by_distribution.rst
 
-   Install and configure components
-   --------------------------------
-
-   .. include:: shared/note_configuration_vary_by_distribution.rst
+.. only:: obs or rdo
 
    .. note::
-      In Kilo and Liberty releases, the keystone project deprecates eventlet
-      in favor of a separate web server with WSGI extensions. This guide uses
-      the Apache HTTP server with ``mod_wsgi`` to serve Identity service
-      requests on port 5000 and 35357. By default, the keystone service
-      still listens on ports 5000 and 35357. Therefore, this guide disables
-      the keystone service. The keystone project plans to remove eventlet
-      support in Mitaka.
 
-   .. only:: ubuntu
+      This guide uses the Apache HTTP server with ``mod_wsgi`` to serve
+      Identity service requests on ports 5000 and 35357. By default, the
+      keystone service still listens on these ports. Therefore, this guide
+      manually disables the keystone service.
 
-      #. Disable the keystone service from starting automatically after
-         installation:
+.. only:: ubuntu or debian
 
-         .. code-block:: console
+   .. note::
 
-            # echo "manual" > /etc/init/keystone.override
-
-      #. Run the following command to install the packages:
-
-         .. only:: ubuntu
-
-            .. code-block:: console
-
-               # apt-get install keystone apache2 libapache2-mod-wsgi \
-                 memcached python-memcache
-
-   .. only:: obs or rdo
-
-      #. Run the following command to install the packages:
-
-         .. only:: rdo
-
-            .. code-block:: console
-
-               # yum install openstack-keystone httpd mod_wsgi \
-                 memcached python-memcached
-
-         .. only:: obs
-
-            .. code-block:: console
-
-               # zypper install openstack-keystone apache2-mod_wsgi \
-                 memcached python-python-memcached
-
-   .. only:: obs or rdo
-
-      2. Start the Memcached service and configure it to start when the system
-         boots:
-
-         .. code-block:: console
-
-            # systemctl enable memcached.service
-            # systemctl start memcached.service
-
-   .. only:: obs or rdo or ubuntu
-
-      3. Edit the ``/etc/keystone/keystone.conf`` file and complete the following
-         actions:
-
-         * In the ``[DEFAULT]`` section, define the value of the initial
-           administration token:
-
-           .. code-block:: ini
-
-              [DEFAULT]
-              ...
-              admin_token = ADMIN_TOKEN
-
-           Replace ``ADMIN_TOKEN`` with the random value that you generated in a
-           previous step.
-
-         * In the ``[database]`` section, configure database access:
-
-           .. only:: ubuntu or obs
-
-              .. code-block:: ini
-
-                 [database]
-                 ...
-                 connection = mysql+pymysql://keystone:KEYSTONE_DBPASS@controller/keystone
-
-           .. only:: rdo
-
-              .. code-block:: ini
-
-                 [database]
-                 ...
-                 connection = mysql://keystone:KEYSTONE_DBPASS@controller/keystone
-
-           Replace ``KEYSTONE_DBPASS`` with the password you chose for the database.
-
-         * In the ``[memcache]`` section, configure the Memcached service:
-
-           .. code-block:: ini
-
-              [memcache]
-              ...
-              servers = localhost:11211
-
-         * In the ``[token]`` section, configure the UUID token provider and
-           Memcached driver:
-
-           .. code-block:: ini
-
-              [token]
-              ...
-              provider = uuid
-              driver = memcache
-
-         * In the ``[revoke]`` section, configure the SQL revocation driver:
-
-           .. code-block:: ini
-
-              [revoke]
-              ...
-              driver = sql
-
-         * (Optional) To assist with troubleshooting, enable verbose logging in the
-           ``[DEFAULT]`` section:
-
-           .. code-block:: ini
-
-              [DEFAULT]
-              ...
-              verbose = True
-
-   .. only:: obs or rdo or ubuntu
-
-      4. Populate the Identity service database:
-
-         .. code-block:: console
-
-            # su -s /bin/sh -c "keystone-manage db_sync" keystone
-
-.. only:: debian
-
-   Install and configure the components
-   ------------------------------------
+      This guide uses the Apache HTTP server with ``mod_wsgi`` to serve
+      Identity service requests on ports 5000 and 35357. By default, the
+      keystone service still listens on these ports. The package handles
+      all of the Apache configuration for you (including the activation of
+      the ``mod_wsgi`` apache2 module and keystone configuration in Apache).
 
    #. Run the following command to install the packages:
 
@@ -204,148 +79,70 @@ requests and Memcached to store tokens instead of an SQL database.
 
          # apt-get install keystone
 
-   #. Respond to prompts for :doc:`debconf/debconf-dbconfig-common`,
-      which will fill the below database access directive.
+.. only:: obs or rdo
 
-      .. code-block:: ini
+   #. Run the following command to install the packages:
 
-         [database]
-         ...
-         connection = mysql+pymysql://keystone:KEYSTONE_DBPASS@controller/keystone
+      .. only:: rdo
 
-      If you decide to not use ``dbconfig-common``, then you have to
-      create the database and manage its access rights yourself, and run the
-      following by hand.
+         .. code-block:: console
 
-      .. code-block:: console
+            # yum install openstack-keystone httpd mod_wsgi
 
-         # keystone-manage db_sync
+      .. only:: obs
 
-   #. Generate a random value to use as the administration token during
-      initial configuration:
+         .. code-block:: console
 
-      .. code-block:: console
+            # zypper install openstack-keystone apache2-mod_wsgi
 
-         $ openssl rand -hex 10
+2. Edit the ``/etc/keystone/keystone.conf`` file and complete the following
+   actions:
 
-   #. Configure the initial administration token:
+   * In the ``[DEFAULT]`` section, define the value of the initial
+     administration token:
 
-      .. image:: figures/debconf-screenshots/keystone_1_admin_token.png
-         :scale: 50
+     .. code-block:: ini
 
-      Use the random value that you generated in a previous step. If you
-      install using non-interactive mode or you do not specify this token, the
-      configuration tool generates a random value.
+        [DEFAULT]
+           ...
+        admin_token = ADMIN_TOKEN
 
-      Later on, the package will configure the below directive with the value
-      you entered:
+     Replace ``ADMIN_TOKEN`` with the random value that you generated in a
+     previous step.
 
-      .. code-block:: ini
+   * In the ``[database]`` section, configure database access:
 
-         [DEFAULT]
-         ...
-         admin_token = ADMIN_TOKEN
+     .. code-block:: ini
 
-   #. Create the ``admin`` project and user:
+        [database]
+        ...
+        connection = mysql+pymysql://keystone:KEYSTONE_DBPASS@controller/keystone
 
-      During the final stage of the package installation, it is possible to
-      automatically create an ``admin`` and ``service`` project, and an ``admin`` user.
-      This can later be used for other OpenStack services to contact the
-      Identity service. This is the equivalent of running the below commands:
+     Replace ``KEYSTONE_DBPASS`` with the password you chose for the database.
 
-      .. code-block:: console
+   * In the ``[token]`` section, configure the Fernet token provider:
 
-         # openstack --os-token ${AUTH_TOKEN} \
-           --os-url=http://127.0.0.1:35357/v3/ \
-           --os-domain-name default \
-           --os-identity-api-version=3 \
-           project create --or-show \
-           admin --domain default \
-           --description "Default Debian admin project"
+     .. code-block:: ini
 
-         # openstack --os-token ${AUTH_TOKEN} \
-           --os-url=http://127.0.0.1:35357/v3/ \
-           --os-domain-name default \
-           --os-identity-api-version=3 \
-           project create --or-show \
-           service --domain default \
-           --description "Default Debian admin project"
+        [token]
+        ...
+        provider = fernet
 
-         # openstack --os-token ${AUTH_TOKEN} \
-           --os-url=http://127.0.0.1:35357/v3/ \
-           --os-domain-name default \
-           --os-identity-api-version=3 \
-           user create --or-show \
-           --password ADMIN_PASS \
-           --project admin \
-           --email root@localhost \
-           --enable \
-           admin \
-           --domain default \
-           --description "Default Debian admin user"
+3. Populate the Identity service database:
 
-         # openstack --os-token ${AUTH_TOKEN} \
-           --os-url=http://127.0.0.1:35357/v3/ \
-           --os-domain-name default \
-           --os-identity-api-version=3 \
-           role create --or-show admin
+   .. code-block:: console
 
-         # openstack  --os-token ${AUTH_TOKEN} \
-           --os-url=http://127.0.0.1:35357/v3/ \
-           --os-domain-name default \
-           --os-identity-api-version=3 \
-           role add --project admin --user admin admin
+      # su -s /bin/sh -c "keystone-manage db_sync" keystone
 
-      .. image:: figures/debconf-screenshots/keystone_2_register_admin_tenant_yes_no.png
-         :scale: 50
+   .. note::
 
-      .. image:: figures/debconf-screenshots/keystone_3_admin_user_name.png
-         :scale: 50
+     Ignore any deprecation messages in this output.
 
-      .. image:: figures/debconf-screenshots/keystone_4_admin_user_email.png
-         :scale: 50
+4. Initialize Fernet keys:
 
-      .. image:: figures/debconf-screenshots/keystone_5_admin_user_pass.png
-         :scale: 50
+   .. code-block:: console
 
-      .. image:: figures/debconf-screenshots/keystone_6_admin_user_pass_confirm.png
-         :scale: 50
-
-      In Debian, the Keystone package offers automatic registration of
-      Keystone in the service catalogue. This is equivalent of running the
-      below commands:
-
-      .. code-block:: console
-
-         # openstack --os-token ${AUTH_TOKEN} \
-           --os-url=http://127.0.0.1:35357/v3/ \
-           --os-domain-name default \
-           --os-identity-api-version=3 \
-           service create \
-           --name keystone \
-           --description "OpenStack Identity" \
-           identity
-
-         # openstack --os-token ${AUTH_TOKEN} \
-           --os-url=http://127.0.0.1:35357/v3/ \
-           --os-domain-name default \
-           --os-identity-api-version=3 \
-           keystone public http://controller:5000/v2.0
-
-         # openstack --os-token ${AUTH_TOKEN} \
-           --os-url=http://127.0.0.1:35357/v3/ \
-           --os-domain-name default \
-           --os-identity-api-version=3 \
-           keystone internal http://controller:5000/v2.0
-
-         # openstack --os-token ${AUTH_TOKEN} \
-           --os-url=http://127.0.0.1:35357/v3/ \
-           --os-domain-name default \
-           --os-identity-api-version=3 \
-           keystone admin http://controller:35357/v2.0
-
-      .. image:: figures/debconf-screenshots/keystone_7_register_endpoint.png
-
+      # keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 
 .. only:: obs or rdo or ubuntu
 
@@ -375,20 +172,12 @@ requests and Memcached to store tokens instead of an SQL database.
                 WSGIScriptAlias / /usr/bin/keystone-wsgi-public
                 WSGIApplicationGroup %{GLOBAL}
                 WSGIPassAuthorization On
-                <IfVersion >= 2.4>
-                  ErrorLogFormat "%{cu}t %M"
-                </IfVersion>
+                ErrorLogFormat "%{cu}t %M"
                 ErrorLog /var/log/httpd/keystone-error.log
                 CustomLog /var/log/httpd/keystone-access.log combined
 
                 <Directory /usr/bin>
-                    <IfVersion >= 2.4>
-                        Require all granted
-                    </IfVersion>
-                    <IfVersion < 2.4>
-                        Order allow,deny
-                        Allow from all
-                    </IfVersion>
+                    Require all granted
                 </Directory>
             </VirtualHost>
 
@@ -398,20 +187,12 @@ requests and Memcached to store tokens instead of an SQL database.
                 WSGIScriptAlias / /usr/bin/keystone-wsgi-admin
                 WSGIApplicationGroup %{GLOBAL}
                 WSGIPassAuthorization On
-                <IfVersion >= 2.4>
-                  ErrorLogFormat "%{cu}t %M"
-                </IfVersion>
+                ErrorLogFormat "%{cu}t %M"
                 ErrorLog /var/log/httpd/keystone-error.log
                 CustomLog /var/log/httpd/keystone-access.log combined
 
                 <Directory /usr/bin>
-                    <IfVersion >= 2.4>
-                        Require all granted
-                    </IfVersion>
-                    <IfVersion < 2.4>
-                        Order allow,deny
-                        Allow from all
-                    </IfVersion>
+                    Require all granted
                 </Directory>
             </VirtualHost>
 
@@ -438,20 +219,12 @@ requests and Memcached to store tokens instead of an SQL database.
                 WSGIScriptAlias / /usr/bin/keystone-wsgi-public
                 WSGIApplicationGroup %{GLOBAL}
                 WSGIPassAuthorization On
-                <IfVersion >= 2.4>
-                  ErrorLogFormat "%{cu}t %M"
-                </IfVersion>
+                ErrorLogFormat "%{cu}t %M"
                 ErrorLog /var/log/apache2/keystone.log
                 CustomLog /var/log/apache2/keystone_access.log combined
 
                 <Directory /usr/bin>
-                    <IfVersion >= 2.4>
-                        Require all granted
-                    </IfVersion>
-                    <IfVersion < 2.4>
-                        Order allow,deny
-                        Allow from all
-                    </IfVersion>
+                    Require all granted
                 </Directory>
             </VirtualHost>
 
@@ -461,20 +234,12 @@ requests and Memcached to store tokens instead of an SQL database.
                 WSGIScriptAlias / /usr/bin/keystone-wsgi-admin
                 WSGIApplicationGroup %{GLOBAL}
                 WSGIPassAuthorization On
-                <IfVersion >= 2.4>
-                  ErrorLogFormat "%{cu}t %M"
-                </IfVersion>
+                ErrorLogFormat "%{cu}t %M"
                 ErrorLog /var/log/apache2/keystone.log
                 CustomLog /var/log/apache2/keystone_access.log combined
 
                 <Directory /usr/bin>
-                    <IfVersion >= 2.4>
-                        Require all granted
-                    </IfVersion>
-                    <IfVersion < 2.4>
-                        Order allow,deny
-                        Allow from all
-                    </IfVersion>
+                    Require all granted
                 </Directory>
             </VirtualHost>
 
@@ -507,20 +272,12 @@ requests and Memcached to store tokens instead of an SQL database.
                 WSGIScriptAlias / /usr/bin/keystone-wsgi-public
                 WSGIApplicationGroup %{GLOBAL}
                 WSGIPassAuthorization On
-                <IfVersion >= 2.4>
-                  ErrorLogFormat "%{cu}t %M"
-                </IfVersion>
+                ErrorLogFormat "%{cu}t %M"
                 ErrorLog /var/log/apache2/keystone.log
                 CustomLog /var/log/apache2/keystone_access.log combined
 
                 <Directory /usr/bin>
-                    <IfVersion >= 2.4>
-                        Require all granted
-                    </IfVersion>
-                    <IfVersion < 2.4>
-                        Order allow,deny
-                        Allow from all
-                    </IfVersion>
+                    Require all granted
                 </Directory>
             </VirtualHost>
 
@@ -530,20 +287,12 @@ requests and Memcached to store tokens instead of an SQL database.
                 WSGIScriptAlias / /usr/bin/keystone-wsgi-admin
                 WSGIApplicationGroup %{GLOBAL}
                 WSGIPassAuthorization On
-                <IfVersion >= 2.4>
-                  ErrorLogFormat "%{cu}t %M"
-                </IfVersion>
+                ErrorLogFormat "%{cu}t %M"
                 ErrorLog /var/log/apache2/keystone.log
                 CustomLog /var/log/apache2/keystone_access.log combined
 
                 <Directory /usr/bin>
-                    <IfVersion >= 2.4>
-                        Require all granted
-                    </IfVersion>
-                    <IfVersion < 2.4>
-                        Order allow,deny
-                        Allow from all
-                    </IfVersion>
+                    Require all granted
                 </Directory>
             </VirtualHost>
 
@@ -585,12 +334,6 @@ requests and Memcached to store tokens instead of an SQL database.
            # systemctl start httpd.service
 
    .. only:: obs
-
-      #. Activate the Apache module ``mod_version``:
-
-         .. code-block:: console
-
-            # a2enmod version
 
       #. Start the Apache HTTP service and configure it to start when the system boots:
 

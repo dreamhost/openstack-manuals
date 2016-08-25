@@ -139,7 +139,7 @@ Install and configure components
 
       .. code-block:: console
 
-         # zypper install openstack-cinder-volume tgt python-PyMySQL
+         # zypper install openstack-cinder-volume tgt
 
 .. only:: rdo
 
@@ -147,36 +147,26 @@ Install and configure components
 
       .. code-block:: console
 
-         # yum install openstack-cinder targetcli python-oslo-policy
+         # yum install openstack-cinder targetcli python-keystone
 
-.. only:: ubuntu
+.. only:: ubuntu or debian
 
    #. Install the packages:
 
       .. code-block:: console
 
-        # apt-get install cinder-volume python-mysqldb
+        # apt-get install cinder-volume
 
 2. Edit the ``/etc/cinder/cinder.conf`` file
    and complete the following actions:
 
    * In the ``[database]`` section, configure database access:
 
-     .. only:: ubuntu or obs
+     .. code-block:: ini
 
-        .. code-block:: ini
-
-           [database]
-           ...
-           connection = mysql+pymysql://cinder:CINDER_DBPASS@controller/cinder
-
-     .. only:: rdo
-
-        .. code-block:: ini
-
-           [database]
-           ...
-           connection = mysql://cinder:CINDER_DBPASS@controller/cinder
+        [database]
+        ...
+        connection = mysql+pymysql://cinder:CINDER_DBPASS@controller/cinder
 
      Replace ``CINDER_DBPASS`` with the password you chose for
      the Block Storage database.
@@ -212,9 +202,10 @@ Install and configure components
         ...
         auth_uri = http://controller:5000
         auth_url = http://controller:35357
-        auth_plugin = password
-        project_domain_id = default
-        user_domain_id = default
+        memcached_servers = controller:11211
+        auth_type = password
+        project_domain_name = default
+        user_domain_name = default
         project_name = service
         username = cinder
         password = CINDER_PASS
@@ -284,13 +275,13 @@ Install and configure components
         uses the name of the driver as the name of the back end.
 
    * In the ``[DEFAULT]`` section, configure the location of the
-     Image service:
+     Image service API:
 
      .. code-block:: ini
 
         [DEFAULT]
         ...
-        glance_host = controller
+        glance_api_servers = http://controller:9292
 
    * In the ``[oslo_concurrency]`` section, configure the lock path:
 
@@ -299,15 +290,6 @@ Install and configure components
         [oslo_concurrency]
         ...
         lock_path = /var/lib/cinder/tmp
-
-   * (Optional) To assist with troubleshooting, enable verbose logging
-     in the ``[DEFAULT]`` section:
-
-     .. code-block:: ini
-
-        [DEFAULT]
-        ...
-        verbose = True
 
 Finalize installation
 ---------------------
@@ -332,7 +314,7 @@ Finalize installation
         # systemctl enable openstack-cinder-volume.service target.service
         # systemctl start openstack-cinder-volume.service target.service
 
-.. only:: ubuntu
+.. only:: ubuntu or debian
 
    #. Restart the Block Storage volume service including its dependencies:
 
@@ -340,11 +322,3 @@ Finalize installation
 
          # service tgt restart
          # service cinder-volume restart
-
-   #. By default, the Ubuntu packages create an SQLite database.
-      Because this configuration uses an SQL database server,
-      remove the SQLite database file:
-
-      .. code-block:: console
-
-         # rm -f /var/lib/cinder/cinder.sqlite

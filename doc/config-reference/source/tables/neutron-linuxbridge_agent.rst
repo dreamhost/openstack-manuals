@@ -16,23 +16,31 @@
 
    * - Configuration option = Default value
      - Description
+   * - **[AGENT]**
+     -
+   * - ``prevent_arp_spoofing`` = ``True``
+     - (Boolean) DEPRECATED: Enable suppression of ARP responses that don't match an IP address that belongs to the port from which they originate. Note: This prevents the VMs attached to this agent from spoofing, it doesn't protect them from other devices which have the capability to spoof (e.g. bare metal or VMs attached to agents without this flag set to True). Spoofing rules will not be added to any ports that have port security disabled. For LinuxBridge, this requires ebtables. For OVS, it requires a version that supports matching ARP headers. This option will be removed in Newton so the only way to disable protection will be via the port security extension.
+   * - ``quitting_rpc_timeout`` = ``10``
+     - (Integer) Set new timeout in seconds for new rpc calls after agent receives SIGTERM. If value is set to 0, rpc timeout won't be changed
    * - **[LINUX_BRIDGE]**
      -
    * - ``bridge_mappings`` =
-     - (ListOpt) List of <physical_network>:<physical_bridge>
+     - (List) List of <physical_network>:<physical_bridge>
    * - ``physical_interface_mappings`` =
-     - (ListOpt) Comma-separated list of <physical_network>:<physical_interface> tuples mapping physical network names to the agent's node-specific physical network interfaces to be used for flat and VLAN networks. All physical networks listed in network_vlan_ranges on the server should have mappings to appropriate interfaces on each agent.
+     - (List) Comma-separated list of <physical_network>:<physical_interface> tuples mapping physical network names to the agent's node-specific physical network interfaces to be used for flat and VLAN networks. All physical networks listed in network_vlan_ranges on the server should have mappings to appropriate interfaces on each agent.
    * - **[VXLAN]**
      -
+   * - ``arp_responder`` = ``False``
+     - (Boolean) Enable local ARP responder which provides local responses instead of performing ARP broadcast into the overlay. Enabling local ARP responder is not fully compatible with the allowed-address-pairs extension.
    * - ``enable_vxlan`` = ``True``
-     - (BoolOpt) Enable VXLAN on the agent. Can be enabled when agent is managed by ml2 plugin using linuxbridge mechanism driver
+     - (Boolean) Enable VXLAN on the agent. Can be enabled when agent is managed by ml2 plugin using linuxbridge mechanism driver
    * - ``l2_population`` = ``False``
-     - (BoolOpt) Extension to use alongside ml2 plugin's l2population mechanism driver. It enables the plugin to populate VXLAN forwarding table.
+     - (Boolean) Extension to use alongside ml2 plugin's l2population mechanism driver. It enables the plugin to populate VXLAN forwarding table.
    * - ``local_ip`` = ``None``
-     - (IPOpt) Local IP address of the VXLAN endpoints.
+     - (Unknown) Local IP address of the VXLAN endpoints.
    * - ``tos`` = ``None``
-     - (IntOpt) TOS for vxlan interface protocol packets.
+     - (Integer) TOS for vxlan interface protocol packets.
    * - ``ttl`` = ``None``
-     - (IntOpt) TTL for vxlan interface protocol packets.
+     - (Integer) TTL for vxlan interface protocol packets.
    * - ``vxlan_group`` = ``224.0.0.1``
-     - (StrOpt) Multicast group(s) for vxlan interface. A range of group addresses may be specified by using CIDR notation. Specifying a range allows different VNIs to use different group addresses, reducing or eliminating spurious broadcast traffic to the tunnel endpoints. To reserve a unique group for each possible (24-bit) VNI, use a /8 such as 239.0.0.0/8. This setting must be the same on all the agents.
+     - (String) Multicast group(s) for vxlan interface. A range of group addresses may be specified by using CIDR notation. Specifying a range allows different VNIs to use different group addresses, reducing or eliminating spurious broadcast traffic to the tunnel endpoints. To reserve a unique group for each possible (24-bit) VNI, use a /8 such as 239.0.0.0/8. This setting must be the same on all the agents.

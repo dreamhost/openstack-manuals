@@ -23,51 +23,92 @@ these procedures on all nodes.
    .. code-block:: console
 
       # apt-get install software-properties-common
-      # add-apt-repository cloud-archive:liberty
+      # add-apt-repository cloud-archive:newton
+
+   .. note::
+
+      For pre-release testing, use the staging repository:
+
+      .. code-block:: console
+
+         # add-apt-repository cloud-archive:newton-proposed
 
 .. only:: rdo
 
    Prerequisites
    -------------
 
-   #. Enable the `EPEL <https://fedoraproject.org/wiki/EPEL>`_ repository:
+   .. warning::
+
+      We recommend disabling EPEL when using RDO packages due to updates
+      in EPEL breaking backwards compatibility. Or, preferably pin package
+      versions using the ``yum-versionlock`` plugin.
+
+   .. note::
+
+      CentOS does not require the following steps.
+
+   #. On RHEL, register your system with Red Hat Subscription Management, using
+      your Customer Portal user name and password:
 
       .. code-block:: console
 
-         # yum install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+         # subscription-manager register --username="USERNAME" --password="PASSWORD"
 
-   #. On RHEL, enable additional repositories using the subscription
-      manager:
+   #. Find entitlement pools containing the channels for your RHEL system:
 
       .. code-block:: console
 
-         # subscription-manager repos --enable=rhel-7-server-optional-rpms
-         # subscription-manager repos --enable=rhel-7-server-extras-rpms
+         # subscription-manager list --available
 
-      .. note::
+   #. Use the pool identifiers found in the previous step to attach your RHEL
+      entitlements:
 
-         CentOS does not require these repositories.
+      .. code-block:: console
+
+         # subscription-manager attach --pool="POOLID"
+
+   #. Enable required repositories:
+
+      .. code-block:: console
+
+         # subscription-manager repos --enable=rhel-7-server-optional-rpms \
+           --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-rh-common-rpms
 
 .. only:: rdo
 
    Enable the OpenStack repository
    -------------------------------
 
-   * On CentOS, the *extras* repository provides the RPM that enables the
-     OpenStack repository. CentOS includes the *extras* repository by
+   * On CentOS, the ``extras`` repository provides the RPM that enables the
+     OpenStack repository. CentOS includes the ``extras`` repository by
      default, so you can simply install the package to enable the OpenStack
      repository.
 
      .. code-block:: console
 
-        # yum install centos-release-openstack-liberty
+        # yum install centos-release-openstack-newton
 
    * On RHEL, download and install the RDO repository RPM to enable the
      OpenStack repository.
 
      .. code-block:: console
 
-        # yum install https://rdoproject.org/repos/openstack-liberty/rdo-release-liberty.rpm
+        # yum install https://rdoproject.org/repos/rdo-release.rpm
+
+   .. note::
+
+      For pre-release testing on CentOS or RHEL, install the
+      ``yum-plugin-priorities`` package so that the Delorean repository takes
+      precedence over the main RDO repositories, and use the Delorean
+      repositories:
+
+      .. code-block:: console
+
+         # yum install yum-plugin-priorities
+         # cd /etc/yum.repos.d/
+         # curl -O http://trunk.rdoproject.org/centos7/delorean-deps.repo
+         # curl -O http://trunk.rdoproject.org/centos7/current-passed-ci/delorean.repo
 
 .. only:: obs
 
@@ -77,46 +118,62 @@ these procedures on all nodes.
    * Enable the Open Build Service repositories based on your openSUSE or
      SLES version:
 
-     **On openSUSE 13.2:**
+     **On openSUSE:**
 
      .. code-block:: console
 
-        # zypper addrepo -f obs://Cloud:OpenStack:Liberty/openSUSE_13.2 Liberty
+        # zypper addrepo -f obs://Cloud:OpenStack:Newton/openSUSE_Leap_42.1 Newton
 
-     The openSUSE distribution uses the concept of patterns to represent
-     collections of packages. If you selected 'Minimal Server Selection (Text
-     Mode)' during the initial installation, you may be presented with a
-     dependency conflict when you attempt to install the OpenStack packages.
-     To avoid this, remove the minimal\_base-conflicts package:
+   .. note::
 
-     .. code-block:: console
+      For pre-release testing, use the master repository:
 
-        # zypper rm patterns-openSUSE-minimal_base-conflicts
+      .. code-block:: console
 
-     **On SLES 12:**
+         # zypper addrepo -f obs://Cloud:OpenStack:Master/openSUSE_Leap_42.1 Master
 
-     .. code-block:: console
+      The openSUSE distribution uses the concept of patterns to represent
+      collections of packages. If you selected 'Minimal Server Selection (Text
+      Mode)' during the initial installation, you may be presented with a
+      dependency conflict when you attempt to install the OpenStack packages.
+      To avoid this, remove the minimal\_base-conflicts package:
 
-        # zypper addrepo -f obs://Cloud:OpenStack:Liberty/SLE_12 Liberty
+      .. code-block:: console
 
-     .. note::
+         # zypper rm patterns-openSUSE-minimal_base-conflicts
 
-        The packages are signed by GPG key ``D85F9316``. You should
-        verify the fingerprint of the imported GPG key before using it.
+      **On SLES:**
 
-        .. code-block:: console
+      .. code-block:: console
 
-           Key Name:         Cloud:OpenStack OBS Project <Cloud:OpenStack@build.opensuse.org>
-           Key Fingerprint:  35B34E18 ABC1076D 66D5A86B 893A90DA D85F9316
-           Key Created:      Tue 08 Oct 2013 01:34:21 PM UTC
-           Key Expires:      Thu 17 Dec 2015 01:34:21 PM UTC
+         # zypper addrepo -f obs://Cloud:OpenStack:Newton/SLE_12_SP1 Newton
+
+      .. note::
+
+         The packages are signed by GPG key ``D85F9316``. You should
+         verify the fingerprint of the imported GPG key before using it.
+
+         .. code-block:: console
+
+            Key Name:         Cloud:OpenStack OBS Project <Cloud:OpenStack@build.opensuse.org>
+            Key Fingerprint:  35B34E18 ABC1076D 66D5A86B 893A90DA D85F9316
+            Key Created:      2015-12-16T16:48:37 CET
+            Key Expires:      2018-02-23T16:48:37 CET
+
+   .. note::
+
+      For pre-release testing, use the master repository:
+
+      .. code-block:: console
+
+         # zypper addrepo -f obs://Cloud:OpenStack:Master/SLE_12_SP1 Master
 
 .. only:: debian
 
    Enable the backports repository
    -------------------------------
 
-   The Liberty release is available directly through the official
+   The Newton release is available directly through the official
    Debian backports repository. To use this repository, follow
    the instruction from the official
    `Debian website <http://backports.debian.org/Instructions/>`_,
@@ -127,7 +184,7 @@ these procedures on all nodes.
 
       .. code-block:: console
 
-         # echo "deb deb http://http.debian.net/debian jessie-backports main" \
+         # echo "deb http://http.debian.net/debian jessie-backports main" \
            >>/etc/apt/sources.list
 
       .. note::

@@ -1,12 +1,13 @@
-=============
-Orchestration
-=============
+=====================
+Orchestration service
+=====================
 
 .. toctree::
 
-   orchestration/orchestration_api.rst
-   orchestration/orchestration_clients.rst
-   orchestration/orchestration_rpc.rst
+   orchestration/api.rst
+   orchestration/clients.rst
+   orchestration/rpc.rst
+   orchestration/logs.rst
    tables/conf-changes/heat.rst
 
 
@@ -17,16 +18,18 @@ configured in the ``/etc/heat/heat.conf`` file.
 To install Orchestration, see the OpenStack Installation Guide for your
 distribution (`docs.openstack.org <http://docs.openstack.org>`__).
 
+.. note::
+
+   The common configurations for shared service and libraries,
+   such as database connections and RPC messaging,
+   are described at :doc:`common-configurations`.
+
 The following tables provide a comprehensive list of the Orchestration
 configuration options:
 
-.. include:: tables/heat-auth_token.rst
 .. include:: tables/heat-common.rst
-.. include:: tables/heat-cors.rst
 .. include:: tables/heat-crypt.rst
-.. include:: tables/heat-database.rst
 .. include:: tables/heat-loadbalancer.rst
-.. include:: tables/heat-logging.rst
 .. include:: tables/heat-quota.rst
 .. include:: tables/heat-redis.rst
 .. include:: tables/heat-testing.rst

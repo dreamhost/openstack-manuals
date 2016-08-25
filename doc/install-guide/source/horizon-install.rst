@@ -84,7 +84,7 @@ Install and configure components
 
          # cp /etc/apache2/conf.d/openstack-dashboard.conf.sample \
            /etc/apache2/conf.d/openstack-dashboard.conf
-         # a2enmod rewrite;a2enmod ssl;a2enmod wsgi
+         # a2enmod rewrite
 
    3. Edit the
       ``/srv/www/openstack-dashboard/openstack_dashboard/local/local_settings.py``
@@ -107,16 +107,47 @@ Install and configure components
 
         .. code-block:: ini
 
+           SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
            CACHES = {
                'default': {
                     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-                    'LOCATION': '127.0.0.1:11211',
+                    'LOCATION': 'controller:11211',
                }
            }
 
         .. note::
 
            Comment out any other session storage configuration.
+
+      * Enable the Identity API version 3:
+
+        .. code-block:: ini
+
+           OPENSTACK_KEYSTONE_URL = "http://%s:5000/v3" % OPENSTACK_HOST
+
+      * Enable support for domains:
+
+        .. code-block:: ini
+
+           OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+
+      * Configure API versions:
+
+        .. code-block:: ini
+
+           OPENSTACK_API_VERSIONS = {
+               "identity": 3,
+               "image": 2,
+               "volume": 2,
+           }
+
+      * Configure ``default`` as the default domain for users that you create
+        via the dashboard:
+
+        .. code-block:: ini
+
+           OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "default"
 
       * Configure ``user`` as the default role for
         users that you create via the dashboard:
@@ -175,16 +206,47 @@ Install and configure components
 
         .. code-block:: ini
 
+           SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
            CACHES = {
                'default': {
                     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-                    'LOCATION': '127.0.0.1:11211',
+                    'LOCATION': 'controller:11211',
                }
            }
 
         .. note::
 
            Comment out any other session storage configuration.
+
+      * Enable the Identity API version 3:
+
+        .. code-block:: ini
+
+           OPENSTACK_KEYSTONE_URL = "http://%s:5000/v3" % OPENSTACK_HOST
+
+      * Enable support for domains:
+
+        .. code-block:: ini
+
+           OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+
+      * Configure API versions:
+
+        .. code-block:: ini
+
+           OPENSTACK_API_VERSIONS = {
+               "identity": 3,
+               "image": 2,
+               "volume": 2,
+           }
+
+      * Configure ``default`` as the default domain for users that you create
+        via the dashboard:
+
+        .. code-block:: ini
+
+           OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "default"
 
       * Configure ``user`` as the default role for
         users that you create via the dashboard:
@@ -243,16 +305,47 @@ Install and configure components
 
         .. code-block:: ini
 
+           SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
            CACHES = {
                'default': {
                     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-                    'LOCATION': '127.0.0.1:11211',
+                    'LOCATION': 'controller:11211',
                }
            }
 
         .. note::
 
            Comment out any other session storage configuration.
+
+      * Enable the Identity API version 3:
+
+        .. code-block:: ini
+
+           OPENSTACK_KEYSTONE_URL = "http://%s:5000/v3" % OPENSTACK_HOST
+
+      * Enable support for domains:
+
+        .. code-block:: ini
+
+           OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True
+
+      * Configure API versions:
+
+        .. code-block:: ini
+
+           OPENSTACK_API_VERSIONS = {
+               "identity": 3,
+               "image": 2,
+               "volume": 2,
+           }
+
+      * Configure ``default`` as the default domain for users that you create
+        via the dashboard:
+
+        .. code-block:: ini
+
+           OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "default"
 
       * Configure ``user`` as the default role for
         users that you create via the dashboard:

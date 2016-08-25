@@ -28,14 +28,14 @@ characteristics to images.
 : Official LibGuestFS documentation.
 
 `Logging and Monitoring
-<http://docs.openstack.org/openstack-ops/content/logging_monitoring.html>`_
+<http://docs.openstack.org/ops-guide/ops-logging-monitoring.html>`_
 : Official OpenStack Operations documentation.
 
 `ManageIQ Cloud Management Platform <http://manageiq.org/>`_
 : An Open Source Cloud Management Platform for managing multiple clouds.
 
 `N-Tron Network Availability
-<http://www.n-tron.com/pdf/network_availability.pdf>`_
+<https://www.scribd.com/doc/298973976/Network-Availability>`_
 : Research white paper on network availability.
 
 `Nested KVM <http://davejingtian.org/2014/03/30/nested-kvm-just-for-fun>`_
@@ -47,7 +47,7 @@ and enable the delivery of the most efficient server,
 storage and data center hardware designs for scalable computing.
 
 `OpenStack Flavors
-<http://docs.openstack.org/openstack-ops/content/flavors.html>`_
+<http://docs.openstack.org/ops-guide/ops-user-facing-operations.html#flavors>`_
 : Official OpenStack documentation.
 
 `OpenStack High Availability Guide <http://docs.openstack.org/ha-guide/>`_
@@ -61,7 +61,7 @@ storage and data center hardware designs for scalable computing.
 <http://docs.openstack.org/developer/swift/replication_network.html>`_
 : Developer documentation of Swift replication.
 
-`OpenStack Operations Guide <http://docs.openstack.org/openstack-ops/>`_
+`OpenStack Operations Guide <http://docs.openstack.org/ops-guide/>`_
 : The OpenStack Operations Guide provides information on setting up
 and installing OpenStack.
 

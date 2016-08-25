@@ -10,7 +10,7 @@ access to advanced features such as vMotion, High Availability, and
 Dynamic Resource Scheduling (DRS).
 
 This section describes how to configure VMware-based virtual machine
-images for launch. vSphere versions 4.1 and later are supported.
+images for launch. The VMware driver supports vCenter version 5.1.0 and later.
 
 The VMware vCenter driver enables the ``nova-compute`` service to communicate
 with a VMware vCenter server that manages one or more ESX host clusters.
@@ -37,10 +37,12 @@ architecture:
 As the figure shows, the OpenStack Compute Scheduler sees
 three hypervisors that each correspond to a cluster in vCenter.
 ``nova-compute`` contains the VMware driver. You can run with multiple
-``nova-compute`` services. While Compute schedules at the granularity
-of a cluster, the VMware driver inside ``nova-compute`` interacts with
-the vCenter APIs to select an appropriate ESX host within the cluster.
-Internally, vCenter uses DRS for placement.
+``nova-compute`` services. It is recommended to run with one ``nova-compute``
+service per ESX cluster thus ensuring that while Compute schedules at the
+granularity of the ``nova-compute`` service it is also in effect able to
+schedule at the cluster level. In turn the VMware driver inside
+``nova-compute`` interacts with the vCenter APIs to select an appropriate ESX
+host within the cluster. Internally, vCenter uses DRS for placement.
 
 The VMware vCenter driver also interacts with the Image service to copy
 VMDK images from the Image service back-end store.
@@ -81,7 +83,7 @@ Prerequisites and limitations
 Use the following list to prepare a vSphere environment that runs with
 the VMware vCenter driver:
 
-Copying VMDK files (vSphere 5.1 only)
+Copying VMDK files
   In vSphere 5.1, copying large image files (for example, 12 GB and
   greater) from the Image service can take a long time.
   To improve performance, VMware recommends that you upgrade to VMware
@@ -411,26 +413,18 @@ options to the ``nova.conf`` file:
 .. code-block:: ini
 
    [DEFAULT]
-   compute_driver=vmwareapi.VMwareVCDriver
+   compute_driver = vmwareapi.VMwareVCDriver
 
    [vmware]
-   host_ip=<vCenter host IP>
-   host_username=<vCenter username>
-   host_password=<vCenter password>
-   cluster_name=<vCenter cluster name>
-   datastore_regex=<optional datastore regex>
+   host_ip = <vCenter host IP>
+   host_username = <vCenter username>
+   host_password = <vCenter password>
+   cluster_name = <vCenter cluster name>
+   datastore_regex = <optional datastore regex>
 
 .. note::
 
-   * vSphere vCenter versions 5.0 and earlier: You must specify the
-     location of the WSDL files by adding the
-     ``wsdl_location=http://127.0.0.1:8080/vmware/SDK/wsdl/vim25/vimService.wsdl``
-     setting to the above configuration. For more information, see
-     :ref:`vSphere 5.0 and earlier additional set up <vmware-additional>`.
-
-   * Clusters: The vCenter driver can support multiple clusters.
-     To use more than one cluster, simply add multiple ``cluster_name`` lines
-     in ``nova.conf`` with the appropriate cluster name.
+   * Clusters: The vCenter driver can support only a single cluster.
      Clusters and data stores used by the vCenter driver should not contain
      any VMs other than those created by the driver.
 
@@ -450,8 +444,8 @@ options to the ``nova.conf`` file:
      Instance name template is ignored.
 
    * The minimum supported vCenter version is 5.1.0.
-     In OpenStack Liberty release this will be logged as a warning.
-     In OpenStack Mitaka release this will be enforced.
+     Starting in the OpenStack Liberty release this will be logged as a
+     warning. In the OpenStack Newton release this will be enforced.
 
 A ``nova-compute`` service can control one or more clusters containing
 multiple ESXi hosts, making ``nova-compute`` a critical service from a
@@ -463,9 +457,6 @@ can fail while the vCenter and ESX still run, you must protect the
 
    Many ``nova.conf`` options are relevant to libvirt but do not apply
    to this driver.
-
-You must complete additional configuration for environments that use
-vSphere 5.0 and earlier. See :ref:`vmware-additional`.
 
 .. _vmware-images:
 
@@ -516,7 +507,7 @@ to each of the supported VMDK disk types:
      - VMFS flat, thin provisioned
    * - preallocated (default)
      - VMFS flat, thick/zeroedthick/eagerzeroedthick
-   * - Streamoptimized
+   * - streamOptimized
      - Compressed Sparse
 
 The ``vmware_disktype`` property is set when an image is loaded into the
@@ -525,10 +516,12 @@ Sparse image by setting ``vmware_disktype`` to ``sparse``:
 
 .. code-block:: console
 
-   $ glance image-create --name "ubuntu-sparse" --disk-format vmdk \
+   $ openstack image create \
+     --disk-format vmdk \
      --container-format bare \
      --property vmware_disktype="sparse" \
-     --property vmware_ostype="ubuntu64Guest" < ubuntuLTS-sparse.vmdk
+     --property vmware_ostype="ubuntu64Guest" \
+     ubuntu-sparse < ubuntuLTS-sparse.vmdk
 
 .. note::
 
@@ -692,7 +685,7 @@ each of the supported guest OS:
    * - winLonghornGuest
      - Windows Longhorn (experimental)
    * - winMeGuest
-     - Windows Millenium Edition
+     - Windows Millennium Edition
    * - winNetBusinessGuest
      - Windows Small Business Server 2003
    * - winNetDatacenter64Guest
@@ -748,11 +741,11 @@ upload the VMDK disk should be something like:
 
 .. code-block:: console
 
-   $ glance image-create --name trusty-cloud \
+   $ openstack image create \
      --container-format bare --disk-format vmdk \
      --property vmware_disktype="sparse" \
-     --property vmware_adaptertype="ide" < \
-     trusty-server-cloudimg-amd64-disk1.vmdk
+     --property vmware_adaptertype="ide" \
+     trusty-cloud < trusty-server-cloudimg-amd64-disk1.vmdk
 
 Note that the ``vmware_disktype`` is set to ``sparse`` and the
 ``vmware_adaptertype`` is set to ``ide`` in the previous command.
@@ -771,11 +764,13 @@ the following command uploads the VMDK disk:
 
 .. code-block:: console
 
-   $ glance image-create --name "ubuntu-thick-scsi" --disk-format vmdk \
+   $ openstack image create \
+     --disk-format vmdk \
      --container-format bare \
      --property vmware_adaptertype="lsiLogic" \
      --property vmware_disktype="preallocated" \
-     --property vmware_ostype="ubuntu64Guest" < ubuntuLTS-flat.vmdk
+     --property vmware_ostype="ubuntu64Guest" \
+     ubuntu-thick-scsi < ubuntuLTS-flat.vmdk
 
 Currently, OS boot VMDK disks with an IDE adapter type cannot be attached
 to a virtual SCSI controller and likewise disks with one of the SCSI
@@ -798,12 +793,14 @@ Note that ``qemu`` is used for both QEMU and KVM hypervisor types.
 
 .. code-block:: console
 
-   $ glance image-create --name "ubuntu-thick-scsi" --disk-format vmdk \
+   $ openstack image create \
+     --disk-format vmdk \
      --container-format bare \
      --property vmware_adaptertype="lsiLogic" \
      --property vmware_disktype="preallocated" \
      --property hypervisor_type="vmware" \
-     --property vmware_ostype="ubuntu64Guest" < ubuntuLTS-flat.vmdk
+     --property vmware_ostype="ubuntu64Guest" \
+     ubuntu-thick-scsi < ubuntuLTS-flat.vmdk
 
 Optimize images
 ---------------
@@ -882,12 +879,13 @@ enable this mode, see :ref:`vmware-config`.
 
 .. note::
 
-   You can also use the ``vmware_linked_clone`` property in the Image
-   service to override the linked_clone mode on a per-image basis.
+   You can also use the ``img_linked_clone`` property (or legacy property
+   ``vmware_linked_clone``) in the Image service to override the linked_clone
+   mode on a per-image basis.
 
    If spawning a virtual machine image from ISO with a VMDK disk,
    the image is created and attached to the virtual machine as a blank disk.
-   In that case ``vmware_linked_clone`` property for the image is just ignored.
+   In that case ``img_linked_clone`` property for the image is just ignored.
 
 If multiple compute nodes are running on the same host, or have a shared
 file system, you can enable them to use the same cache folder on the back-end
@@ -963,102 +961,6 @@ used for managing volumes based on vSphere data stores. For more information
 about the VMware VMDK driver, see :ref:`block_storage_vmdk_driver`.  Also an
 iSCSI volume driver provides limited support and can be used only for
 attachments.
-
-.. _vmware-additional:
-
-vSphere 5.0 and earlier additional set up
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Users of vSphere 5.0 or earlier must host their WSDL files locally.
-These steps are applicable for vCenter 5.0 or ESXi 5.0 and you can either
-mirror the WSDL from the vCenter or ESXi server that you intend to use or
-you can download the SDK directly from VMware. These workaround steps fix
-a `known issue <http://kb.vmware.com/selfservice/microsites/search.do?
-cmd=displayKC&amp;externalId=2010507>`_ with the WSDL that was resolved
-in later versions.
-
-When setting the VMwareVCDriver configuration options, you must include the
-``wsdl_location`` option. For more information, see :ref:`vmware-vcdriver`.
-
-**To mirror WSDL from vCenter (or ESXi)**
-
-#. Set the ``VMWAREAPI_IP`` shell variable to the IP address for your
-   vCenter or ESXi host from where you plan to mirror files. For example:
-
-   .. code-block:: console
-
-      $ export VMWAREAPI_IP=<your_vsphere_host_ip>
-
-#. Create a local file system directory to hold the WSDL files:
-
-   .. code-block:: console
-
-      $ mkdir -p /opt/stack/vmware/wsdl/5.0
-
-#. Change into the new directory.
-
-   .. code-block:: console
-
-      $ cd /opt/stack/vmware/wsdl/5.0
-
-#. Use your OS-specific tools to install a command-line tool that can
-   download files like :command:`wget`.
-
-#. Download the files to the local file cache:
-
-   .. code-block:: console
-
-      $ wget  --no-check-certificate https://$VMWAREAPI_IP/sdk/vimService.wsdl
-      $ wget  --no-check-certificate https://$VMWAREAPI_IP/sdk/vim.wsdl
-      $ wget  --no-check-certificate https://$VMWAREAPI_IP/sdk/core-types.xsd
-      $ wget  --no-check-certificate https://$VMWAREAPI_IP/sdk/query-messagetypes.xsd
-      $ wget  --no-check-certificate https://$VMWAREAPI_IP/sdk/query-types.xsd
-      $ wget  --no-check-certificate https://$VMWAREAPI_IP/sdk/vim-messagetypes.xsd
-      $ wget  --no-check-certificate https://$VMWAREAPI_IP/sdk/vim-types.xsd
-      $ wget  --no-check-certificate https://$VMWAREAPI_IP/sdk/reflect-messagetypes.xsd
-      $ wget  --no-check-certificate https://$VMWAREAPI_IP/sdk/reflect-types.xsd
-
-#. Because the ``reflect-types.xsd`` and ``reflect-messagetypes.xsd`` files
-   do not fetch properly, you must stub out these files. Use the following
-   XML listing to replace the missing file content. The XML parser underneath
-   Python can be very particular and if you put a space in the wrong place, it
-   can break the parser. Copy the following contents and formatting carefully.
-
-   .. code-block:: xml
-
-      <xml version="1.0" encoding="UTF-8"?>
-        <schema
-          targetNamespace="urn:reflect"
-          xmlns="http://www.w3.org/2001/XMLSchema"
-          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-          elementFormDefault="qualified">
-        </schema>
-
-#. Now that the files are locally present, tell the driver to look for the
-   SOAP service WSDLs in the local file system and not on the remote
-   vSphere server. Add the following setting to the ``nova.conf`` file
-   for your ``nova-compute`` node:
-
-   .. code-block:: ini
-
-      [vmware]
-      wsdl_location=file:///opt/stack/vmware/wsdl/5.0/vimService.wsdl
-
-Alternatively, download the version appropriate SDK from
-http://www.vmware.com/support/developer/vc-sdk/ and copy it to the
-``/opt/stack/vmware`` file. Make sure that the WSDL is available, in for
-example ``/opt/stack/vmware/SDK/wsdl/vim25/vimService.wsdl``.
-You must point ``nova.conf`` to fetch this WSDL file from the local file
-system by using a URL.
-
-When using the VMwareVCDriver (vCenter) with OpenStack Compute with
-vSphere version 5.0 or earlier, ``nova.conf`` must include the following
-extra config option:
-
-.. code-block:: ini
-
-   [vmware]
-   wsdl_location=file:///opt/stack/vmware/SDK/wsdl/vim25/vimService.wsdl
 
 .. _vmware-config:
 

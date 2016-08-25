@@ -44,7 +44,7 @@ will be allocated in a way that makes the most efficient use of the
 available hardware. Bin packing also requires a common hardware design,
 with all hardware nodes within a compute resource pool sharing a common
 processor, memory, and storage layout. This makes it easier to deploy,
-support, and maintain nodes throughout their life cycle.
+support, and maintain nodes throughout their lifecycle.
 
 An overcommit ratio is the ratio of available virtual resources to
 available physical resources. This ratio is configurable for CPU and
@@ -344,21 +344,21 @@ A general purpose OpenStack cloud design should incorporate the core
 OpenStack services to provide a wide range of services to end-users. The
 OpenStack core services recommended in a general purpose cloud are:
 
-* :term:`Compute` (:term:`nova`)
+* :term:`Compute service` (:term:`nova`)
 
-* :term:`Networking` (:term:`neutron`)
+* :term:`Networking service` (:term:`neutron`)
 
 * :term:`Image service` (:term:`glance`)
 
-* :term:`Identity` (:term:`keystone`)
+* :term:`Identity service` (:term:`keystone`)
 
-* :term:`Dashboard<dashboard>` (:term:`horizon`)
+* :term:`Dashboard` (:term:`horizon`)
 
-* :term:`Telemetry` (:term:`ceilometer`)
+* :term:`Telemetry service` (:term:`ceilometer`)
 
-A general purpose cloud may also include :term:`Object Storage`
-(:term:`swift`). :term:`Block Storage` (:term:`cinder`). These may be
-selected to provide storage to applications and instances.
+A general purpose cloud may also include :term:`Object Storage service`
+(:term:`swift`). :term:`Block Storage service` (:term:`cinder`).
+These may be selected to provide storage to applications and instances.
 
 Supplemental software
 ~~~~~~~~~~~~~~~~~~~~~
@@ -521,9 +521,9 @@ case, the switching infrastructure must support L3 routing.
 
 OpenStack Networking and legacy networking both have their advantages
 and disadvantages. They are both valid and supported options that fit
-different network deployment models described in the `OpenStack
-Operations
-Guide <http://docs.openstack.org/openstack-ops/content/network_design.html#network_deployment_options>`_.
+different network deployment models described in the
+`Networking deployment options table <http://docs.openstack.org/ops-guide/arch-network-design.html#network-topology>`
+of OpenStack Operations Guide.
 
 Ensure your deployment has adequate back-up capabilities.
 

@@ -1,28 +1,23 @@
+.. _high-availability:
+
 =================
 High availability
 =================
 
-.. toctree::
-   :maxdepth: 2
-
-
-
-
-
-
-Data Plane and Control Plane
+Data plane and control plane
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When designing an OpenStack cloud, it is important to consider the needs
-dictated by the :term:`Service Level Agreement (SLA)` in terms of the core
+dictated by the :term:`Service Level Agreement (SLA)`. This includes the core
 services required to maintain availability of running Compute service
-instances, networks, storage and additional services running on top of those
+instances, networks, storage, and additional services running on top of those
 resources. These services are often referred to as the Data Plane services,
 and are generally expected to be available all the time.
 
-The remaining services, responsible for CRUD operations, metering, monitoring,
-and so on, are often referred to as the Control Plane. The SLA is likely to
-dictate a lower uptime requirement for these services.
+The remaining services, responsible for create, read, update and delete (CRUD)
+operations, metering, monitoring, and so on, are often referred to as the
+Control Plane. The SLA is likely to dictate a lower uptime requirement for
+these services.
 
 The services comprising an OpenStack cloud have a number of requirements which
 the architect needs to understand in order to be able to meet SLA terms. For
@@ -33,13 +28,14 @@ them.
 Ongoing maintenance operations are made much simpler if there is logical and
 physical separation of Data Plane and Control Plane systems. It then becomes
 possible to, for example, reboot a controller without affecting customers.
-If one service failure affects the operation of an entire server ('noisy
-neighbor’), the separation between Control and Data Planes enables rapid
+If one service failure affects the operation of an entire server (``noisy
+neighbor``), the separation between Control and Data Planes enables rapid
 maintenance with a limited effect on customer operations.
 
-
-Eliminating Single Points of Failure
+Eliminating single points of failure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. TODO Add introduction
 
 Within each site
 ----------------
@@ -59,9 +55,9 @@ be achieved by placing these services behind highly available load balancers
 that have multiple OpenStack servers as members.
 
 There are a small number of OpenStack services which are intended to only run
-in one place at a time (e.g. the ``ceilometer-agent-central`` service). In
-order to prevent these services from becoming a single point of failure, they
-can be controlled by clustering software such as ``Pacemaker``.
+in one place at a time (for example, the ``ceilometer-agent-central`` service)
+. In order to prevent these services from becoming a single point of failure,
+they can be controlled by clustering software such as ``Pacemaker``.
 
 In OpenStack, the infrastructure is integral to providing services and should
 always be available, especially when operating with SLAs. Ensuring network
@@ -77,7 +73,7 @@ extensible OpenStack Networking (neutron). OpenStack Networking and legacy
 networking both have their advantages and disadvantages. They are both valid
 and supported options that fit different network deployment models described in
 the `OpenStack Operations Guide
-<http://docs.openstack.org/openstack-ops/content/network_design.html#network_deployment_options>`_.
+<http://docs.openstack.org/ops-guide/arch_network_design.html#network-topology>`_.
 
 When using the Networking service, the OpenStack controller servers or separate
 Networking hosts handle routing unless the dynamic virtual routers pattern for
@@ -106,7 +102,7 @@ If using a storage design that includes shared access to centralized storage,
 ensure that this is also designed without single points of failure and the SLA
 for the solution matches or exceeds the expected SLA for the Data Plane.
 
-Between sites in a multi region design
+Between sites in a multi-region design
 --------------------------------------
 
 Some services are commonly shared between multiple regions, including the
@@ -118,12 +114,15 @@ single region.
 Multiple network links should be deployed between sites to provide redundancy
 for all components. This includes storage replication, which should be isolated
 to a dedicated network or VLAN with the ability to assign QoS to control the
-replication traffic or provide priority for this traffic. Note that if the data
-store is highly changeable, the network requirements could have a significant
-effect on the operational cost of maintaining the sites.
+replication traffic or provide priority for this traffic.
+
+.. note::
+
+   If the data store is highly changeable, the network requirements could have
+   a significant effect on the operational cost of maintaining the sites.
 
 If the design incorporates more than one site, the ability to maintain object
-availability in both sites has significant implications on the object storage
+availability in both sites has significant implications on the Object Storage
 design and implementation. It also has a significant impact on the WAN network
 design between the sites.
 
@@ -186,4 +185,3 @@ for applications to perform well.
 
    When running embedded object store methods, ensure that you do not
    instigate extra data replication as this may cause performance issues.
-

@@ -40,21 +40,30 @@ described in this section.
 Brocade Fibre Channel Zone Driver
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Brocade Fibre Channel Zone Driver performs zoning operations through
-SSH. Configure Brocade Zone Driver and lookup service by specifying the
-following parameters:
+Brocade Fibre Channel Zone Driver performs zoning operations
+through HTTP, HTTPS, or SSH.
 
-.. include:: ../tables/cinder-zoning_manager.rst
+Set the following options in the ``cinder.conf`` configuration file.
+
+.. include:: ../tables/cinder-zoning_manager_brcd.rst
 
 Configure SAN fabric parameters in the form of fabric groups as
 described in the example below:
 
-.. include:: ../tables/cinder-zoning_fabric.rst
+.. include:: ../tables/cinder-zoning_fabric_brcd.rst
 
 .. note::
 
     Define a fabric group for each fabric using the fabric names used in
     ``fc_fabric_names`` configuration option as group name.
+
+.. note::
+
+    To define a fabric group for a switch which has Virtual Fabrics
+    enabled, include the ``fc_virtual_fabric_id`` configuration option
+    and ``fc_southbound_protocol`` configuration option set to ``HTTP``
+    or ``HTTPS`` in the fabric group. Zoning on VF enabled fabric using
+    ``SSH`` southbound protocol is not supported.
 
 System requirements
 -------------------

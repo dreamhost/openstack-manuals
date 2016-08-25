@@ -10,11 +10,11 @@ OpenStack Architecture Design Guide
 Abstract
 ~~~~~~~~
 
-To reap the benefits of OpenStack, you should plan, design,
-and architect your cloud properly, taking user's needs into
-account and understanding the use cases.
-
-.. TODO rewrite the abstract
+This guide provides information on planning and designing an OpenStack
+cloud. It describes common use cases, high availability, and considerations
+when changing capacity and scaling your cloud environment. A breakdown of the
+major OpenStack components is also described in relation to cloud architecture
+design.
 
 Contents
 ~~~~~~~~
@@ -23,19 +23,25 @@ Contents
    :maxdepth: 2
 
    common/conventions.rst
-
-   introduction.rst
-   identifying-stakeholders.rst
-   functional-requirements.rst
-   user-requirements.rst
-   operator-requirements.rst
-   capacity-planning-scaling.rst
+   overview.rst
+   use-cases.rst
    high-availability.rst
-   security-requirements.rst
-   legal-requirements.rst
-   example-architectures.rst
+   capacity-planning-scaling.rst
+   design.rst
 
-   common/app_support.rst
+Appendix
+~~~~~~~~
+
+.. toctree::
+   :maxdepth: 1
+
+   common/app-support.rst
+
+Glossary
+~~~~~~~~
+
+.. toctree::
+   :maxdepth: 1
 
    common/glossary.rst
 
@@ -43,4 +49,3 @@ Search in this guide
 ~~~~~~~~~~~~~~~~~~~~
 
 * :ref:`search`
-

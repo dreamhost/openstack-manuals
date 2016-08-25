@@ -19,24 +19,44 @@
    * - **[DEFAULT]**
      -
    * - ``admin_mode`` = ``False``
-     - (BoolOpt) Activate privileged endpoints.
+     - (Boolean) Activate privileged endpoints.
    * - ``daemon`` = ``False``
-     - (BoolOpt) Run Zaqar server in the background.
+     - (Boolean) Run Zaqar server in the background.
    * - ``unreliable`` = ``False``
-     - (BoolOpt) Disable all reliability constraints.
+     - (Boolean) Disable all reliability constraints.
+   * - **[certificates]**
+     -
+   * - ``barbican_auth`` = ``barbican_acl_auth``
+     - (String) Name of the Barbican authentication method to use
+   * - ``cert_manager_type`` = ``barbican``
+     - (String) Certificate Manager plugin. Defaults to barbican.
    * - **[notification]**
      -
    * - ``smtp_command`` = ``/usr/sbin/sendmail -t -oi``
-     - (StrOpt) The command of smtp to send email. The format is "command_name arg1 arg2".
-   * - **[oslo_policy]**
+     - (String) The command of smtp to send email. The format is "command_name arg1 arg2".
+   * - **[service_auth]**
      -
-   * - ``policy_default_rule`` = ``default``
-     - (StrOpt) Default rule. Enforced when a requested rule is not found.
-   * - ``policy_dirs`` = ``['policy.d']``
-     - (MultiStrOpt) Directories where policy configuration files are stored. They can be relative to any directory in the search path defined by the config_dir option, or absolute paths. The file defined by policy_file must exist for these directories to be searched. Missing or empty directories are ignored.
-   * - ``policy_file`` = ``policy.json``
-     - (StrOpt) The JSON file that defines policies.
+   * - ``admin_password`` = ``password``
+     - (String) The service admin password
+   * - ``admin_project_domain`` = ``admin``
+     - (String) The admin project domain name
+   * - ``admin_tenant_name`` = ``admin``
+     - (String) The service admin tenant name
+   * - ``admin_user`` = ``admin``
+     - (String) The service admin user name
+   * - ``admin_user_domain`` = ``admin``
+     - (String) The admin user domain name
+   * - ``auth_url`` = ``http://127.0.0.1:5000/v2.0``
+     - (String) Authentication endpoint
+   * - ``auth_version`` = ``2``
+     - (String) The auth version used to authenticate
+   * - ``endpoint_type`` = ``public``
+     - (String) The endpoint_type to be used
+   * - ``region`` = ``RegionOne``
+     - (String) The deployment region
+   * - ``service_name`` = ``lbaas``
+     - (String) The name of the service
    * - **[signed_url]**
      -
    * - ``secret_key`` = ``None``
-     - (StrOpt) Secret key used to encrypt pre-signed URLs.
+     - (String) Secret key used to encrypt pre-signed URLs.

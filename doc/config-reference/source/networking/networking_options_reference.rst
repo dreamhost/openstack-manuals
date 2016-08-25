@@ -13,101 +13,41 @@ for the various networking plug-ins.
 Networking plug-ins
 ~~~~~~~~~~~~~~~~~~~
 
-OpenStack Networking introduces the concept of a
-plug-in, which is a back-end implementation of the
-OpenStack Networking API. A plug-in can use a
-variety of technologies to implement the logical API
-requests. Some OpenStack Networking plug-ins might
-use basic Linux VLANs and IP tables, while others
-might use more advanced technologies, such as
-L2-in-L3 tunneling or OpenFlow. These sections
-detail the configuration options for the various
-plug-ins.
+OpenStack Networking introduces the concept of a plug-in,
+which is a back-end implementation of the OpenStack Networking API.
+A plug-in can use a variety of technologies to implement the logical
+API requests. Some OpenStack Networking plug-ins might use basic
+Linux VLANs and IP tables, while others might use more advanced
+technologies, such as L2-in-L3 tunneling or OpenFlow. These sections
+detail the configuration options for the various plug-ins.
 
-Brocade configuration options
------------------------------
-
-.. include:: ../tables/neutron-brocade.rst
-
-CISCO configuration options
----------------------------
-
-.. include:: ../tables/neutron-cisco.rst
-
-CloudBase Hyper-V Agent configuration options
----------------------------------------------
-
-.. include:: ../tables/neutron-hyperv_agent.rst
-
-Layer 2 Gateway configuration options
--------------------------------------
-
-.. include:: ../tables/neutron-l2_agent.rst
-
-Linux bridge Agent configuration options
-----------------------------------------
-
-.. include:: ../tables/neutron-linuxbridge_agent.rst
-
-NEC configuration options
--------------------------
-
-.. include:: ../tables/neutron-nec.rst
-
-Open vSwitch Agent configuration options
-----------------------------------------
-
-.. include:: ../tables/neutron-openvswitch_agent.rst
-
-IPv6 Prefix Delegation configuration options
---------------------------------------------
-
-.. include:: ../tables/neutron-pd_linux_agent.rst
-
-SR-IOV configuration options
-----------------------------
-
-.. include:: ../tables/neutron-sriov.rst
-
-Modular Layer 2 (ml2) configuration options
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Modular Layer 2 (ml2) plug-in configuration options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Modular Layer 2 (ml2) plug-in has two components:
 network types and mechanisms. You can configure these
-components separately. This section describes these
-configuration options.
+components separately. The ml2 plugin also allows administrators to
+perform a partial specification, where some options are specified
+explicitly in the configuration, and the remainder is allowed to be chosen
+automatically by the Compute service.
+
+This section describes the available configuration options.
 
 .. note::
+   OpenFlow Agent (ofagent) Mechanism driver has been removed
+   as of Newton.
 
-   Configure MTU for VXLAN tunnelling
-
-   Specific MTU configuration is necessary for VXLAN to function as
-   expected:
-
-   - One option is to increase the MTU value of the physical interface
-     and physical switch fabric by at least 50 bytes. For example,
-     increase the MTU value to 1550. This value enables an automatic
-     50-byte MTU difference between the physical interface (1500) and
-     the VXLAN interface (automatically 1500-50 = 1450). An MTU value
-     of 1450 causes issues when virtual machine taps are configured at
-     an MTU value of 1500.
-   - Another option is to decrease the virtual Ethernet
-     devices' MTU. Set the ``network_device_mtu``
-     option to 1450 in the ``neutron.conf`` file,
-     and set all guest virtual machines' MTU to the same value by
-     using a DHCP option. For information about how to use this
-     option, see `Configure OVS plug-in
-     <http://docs.openstack.org/admin-guide-cloud/networking_config-agents.html>`__.
-
-.. note::
-   OpenFlow Agent (ofagent) Mechanism driver is deprecated in favor
-   of OpenvSwitch mechanism driver with "native" of_interface in the
-   Mitaka release and will be removed in the next release.
+.. include:: ../tables/neutron-ml2.rst
 
 Modular Layer 2 (ml2) Flat Type configuration options
 -----------------------------------------------------
 
 .. include:: ../tables/neutron-ml2_flat.rst
+
+Modular Layer 2 (ml2) Geneve Type configuration options
+-------------------------------------------------------------
+
+.. include:: ../tables/neutron-ml2_geneve.rst
 
 Modular Layer 2 (ml2) GRE Type configuration options
 ----------------------------------------------------
@@ -124,27 +64,15 @@ Modular Layer 2 (ml2) VXLAN Type configuration options
 
 .. include:: ../tables/neutron-ml2_vxlan.rst
 
-Modular Layer 2 (ml2) Brocade Mechanism configuration options
--------------------------------------------------------------
-
-.. include:: ../tables/neutron-ml2_brocade.rst
-
-Modular Layer 2 (ml2) Geneve Mechanism configuration options
--------------------------------------------------------------
-
-.. include:: ../tables/neutron-ml2_geneve.rst
-
-Modular Layer 2 (ml2) OpenFlow Agent (ofagent) Mechanism configuration options
-------------------------------------------------------------------------------
-
-ofagent is deprecated in the Mitaka release.
-
-.. include:: ../tables/neutron-ml2_ofa.rst
-
 Modular Layer 2 (ml2) L2 Population Mechanism configuration options
 -------------------------------------------------------------------
 
 .. include:: ../tables/neutron-ml2_l2pop.rst
+
+Modular Layer 2 (ml2) MacVTap Mechanism configuration options
+-------------------------------------------------------------
+
+.. include:: ../tables/neutron-ml2_macvtap.rst
 
 Modular Layer 2 (ml2) SR-IOV Mechanism configuration options
 ------------------------------------------------------------
@@ -157,7 +85,7 @@ Configure the Oslo RPC messaging system
 OpenStack projects use an open standard for messaging middleware known
 as AMQP. This messaging middleware enables the OpenStack services that
 run on multiple servers to talk to each other. OpenStack Oslo RPC
-supports three implementations of AMQP: RabbitMQ, Qpid, and ZeroMQ.
+supports two implementations of AMQP: RabbitMQ and ZeroMQ.
 
 Configure RabbitMQ
 ------------------
@@ -183,59 +111,6 @@ must set the ``notification_driver`` option to
 
 .. include:: ../tables/neutron-rabbitmq.rst
 
-Configure Qpid
---------------
-
-Use these options to configure the Qpid messaging system for OpenStack
-Oslo RPC. Qpid is not the default messaging system, so you must enable
-it by setting the ``rpc_backend`` option in the ``neutron.conf`` file:
-
-.. code-block:: ini
-
-   rpc_backend = neutron.openstack.common.rpc.impl_qpid
-
-This critical option points the compute nodes to the Qpid broker
-(server). Set the ``qpid_hostname`` option to the host name where the
-broker runs in the ``neutron.conf`` file.
-
-.. note::
-
-   The ``qpid_hostname`` parameter accepts a host name or IP address
-   value.
-
-.. code-block:: ini
-
-   qpid_hostname = hostname.example.com
-
-If the Qpid broker listens on a port other than the AMQP default of
-5672, you must set the ``qpid_port`` option to that value:
-
-.. code-block:: ini
-
-   qpid_port = 12345
-
-If you configure the Qpid broker
-to require authentication, you must add a user name and password
-to the configuration:
-
-.. code-block:: ini
-
-   qpid_username = username
-   qpid_password = password
-
-By default, TCP is used as the transport. To enable SSL, set
-the ``qpid_protocol`` option:
-
-.. code-block:: ini
-
-   qpid_protocol = ssl
-
-Use these additional options to configure the Qpid messaging
-driver for OpenStack Oslo RPC. These options are used
-infrequently.
-
-.. include:: ../tables/neutron-qpid.rst
-
 Configure ZeroMQ
 ----------------
 
@@ -249,7 +124,7 @@ the ``neutron.conf`` file.
 Configure messaging
 -------------------
 
-Use these common options to configure the RabbitMQ, Qpid, and ZeroMq
+Use these common options to configure the RabbitMQ and ZeroMq
 messaging drivers in the ``neutron.conf`` file.
 
 .. include:: ../tables/neutron-rpc.rst
@@ -263,6 +138,31 @@ Use the following options to alter agent-related settings.
 
 .. include:: ../tables/neutron-agent.rst
 
+Layer 2 agent configuration options
+-----------------------------------
+
+.. include:: ../tables/neutron-l2_agent.rst
+
+Linux Bridge agent configuration options
+----------------------------------------
+
+.. include:: ../tables/neutron-linuxbridge_agent.rst
+
+Open vSwitch agent configuration options
+----------------------------------------
+
+.. include:: ../tables/neutron-openvswitch_agent.rst
+
+SR-IOV agent configuration options
+----------------------------------
+
+.. include:: ../tables/neutron-sriov_agent.rst
+
+IPv6 Prefix Delegation configuration options
+--------------------------------------------
+
+.. include:: ../tables/neutron-pd_linux_agent.rst
+
 API
 ~~~
 
@@ -270,34 +170,12 @@ Use the following options to alter API-related settings.
 
 .. include:: ../tables/neutron-api.rst
 
-Token authentication
-~~~~~~~~~~~~~~~~~~~~
-
-Use the following options to alter token authentication settings.
-
-.. include:: ../tables/neutron-auth_token.rst
-
-
 Compute
 ~~~~~~~
 
 Use the following options to alter Compute-related settings.
 
 .. include:: ../tables/neutron-compute.rst
-
-CORS
-~~~~
-
-Use the following options to alter CORS-related settings.
-
-.. include:: ../tables/neutron-cors.rst
-
-Database
-~~~~~~~~
-
-Use the following options to alter Database-related settings.
-
-.. include:: ../tables/neutron-database.rst
 
 DHCP agent
 ~~~~~~~~~~
@@ -313,69 +191,6 @@ Use the following options to alter DVR-related settings.
 
 .. include:: ../tables/neutron-dvr.rst
 
-
-Firewall-as-a-Service driver
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Use the following options in the ``fwaas_driver.ini``
-file for the FWaaS driver.
-
-.. include:: ../tables/neutron-fwaas.rst
-.. include:: ../tables/neutron-fwaas_ngfw.rst
-.. include:: ../tables/neutron-fwaas_varmour.rst
-
-Load-Balancer-as-a-Service configuration options
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Use the following options in the ``neutron_lbaas.conf`` file for the
-LBaaS agent.
-
-.. include:: ../tables/neutron-lbaas.rst
-
-Use the following options in the ``lbaas_agent.ini`` file for the
-LBaaS agent.
-
-.. include:: ../tables/neutron-lbaas_agent.rst
-
-Use the following options in the ``services_lbaas.conf`` file for the
-LBaaS agent.
-
-.. include:: ../tables/neutron-lbaas_services.rst
-
-
-VPN-as-a-Service configuration options
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Use the following options in the ``vpnaas_agent.ini`` file for the
-VPNaaS agent.
-
-.. include:: ../tables/neutron-vpnaas.rst
-.. include:: ../tables/neutron-vpnaas_ipsec.rst
-.. include:: ../tables/neutron-vpnaas_openswan.rst
-.. include:: ../tables/neutron-vpnaas_strongswan.rst
-
-.. note::
-
-   ``strongSwan`` and ``Openswan`` cannot both be installed and enabled at the
-   same time. The ``vpn_device_driver`` configuration option in the
-   ``vpnaas_agent.ini`` file is an option that lists the VPN device
-   drivers that the Networking service will use. You must choose either
-   ``strongSwan`` or ``Openswan`` as part of the list.
-
-.. important::
-
-   Ensure that your ``strongSwan`` version is 5 or newer.
-
-To declare either one in the ``vpn_device_driver``:
-
-.. code-block:: ini
-
-   #Openswan
-   vpn_device_driver = ['neutron_vpnaas.services.vpn.device_drivers.ipsec.OpenSwanDriver']
-
-   #strongSwan
-   vpn_device_driver = ['neutron.services.vpn.device_drivers.strongswan_ipsec.StrongSwanDriver']
-
 IPv6 router advertisement
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -390,13 +205,6 @@ Use the following options in the ``l3_agent.ini`` file for the L3
 agent.
 
 .. include:: ../tables/neutron-l3_agent.rst
-
-Logging
-~~~~~~~
-
-Use the following options to alter logging settings.
-
-.. include:: ../tables/neutron-logging.rst
 
 Metadata Agent
 ~~~~~~~~~~~~~~
@@ -504,3 +312,9 @@ change security group settings.
    security group. The migration that introduces this table has a
    sanity check that verifies if a default security group is not
    duplicated in any tenant.
+
+Misc
+~~~~
+
+.. include:: ../tables/neutron-bgp.rst
+.. include:: ../tables/neutron-qos.rst

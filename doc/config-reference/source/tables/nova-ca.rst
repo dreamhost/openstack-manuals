@@ -19,42 +19,24 @@
    * - **[DEFAULT]**
      -
    * - ``ca_file`` = ``cacert.pem``
-     - (StrOpt) Filename of root CA
+     - (String) Filename of root CA
    * - ``ca_path`` = ``$state_path/CA``
-     - (StrOpt) Where we keep our root CA
+     - (String) Where we keep our root CA
    * - ``cert`` = ``self.pem``
-     - (StrOpt) SSL certificate file
+     - (String) SSL certificate file
    * - ``cert_manager`` = ``nova.cert.manager.CertManager``
-     - (StrOpt) Full class name for the Manager for cert
+     - (String) DEPRECATED: Full class name for the Manager for cert
    * - ``cert_topic`` = ``cert``
-     - (StrOpt) The topic cert nodes listen on
+     - (String) Determines the RPC topic that the cert nodes listen on. The default is 'cert', and for most deployments there is no need to ever change it. Possible values: Any string. * Services which consume this: ``nova-cert`` * Related options: None
    * - ``crl_file`` = ``crl.pem``
-     - (StrOpt) Filename of root Certificate Revocation List
+     - (String) Filename of root Certificate Revocation List
    * - ``key_file`` = ``private/cakey.pem``
-     - (StrOpt) Filename of private key
+     - (String) Filename of private key
    * - ``keys_path`` = ``$state_path/keys``
-     - (StrOpt) Where we keep our keys
+     - (String) Where we keep our keys
    * - ``project_cert_subject`` = ``/C=US/ST=California/O=OpenStack/OU=NovaDev/CN=project-ca-%.16s-%s``
-     - (StrOpt) Subject for certificate for projects, %s for project, timestamp
-   * - ``ssl_ca_file`` = ``None``
-     - (StrOpt) CA certificate file to use to verify connecting clients
-   * - ``ssl_cert_file`` = ``None``
-     - (StrOpt) SSL certificate of API server
-   * - ``ssl_key_file`` = ``None``
-     - (StrOpt) SSL private key of API server
+     - (String) Subject for certificate for projects, %s for project, timestamp
    * - ``use_project_ca`` = ``False``
-     - (BoolOpt) Should we use a CA for each project?
+     - (Boolean) Should we use a CA for each project?
    * - ``user_cert_subject`` = ``/C=US/ST=California/O=OpenStack/OU=NovaDev/CN=%.16s-%.16s-%s``
-     - (StrOpt) Subject for certificate for users, %s for project, user, timestamp
-   * - **[ssl]**
-     -
-   * - ``ca_file`` = ``None``
-     - (StrOpt) CA certificate file to use to verify connecting clients.
-   * - ``cert_file`` = ``None``
-     - (StrOpt) Certificate file to use when starting the server securely.
-   * - ``ciphers`` = ``None``
-     - (StrOpt) Sets the list of available ciphers. value should be a string in the OpenSSL cipher list format.
-   * - ``key_file`` = ``None``
-     - (StrOpt) Private key file to use when starting the server securely.
-   * - ``version`` = ``None``
-     - (StrOpt) SSL version to use (valid only if SSL enabled). Valid values are TLSv1 and SSLv23. SSLv2, SSLv3, TLSv1_1, and TLSv1_2 may be available on some distributions.
+     - (String) Subject for certificate for users, %s for project, user, timestamp

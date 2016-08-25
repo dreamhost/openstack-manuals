@@ -4,13 +4,13 @@ api API
 auth authorization
 auth_token authorization token
 ca CA and SSL
+cache cache
 cinder cinder
 clients clients
 common common
 compute Compute
 conductor conductor
 console console
-cors CORS
 database database
 debug logging
 ec2 EC2
@@ -36,6 +36,7 @@ swift swift
 testing testing
 tripleo TripleO
 upgrades upgrades
+varmour vArmour
 vmware VMware
 vpn VPN
 wsgi WSGI

@@ -7,7 +7,7 @@ Scenario: High Availability using Distributed Virtual Routing (DVR)
 This scenario describes the high-availability Distributed Virtual Routing
 (DVR) implementation of the OpenStack Networking service using the ML2
 plug-in and Open vSwitch. The example configuration creates one flat
-external network and one VXLAN project (tenant) network. However, This
+external network and one VXLAN project (tenant) network. However, this
 configuration also supports VLAN external networks, VLAN project networks,
 and GRE project networks.
 
@@ -20,12 +20,6 @@ completely on the compute nodes for instances with a fixed or floating IP
 address using project networks on the same distributed virtual router.
 However, instances with a fixed IP address still rely on the network node for
 routing and SNAT services between project and external networks.
-
-.. note::
-
-   In the Juno (initial) release, DVR supports VXLAN and GRE project networks.
-   In the Kilo release, support was added for DVR with VLAN project networks.
-   All releases support flat and VLAN external networks.
 
 Prerequisites
 ~~~~~~~~~~~~~
@@ -71,9 +65,9 @@ because it only handles layer 2 connectivity.
 
 .. note::
 
-   For VLAN external and project networks, the network infrastructure
-   must support VLAN tagging. For best performance with VXLAN and GRE
-   project networks, the network infrastructure should support jumbo frames.
+   For VLAN external and project networks, the network infrastructure must
+   support VLAN tagging. For best performance, 10+ Gbps networks should support
+   jumbo frames.
 
 .. warning::
 
@@ -106,8 +100,8 @@ OpenStack services - network node
 
 #. Operational OpenStack Identity service with appropriate configuration
    in the ``neutron.conf`` file.
-#. Open vSwitch service, ML2 plug-in, Open vSwitch agent, L3 agent,
-   DHCP agent, metadata agent, and any dependencies.
+#. Open vSwitch service, Open vSwitch agent, L3 agent, DHCP agent, metadata
+   agent, and any dependencies.
 
 OpenStack services - compute nodes
 ----------------------------------
@@ -116,8 +110,8 @@ OpenStack services - compute nodes
    in the ``neutron.conf`` file.
 #. Operational OpenStack Compute hypervisor service with appropriate
    configuration to use neutron in the ``nova.conf`` file.
-#. Open vSwitch service, ML2 plug-in, Open vSwitch agent, L3 agent,
-   metadata agent, and any dependencies.
+#. Open vSwitch service, Open vSwitch agent, L3 agent, metadata agent, and
+   any dependencies.
 
 Architecture
 ~~~~~~~~~~~~
@@ -175,13 +169,10 @@ The compute nodes contain the following network components:
 
 #. Metadata agent handling metadata operations for instances using project
    networks on distributed routers.
-#. Linux bridges handling security groups.
-
-   .. note::
-
-      Due to limitations with Open vSwitch and *iptables*, the Networking
-      service uses a Linux bridge to manage security groups for
-      instances.
+#. Conventional Linux bridges handling security groups. Optionally, a native
+   OVS implementation can handle security groups. However, due to kernel and
+   OVS version requirements for it, this scenario uses conventional Linux
+   bridges. See :ref:`config-ovsfwdriver` for more information.
 
 .. image:: figures/scenario-dvr-compute1.png
    :alt: Network node components - overview
@@ -439,7 +430,7 @@ The following steps involve compute node 1:
 #. The Open vSwitch integration bridge ``br-int`` forwards the packet to
    the Open vSwitch tunnel bridge ``br-tun``.
 #. The Open vSwitch tunnel bridge ``br-tun`` replaces the packet source
-   MAC address *I1* with *D1*.
+   MAC address *TG2* with *D1*.
 #. The Open vSwitch tunnel bridge ``br-tun`` wraps the packet in a VXLAN
    tunnel that contains a tag for project network 2.
 #. The Open vSwitch tunnel bridge ``br-tun`` forwards the packet to
@@ -488,33 +479,42 @@ scenario in your environment.
 Controller node
 ---------------
 
-#. Configure common options. Edit the ``/etc/neutron/neutron.conf`` file:
+#. In the ``neutron.conf`` file:
 
-   .. code-block:: ini
+   * Configure common options and enable distributed routers by default:
 
-      [DEFAULT]
-      verbose = True
-      router_distributed = True
-      core_plugin = ml2
-      service_plugins = router
-      allow_overlapping_ips = True
+     .. code-block:: ini
 
-   .. note::
+        [DEFAULT]
+        core_plugin = ml2
+        service_plugins = router
+        allow_overlapping_ips = True
+        router_distributed = True
 
-      Configuring the ``router_distributed = True`` option creates distributed
-      routers by default for all users. Without it, only privileged users can
-      create distributed routers using the :option:`--distributed True` option
-      during router creation.
+     .. note::
 
-#. Configure the ML2 plug-in. Edit the
-   ``/etc/neutron/plugins/ml2/ml2_conf.ini`` file:
+        Configuring the ``router_distributed = True`` option creates distributed
+        routers by default for all users. Without it, only privileged users can
+        create distributed routers using the ``--distributed True`` option
+        during router creation.
 
-   .. code-block:: ini
+   * If necessary, :ref:`configure MTU <config-mtu>`.
 
-      [ml2]
-      type_drivers = flat,vlan,gre,vxlan
-      tenant_network_types = vlan,gre,vxlan
-      mechanism_drivers = openvswitch,l2population
+#. In the ``ml2_conf.ini`` file:
+
+   * Configure drivers and network types:
+
+     .. code-block:: ini
+
+        [ml2]
+        type_drivers = flat,vlan,gre,vxlan
+        tenant_network_types = vlan,gre,vxlan
+        mechanism_drivers = openvswitch,l2population
+        extension_drivers = port_security
+
+   * Configure network mappings and ID ranges:
+
+     .. code-block:: ini
 
       [ml2_type_flat]
       flat_networks = external
@@ -527,27 +527,30 @@ Controller node
 
       [ml2_type_vxlan]
       vni_ranges = MIN_VXLAN_ID:MAX_VXLAN_ID
-      vxlan_group = 239.1.1.1
 
-      [securitygroup]
-      firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
-      enable_security_group = True
-      enable_ipset = True
+     Replace ``MIN_VLAN_ID``, ``MAX_VLAN_ID``, ``MIN_GRE_ID``, ``MAX_GRE_ID``,
+     ``MIN_VXLAN_ID``, and ``MAX_VXLAN_ID`` with VLAN, GRE, and VXLAN ID minimum
+     and maximum values suitable for your environment.
 
-   Replace ``MIN_VLAN_ID``, ``MAX_VLAN_ID``, ``MIN_GRE_ID``, ``MAX_GRE_ID``,
-   ``MIN_VXLAN_ID``, and ``MAX_VXLAN_ID`` with VLAN, GRE, and VXLAN ID minimum
-   and maximum values suitable for your environment.
+     .. note::
 
-   .. note::
+        The first value in the ``tenant_network_types`` option becomes the
+        default project network type when a non-privileged user creates a
+        network.
 
-      The first value in the ``tenant_network_types`` option becomes the
-      default project network type when a non-privileged user creates a
-      network.
+     .. note::
 
-   .. note::
+        The ``external`` value in the ``network_vlan_ranges`` option lacks VLAN
+        ID ranges to support use of arbitrary VLAN IDs by privileged users.
 
-      The ``external`` value in the ``network_vlan_ranges`` option lacks VLAN
-      ID ranges to support use of arbitrary VLAN IDs by privileged users.
+   * Configure the security group driver:
+
+     .. code-block:: ini
+
+        [securitygroup]
+        firewall_driver = iptables_hybrid
+
+   * If necessary, :ref:`configure MTU <config-mtu>`.
 
 #. Start the following services:
 
@@ -556,30 +559,7 @@ Controller node
 Network node
 ------------
 
-#. Configure the kernel to enable packet forwarding and disable reverse path
-   filtering. Edit the ``/etc/sysctl.conf`` file:
-
-   .. code-block:: ini
-
-      net.ipv4.ip_forward=1
-      net.ipv4.conf.default.rp_filter=0
-      net.ipv4.conf.all.rp_filter=0
-
-#. Load the new kernel configuration:
-
-   .. code-block:: console
-
-      $ sysctl -p
-
-#. Configure common options. Edit the ``/etc/neutron/neutron.conf`` file:
-
-   .. code-block:: ini
-
-      [DEFAULT]
-      verbose = True
-
-#. Configure the Open vSwitch agent. Edit the
-   ``/etc/neutron/plugins/ml2/ml2_conf.ini`` file:
+#. In the ``openvswitch_agent.ini`` file, configure the Open vSwitch agent:
 
    .. code-block:: ini
 
@@ -588,28 +568,24 @@ Network node
       bridge_mappings = vlan:br-vlan,external:br-ex
 
       [agent]
-      l2_population = True
       tunnel_types = gre,vxlan
       enable_distributed_routing = True
+      l2_population = True
       arp_responder = True
 
       [securitygroup]
-      firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
-      enable_security_group = True
-      enable_ipset = True
+      firewall_driver = iptables_hybrid
 
    Replace ``TUNNEL_INTERFACE_IP_ADDRESS`` with the IP address of the interface
    that handles GRE/VXLAN project networks.
 
-#. Configure the L3 agent. Edit the ``/etc/neutron/l3_agent.ini`` file:
+#. In the ``l3_agent.ini`` file, configure the L3 agent:
 
    .. code-block:: ini
 
       [DEFAULT]
-      verbose = True
       interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
       external_network_bridge =
-      router_delete_namespaces = True
       agent_mode = dvr_snat
 
    .. note::
@@ -617,39 +593,19 @@ Network node
       The ``external_network_bridge`` option intentionally contains
       no value.
 
-#. Configure the DHCP agent. Edit the ``/etc/neutron/dhcp_agent.ini``
-   file:
+#. In the ``dhcp_agent.ini`` file, configure the DHCP agent:
 
    .. code-block:: ini
 
       [DEFAULT]
-      verbose = True
       interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
-      dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
-      dhcp_delete_namespaces = True
+      enable_isolated_metadata = True
 
-#. (Optional) Reduce MTU for GRE/VXLAN project networks.
-
-   #. Edit the ``/etc/neutron/dhcp_agent.ini`` file:
-
-      .. code-block:: ini
-
-         [DEFAULT]
-         dnsmasq_config_file = /etc/neutron/dnsmasq-neutron.conf
-
-   #. Edit the ``/etc/neutron/dnsmasq-neutron.conf`` file:
-
-      .. code-block:: ini
-
-         dhcp-option-force=26,1450
-
-#. Configure the metadata agent. Edit the
-   ``/etc/neutron/metadata_agent.ini`` file:
+#. In the ``metadata_agent.ini`` file, configure the metadata agent:
 
    .. code-block:: ini
 
       [DEFAULT]
-      verbose = True
       nova_metadata_ip = controller
       metadata_proxy_shared_secret = METADATA_SECRET
 
@@ -666,33 +622,7 @@ Network node
 Compute nodes
 -------------
 
-#. Configure the kernel to enable packet forwarding, enable *iptables* on
-   bridges, and disable reverse path filtering. Edit the
-   ``/etc/sysctl.conf`` file:
-
-   .. code-block:: ini
-
-      net.ipv4.ip_forward=1
-      net.ipv4.conf.default.rp_filter=0
-      net.ipv4.conf.all.rp_filter=0
-      net.bridge.bridge-nf-call-iptables=1
-      net.bridge.bridge-nf-call-ip6tables=1
-
-#. Load the new kernel configuration:
-
-   .. code-block:: console
-
-      $ sysctl -p
-
-#. Configure common options. Edit the ``/etc/neutron/neutron.conf`` file:
-
-   .. code-block:: ini
-
-      [DEFAULT]
-      verbose = True
-
-#. Configure the Open vSwitch agent. Edit the
-   ``/etc/neutron/plugins/ml2/ml2_conf.ini`` file:
+#. In the ``openvswitch_agent.ini`` file, configure the Open vSwitch agent:
 
    .. code-block:: ini
 
@@ -701,28 +631,24 @@ Compute nodes
       bridge_mappings = vlan:br-vlan,external:br-ex
 
       [agent]
-      l2_population = True
       tunnel_types = gre,vxlan
       enable_distributed_routing = True
+      l2_population = True
       arp_responder = True
 
       [securitygroup]
-      firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
-      enable_security_group = True
-      enable_ipset = True
+      firewall_driver = iptables_hybrid
 
    Replace ``TUNNEL_INTERFACE_IP_ADDRESS`` with the IP address of the interface
    that handles GRE/VXLAN project networks.
 
-#. Configure the L3 agent. Edit the ``/etc/neutron/l3_agent.ini`` file:
+#. In the ``l3_agent.ini`` file, configure the L3 agent:
 
    .. code-block:: ini
 
       [DEFAULT]
-      verbose = True
       interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
       external_network_bridge =
-      router_delete_namespaces = True
       agent_mode = dvr
 
    .. note::
@@ -730,13 +656,11 @@ Compute nodes
       The ``external_network_bridge`` option intentionally contains
       no value.
 
-#. Configure the metadata agent. Edit the
-   ``/etc/neutron/metadata_agent.ini`` file:
+#. In the ``metadata_agent.ini`` file, configure the metadata agent:
 
    .. code-block:: ini
 
       [DEFAULT]
-      verbose = True
       nova_metadata_ip = controller
       metadata_proxy_shared_secret = METADATA_SECRET
 

@@ -45,34 +45,13 @@ Install and configure components
          # systemctl enable rabbitmq-server.service
          # systemctl start rabbitmq-server.service
 
-      .. only:: obs
-
-         In case the message queue service does not start and
-         returns a ``nodedown`` error, perform the following actions:
-
-         * Copy the ``/usr/lib/systemd/system/epmd.socket`` file to the
-           ``/etc/systemd/system`` directory.
-
-         * Edit the ``/etc/systemd/system/epmd.socket`` file to contain
-           the following:
-
-           .. code-block:: ini
-
-              [Socket]
-              ...
-              ListenStream=MANAGEMENT_INTERFACE_IP_ADDRESS:4369
-
-           Replace ``MANAGEMENT_INTERFACE_IP_ADDRESS`` with the IP address
-           of the management network interface on your controller node.
-
-         * Start the message queue service again.
-
    3. Add the ``openstack`` user:
 
       .. code-block:: console
 
          # rabbitmqctl add_user openstack RABBIT_PASS
-           Creating user "openstack" ...
+         Creating user "openstack" ...
+         ...done.
 
       Replace ``RABBIT_PASS`` with a suitable password.
 
@@ -82,7 +61,8 @@ Install and configure components
       .. code-block:: console
 
          # rabbitmqctl set_permissions openstack ".*" ".*" ".*"
-           Setting permissions for user "openstack" in vhost "/" ...
+         Setting permissions for user "openstack" in vhost "/" ...
+         ...done.
 
 .. only:: ubuntu or debian
 
@@ -91,7 +71,8 @@ Install and configure components
       .. code-block:: console
 
          # rabbitmqctl add_user openstack RABBIT_PASS
-           Creating user "openstack" ...
+         Creating user "openstack" ...
+         ...done.
 
       Replace ``RABBIT_PASS`` with a suitable password.
 
@@ -101,4 +82,5 @@ Install and configure components
       .. code-block:: console
 
          # rabbitmqctl set_permissions openstack ".*" ".*" ".*"
-           Setting permissions for user "openstack" in vhost "/" ...
+         Setting permissions for user "openstack" in vhost "/" ...
+         ...done.

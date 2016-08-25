@@ -4,14 +4,16 @@
 Environment
 ===========
 
-This section explains how to configure the controller and one compute
+This section explains how to configure the controller node and one compute
 node using the example architecture.
 
 Although most environments include Identity, Image service, Compute, at least
-one networking service, and the dashboard, the Object Storage service can
+one networking service, and the Dashboard, the Object Storage service can
 operate independently. If your use case only involves Object Storage, you can
-skip to :ref:`swift` after configuring the appropriate nodes for it. However,
-the dashboard requires at least the Image service, Compute, and Networking.
+skip to `Object Storage Installation Guide
+<http://docs.openstack.org/project-install-guide/object-storage/draft/>`_
+after configuring the appropriate nodes for it. However, the Dashboard
+requires at least the Image service, Compute, and Networking.
 
 You must use an account with administrative privileges to configure each node.
 Either run the commands as the ``root`` user or configure the ``sudo``
@@ -46,7 +48,7 @@ A single disk partition on each node works for most basic installations.
 However, you should consider :term:`Logical Volume Manager (LVM)` for
 installations with optional services such as Block Storage.
 
-For first-time installation and testing purposes, many users elect to build
+For first-time installation and testing purposes, many users select to build
 each host as a :term:`virtual machine (VM)`. The primary benefits of VMs
 include the following:
 
@@ -64,7 +66,7 @@ of nested VMs.
 .. note::
 
    If you choose to install on VMs, make sure your hypervisor provides
-   a way to disable MAC address filtering on the ``public`` network
+   a way to disable MAC address filtering on the provider network
    interface.
 
 For more information about system requirements, see the `OpenStack
@@ -78,5 +80,5 @@ Operations Guide <http://docs.openstack.org/ops/>`_.
    environment-ntp.rst
    environment-packages.rst
    environment-sql-database.rst
-   environment-nosql-database.rst
    environment-messaging.rst
+   environment-memcached.rst
