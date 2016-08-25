@@ -137,14 +137,12 @@ Launch an instance
 Connect To Your Server
 ~~~~~~~~~~~~~~~~~~~~~~
 
-<<<<<<< HEAD:doc/user-guide/source/dashboard_launch_instances.rst
 Once your new server is created, you can use SSH to log in to it.
 
 .. note::
 
    The user name is ``dhc-user`` for most images except CoreOS which uses
    ``core`` as it's user name on DreamCompute
-=======
 
    :guilabel:`Network Ports` tab
 
@@ -185,10 +183,6 @@ an image or a volume respectively.
 When you launch an instance from an image, OpenStack creates a local
 copy of the image on the compute node where the instance starts.
 
-For details on creating images, see `Creating images
-manually <http://docs.openstack.org/image-guide/create-images-manually.html>`_
-in the *OpenStack Virtual Machine Image Guide*.
-
 When you launch an instance from a volume, note the following steps:
 
 * To select the volume from which to launch, launch an instance from
@@ -201,7 +195,7 @@ When you launch an instance from a volume, note the following steps:
   the volume.
 
 * Select the volume or volume snapshot from which to boot. Enter a
-  device name. Enter ``vda`` for KVM images or ``xvda`` for Xen images.
+  device name. Enter ``vda`` for DreamCompute images.
 
 Connect to your instance by using SSH
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,10 +205,9 @@ file.
 
 .. note::
 
-   The user name is ``ubuntu`` for the Ubuntu cloud images on TryStack.
+   The user name is ``dhc-user`` for the cloud images.
 
 #. Copy the IP address for your instance.
->>>>>>> upstream/master:doc/user-guide/source/dashboard-launch-instances.rst
 
 #. Use the :command:`ssh` command to make a secure connection to the instance.
    For example:
