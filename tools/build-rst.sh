@@ -75,13 +75,13 @@ fi
 if [ "$LINKCHECK" = "1" ] ; then
     # Show sphinx-build invocation for easy reproduction
     set -x
-    sphinx-build -E -W -d $DOCTREES -b linkcheck \
+    sphinx-build -E -d $DOCTREES -b linkcheck \
         $TAG_OPT $DIRECTORY/source $BUILD_DIR
     set +x
 else
     # Show sphinx-build invocation for easy reproduction
     set -x
-    sphinx-build -E -W -d $DOCTREES -b html \
+    sphinx-build -E -d $DOCTREES -b html \
         $TAG_OPT $DIRECTORY/source $BUILD_DIR
     set +x
 
