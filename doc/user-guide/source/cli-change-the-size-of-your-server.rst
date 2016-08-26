@@ -76,20 +76,8 @@ Change the size of a server by changing its flavor.
 
       By default, the :command:`nova resize` command gives the guest operating
       system a chance to perform a controlled shutdown before the instance
-      is powered off and the instance is resized.
-      The shutdown behavior is configured by the
-      ``shutdown_timeout`` parameter that can be set in the
-      ``nova.conf`` file. Its value stands for the overall
-      period (in seconds) a guest operation system is allowed
-      to complete the shutdown. The default timeout is 60 seconds.
-      See `Description of Compute configuration options
-      <http://docs.openstack.org/mitaka/config-reference/compute/config-options.html>`_
-      for details.
-
-      The timeout value can be overridden on a per image basis
-      by means of ``os_shutdown_timeout`` that is an image metadata
-      setting allowing different types of operating systems to specify
-      how much time they need to shut down cleanly.
+      is powered off and the instance is resized. The default timeout
+      is 60 seconds.
 
 #. Show the status for your server.
 
