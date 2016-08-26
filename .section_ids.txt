@@ -1,8 +1,5 @@
-publish-docs/user-guide/configure_access_and_security_for_instances.html 203141767
-publish-docs/user-guide/dashboard_launch_instances.html 203141767
 publish-docs/user-guide/dashboard_manage_images.html 203141767
 publish-docs/user-guide/dashboard_manage_volumes.html 203141767
-publish-docs/user-guide/dashboard_create_networks.html 203141767
 
 
 publish-docs/user-guide/cli_access_instance_through_a_console.html 203167038
