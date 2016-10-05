@@ -125,11 +125,14 @@ Launch an instance
 
    Each server you launch is accessible by SSH via key-based authentication.
    Once you upload your public key, you'll have the convenience of
-   password-less logins with the username *dhc-user* or *core* for CoreOS
-   instances.
+   password-less logins with the default user for your image,
+   `Read the article about how to find the default user of your image
+   <228377408-How-to-find-the-default-user-of-an-image>`__
 
-    .. note:: If you don't already have an SSH key, you can find
-              out `how to create one`_.
+    .. note::
+
+        If you don't already have an SSH key, you can find
+        out `how to create one`_.
 
 #. Click the *Launch Image* button.
 
@@ -141,8 +144,8 @@ Once your new server is created, you can use SSH to log in to it.
 
 .. note::
 
-   The user name is ``dhc-user`` for most images except CoreOS which uses
-   ``core`` as it's user name on DreamCompute
+   `Read the article about how to find the default user of your image
+   <228377408-How-to-find-the-default-user-of-an-image>`__
 
    :guilabel:`Network Ports` tab
 
@@ -203,9 +206,11 @@ Connect to your instance by using SSH
 To use SSH to connect to your instance, use the downloaded keypair
 file.
 
+
 .. note::
 
-   The user name is ``dhc-user`` for the cloud images.
+   `Read the article about how to find the default user of your image
+   <228377408-How-to-find-the-default-user-of-an-image>`__
 
 #. Copy the IP address for your instance.
 
@@ -214,7 +219,7 @@ file.
 
    .. code-block:: console
 
-      $ ssh -i /path/to/key dhc-user@123.123.123.123
+      $ ssh -i /path/to/key USER@IP
 
 #. You'll see a response similar to this:
 
