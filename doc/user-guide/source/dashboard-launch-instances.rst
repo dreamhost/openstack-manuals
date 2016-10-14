@@ -241,7 +241,7 @@ Additional Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default, your server is open to all traffic from your other DreamCompute
-servers and limted traffic from the public network to these ports:
+servers and limited traffic from the public network to these ports:
 
 - SSH
 - HTTP

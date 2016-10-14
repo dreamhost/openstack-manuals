@@ -9,7 +9,7 @@ hacking<0.11,>=0.10.2
 beautifulsoup4
 Jinja2>=2.8 # BSD License (3 clause)
 openstack-doc-tools>=1.0.0
-sphinx>=1.3
+sphinx
 openstackdocstheme>=1.4.0
 doc8 # Apache-2.0
 requestsexceptions>=1.1.1  # Apache-2.0
