@@ -1,7 +1,6 @@
 203141767:
   publish-docs/user-guide/:
     - dashboard-manage-images.html
-    - dashboard-manage-volumes.html
 
 203167038:
   publish-docs/user-guide/:

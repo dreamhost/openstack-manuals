@@ -1,5 +1,4 @@
 publish-docs/user-guide/dashboard-manage-images.html 203141767
-publish-docs/user-guide/dashboard-manage-volumes.html 203141767
 
 publish-docs/user-guide/cli-access-instance-through-a-console.html 203167038
 publish-docs/user-guide/cli-change-the-size-of-your-server.html 203167038
