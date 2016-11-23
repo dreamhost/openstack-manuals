@@ -1,6 +1,6 @@
-==================================================================
+================================================================
 How to launch and manage servers with the DreamCompute dashboard
-==================================================================
+================================================================
 
 Quick Launch
 ~~~~~~~~~~~~
@@ -57,14 +57,6 @@ Launch an instance
 
    Flavor
       Specify the size of the instance to launch.
-
-      .. note::
-
-         The flavor is selected based on the size of the image selected
-         for launching an instance. For example, while creating an image, if
-         you have entered the value in the :guilabel:`Minimum RAM (MB)` field
-         as 2048, then on selecting the image, the default flavor is
-         ``m1.small``.
 
    Instance Count
       To launch multiple instances, enter a value greater than ``1``. The
