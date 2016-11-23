@@ -1,6 +1,7 @@
 203141767:
   publish-docs/user-guide/:
     - dashboard-manage-images.html
+    - dashboard-launch-instances.html
 
 203167038:
   publish-docs/user-guide/:
