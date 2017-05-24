@@ -2,19 +2,6 @@
 How to launch and manage servers with the DreamCompute dashboard
 ================================================================
 
-Quick Launch
-~~~~~~~~~~~~
-
-The `Quick Launch`_ is a way to easily create a new gp1.semisonic
-(1 vCPU / 512MB) server with an 80GB ephemeral boot drive.
-
-#. Log in to the `dashboard`_.
-
-   We have auto-generated a username to be used with DreamCompute. You can
-   view your username and reset your password in the `DreamHost Panel`_.
-
-#. Navigate to the Quick Launch section.
-
 Launch an instance
 ~~~~~~~~~~~~~~~~~~
 
